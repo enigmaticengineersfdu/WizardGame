@@ -15,13 +15,15 @@ namespace evl {
         */
         void play_game(const std::optional<std::string> loaded_state);
 
+        /*This enum represents all possible input values*/
         enum class Input
         {
-                INVALID = 0,
-                MV_UP,
-                MV_DOWN,
+                INVALID = 0, //invalid input
+                MV_UP,       //movement
+                MV_DOWN,     
                 MV_LEFT,
-                MV_RIGHT
+                MV_RIGHT,
+                OPEN_CMD,    //open command mode (to see inventory, save, quit, etc.)
         };
 
         /*InputHandler is an alias for const pointers to functions which will be used as input handlers.

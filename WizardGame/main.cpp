@@ -2,9 +2,6 @@
 
 int main(int argv, char* argc[])
 {
-       //menu loop
-       /* while (true) {
-
-        }*/
+       //Main Menu Code
         return 0;
 }
