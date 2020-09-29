@@ -23,6 +23,12 @@
     <ClInclude Include="curses.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gameloop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="pdcurses.lib">

@@ -143,6 +143,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="curses.h" />
+    <ClInclude Include="entities.h" />
+    <ClInclude Include="gameloop.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="pdcurses.lib" />
