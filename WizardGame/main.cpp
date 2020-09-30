@@ -12,16 +12,16 @@ int main()
 	bool gameOver = false;
 	Map mp;
 	mp.loadMap("MapDesign.txt");
-	mp.showMap();
+	//mp.showMap();
 
 	//while loop to read in user input
 	while (!gameOver)
 	{
 		//mp.loadMap("MapDesign.txt");
-		//mp.showMap();
+		mp.showMap();
 
-		//string clearString(500, '\n');
-		//cout << "Player Stats: " << 1 << "		Level Number: " << 2 << "		Win Condition: " << endl;
+		string clearString(600, '\n');
+		cout << "Player Stats: " << 1 << "		Level Number: " << 2 << "		Win Condition: " << endl;
 		inpt = _getch();
 		cout << "You entered: " << inpt << endl;
 
