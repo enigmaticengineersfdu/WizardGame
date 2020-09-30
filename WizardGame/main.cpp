@@ -1,5 +1,5 @@
 //#include <iostream>
-#include "Map.cpp"
+#include "map.cpp"
 #include <iostream>
 #include <cstdlib>
 #include <string>
@@ -9,7 +9,6 @@ using namespace std;
 int main()
 {
 	char inpt;
-	int ROW_L, COLUMN_L;
 	bool gameOver = false;
 	Map mp;
 	mp.loadMap("MapDesign.txt");
