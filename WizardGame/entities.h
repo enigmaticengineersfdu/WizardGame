@@ -33,15 +33,37 @@ namespace ent {
         class Character
         {
         protected:
-                Coord location;
+                Coord location; //location on the Map
         public:
-                const CharacterID id;
+                const CharacterID id; //Key in characters table
+                const char icon; //What the character looks like in the UI.
 
+                /*Overloads of this virtual function in derived classes should 
+                 *return the next character state in each frame of the game loop.
+                */
+                virtual std::optional<Character> tick() = 0; 
+                /*Destructor 
+                 *Needed to return ids to free pool
+                */
+                virtual ~Character() = 0;
         };
 
         class Player : public Character
         {
-
+        public:
+                //Delete the autogen'd default constructor because its use is invalid.
+                Player() = delete; 
+                /*Constructor*/
+                Player(const Coord&& _location, const char&& _icon = '^');
+                /*Destructor*/
+                ~Player();
+                /*Purpose: Allow the player to move or take other actions.
+                * Preconditions: The game has started and the player character has been constructed.
+                * Postconditions: The player character state for the next frame is written to next_char which must be.
+                * Note: The result of this will need to be downcasted to Player before being inserted into the 
+                * entity matrix of the next_game_state. Make absolutely certain to do this!!!
+                */
+                std::optional<Character> tick();
         };
 
         class Enemy : public Character
