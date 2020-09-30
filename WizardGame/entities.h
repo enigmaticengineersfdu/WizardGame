@@ -54,12 +54,12 @@ namespace ent {
                 //Delete the autogen'd default constructor because its use is invalid.
                 Player() = delete; 
                 /*Constructor*/
-                Player(const Coord&& _location, const char&& _icon = '^');
+                Player(const Coord &&_location, const char &&_icon = '^');
                 /*Destructor*/
                 ~Player();
                 /*Purpose: Allow the player to move or take other actions.
                 * Preconditions: The game has started and the player character has been constructed.
-                * Postconditions: The player character state for the next frame is written to next_char which must be.
+                * Postconditions: The player character state for the next frame is returned.
                 * Note: The result of this will need to be downcasted to Player before being inserted into the 
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
@@ -68,20 +68,33 @@ namespace ent {
 
         class Enemy : public Character
         {
-
+        public:
+                //Delete the autogen'd default constructor because its use is invalid.
+                Enemy() = delete;
+                /*constructor*/
+                Enemy(const CharacterID _id, const Coord &&_location, const char &&_icon = 'X');
+                /*destructor*/
+                ~Enemy();
+                /*Purpose: Generate enemy movements and other actions.
+                * Preconditions: The calling object is valid.
+                * Postconditions: The player character state for the next frame is returned.
+                * Note: The result of this will need to be downcasted to Enemy before being inserted into the
+                * entity matrix of the next_game_state. Make absolutely certain to do this!!!
+                */
+                std::optional<Character> tick();
         };
 
         class EntityMatrix
         {
-        protected:
+        private:
                 std::unordered_map<ItemID, Item> item_table;
                 std::unordered_map<CharacterID, Enemy> character_table;
-                std::pair<CharacterID, Player> player;
+                Player player;
         public:
                 /*Purpose: To default construct objects of this type.
                 * Preconditions: None.
                 * Postconditions: An object of type EntityMatrix is created.
-                * Throws: Does not throw exceptions.
+                * Throws: Does not throw.
                 */
                 EntityMatrix() noexcept;
         };
