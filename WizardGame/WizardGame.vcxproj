@@ -142,11 +142,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="curses.h" />
     <ClInclude Include="entities.h" />
     <ClInclude Include="gameloop.h" />
+    <ClInclude Include="map.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="pdcurses.lib" />
