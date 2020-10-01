@@ -12,7 +12,6 @@ int main()
 	bool gameOver = false;
 	Map mp;
 	mp.loadMap("MapDesign.txt");
-	//mp.showMap();
 
 	//while loop to read in user input
 	while (!gameOver)
