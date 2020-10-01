@@ -10,13 +10,17 @@
 #include <memory>
 #include <utility>
 
+#include "gameloop.h"
+
 #define ID_TYPE size_t //This define makes is easier to change the type used for Item and Character IDs
 
 namespace ent {
         /*The ID type and map key for items*/
-        using ItemID = const ID_TYPE;
+        using ItemID = ID_TYPE;
         /*The ID type and map key for characters*/
-        using CharacterID = const ID_TYPE;
+        using CharacterID = ID_TYPE;
+        /*Coordinate type used to index the Map*/
+        using Coord = std::pair<int, int>;
 
         /*This class is an interface for item types to derive from.*/
         class Item
@@ -28,9 +32,7 @@ namespace ent {
                 const char   icon;
         };
 
-        /*This is a placeholder type. Will need to be replaced*/
-        using Coord = std::pair<int, int>;
-
+        
         /*This class is an interface for character types to derive from.
         * The two main children of this class should be Player and Enemy.
         */
@@ -38,21 +40,22 @@ namespace ent {
         {
         protected:
                 Coord location; //location on the Map
+                unsigned int health; //Character health. (Be careful not to underflow this value!)
 
                 /*Protected Constructor only used to implement derived constructors.*/
-                Character(CharacterID _id, const Coord&& _location, const char&& _icon);
+                Character(const CharacterID _id, const Coord &_location, const char &_icon);
+                /*Purpose: Determines if the character is dead.
+                * Meant to be called from derived tick functions.
+                * Preconditiions: The calling object is valid.
+                * Postconditions: Returns true if the caller has 0 health and 
+                * false otherwise.
+                */
+                bool is_dead() const;
         public:
                 const CharacterID id; //Key in characters table
                 const char icon; //What the character looks like in the UI.
 
-                /*Overloads of this virtual function in derived classes should 
-                 *return the next character state in each frame of the game loop.
-                */
-                virtual std::unique_ptr<Character> tick() = 0; 
-                /*Destructor 
-                 *Needed to return ids to free pool
-                */
-                virtual ~Character() = 0;
+                
         };
 
         class Player : public Character
@@ -63,16 +66,14 @@ namespace ent {
                 //Delete the autogen'd default constructor because its use is invalid.
                 Player() = delete; 
                 /*Constructor*/
-                Player(const Coord &&_location, const char &&_icon = '^');
-                /*Destructor*/
-                ~Player();
+                Player(const Coord &_location, const char &_icon = '^');
                 /*Purpose: Allow the player to move or take other actions.
                 * Preconditions: The game has started and the player character has been constructed.
                 * Postconditions: The player character state for the next frame is returned.
                 * Note: The result of this will need to be downcasted to Player before being inserted into the 
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                std::unique_ptr<Character> tick();
+                std::optional<Player> tick(const gl::Input input) const;
         };
 
         class Enemy : public Character
@@ -93,7 +94,7 @@ namespace ent {
                 * The result of this will need to be downcasted to Enemy before being inserted into the
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                std::unique_ptr<Character> tick();
+                std::optional<Enemy> tick(const gl::Input input) const;
         };
 
         class EntityMatrix
@@ -102,7 +103,7 @@ namespace ent {
                 std::unordered_map<ItemID, Item> item_table;
                 std::unordered_set<ItemID> item_id_pool;
                 std::unordered_map<CharacterID, Enemy> character_table;
-                std::unordered_set<CharacterID> item_id_pool;
+                std::unordered_set<CharacterID> character_id_pool;
                 Player player;
                 
         public:
@@ -117,7 +118,7 @@ namespace ent {
         struct GameState
         {
                 EntityMatrix entity_matrix;
-                Map         map;
+                //Map         map;
 
                 /*Purpose: To serialize the current game state to a file on disk.
                 * Preconditions: The calling object is valid.
