@@ -5,23 +5,33 @@
 using namespace std;
 
 
+struct COORD
+{
+	int X;
+	int Y;
+};
+
 class Map
 {
 private:
 	vector <string> room_design;
 	bool out_of_bounds;
 	string current_line;
-	//COORD cd;
+	COORD cd;
 public:
+
 	Map()
 	{
 		room_design = {};
 		current_line = "";
+		cd.X = -1;
+		cd.Y = -1;
 
 	};
 
 	void loadMap(string file_N)
 	{
+		/*This loads the txt file into the vector*/
 		ifstream file;
 		file.open(file_N);
 		if (file.fail())
@@ -34,7 +44,7 @@ public:
 		{
 			room_design.push_back(current_line);
 		}
-		/*file.close(); function will close file by itself w/out this*/
+		
 	}
 
 	void showMap()
@@ -46,11 +56,46 @@ public:
 		}
 		printf("\n");
 	}
-	/*
-	bool outOfBounds(coord cd)
+	
+	bool outOfBounds(COORD coord)
 	{
-		room_design;
+		if (room_design[cd.X][cd.Y] == '#')
+			return true;
+		else
+			return false;
+	}
+	
+	COORD findPos(char object)
+	{
+
+		for (int row = 0; row < room_design.size(); row++)
+		{
+			for (int col = 0; col < room_design[row].size(); col++)
+			{
+				if (room_design[row][col] == object)
+				{
+					cd.X = row;
+					cd.Y = col;
+				}
+			}
+		}
+		return cd;
+	}
+		
+		/*for (row = room_design.begin(); row != room_design.end(); row++)
+		{
+			for (int col =0; col <room_design.size(); row++)
+			{
+				if (room_design[row][col] == object)
+					return row;
+			}
+		}
+
 	}*/
+	
+	
+
+	
 
 /*	
 	Will Probaly be best in inventory class

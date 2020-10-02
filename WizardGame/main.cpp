@@ -11,16 +11,22 @@ int main()
 	char inpt;
 	bool gameOver = false;
 	Map mp;
-	mp.loadMap("MapDesign.txt");
+	string level1 = "MapDesign.txt";
+	mp.loadMap(level1);
+	COORD cd;
 
 	//while loop to read in user input
 	while (!gameOver)
 	{
-		//mp.loadMap("MapDesign.txt");
 		mp.showMap();
 
-		string clearString(600, '\n');
+		//string clearString(2, '\n');
 		cout << "Player Stats: " << 1 << "		Level Number: " << 2 << "		Win Condition: " << endl;
+		
+		
+		cd = mp.findPos('^');
+		cout << "Row: " << cd.X << " Column: " << cd.Y << endl;
+		cout << mp.outOfBounds(cd) << endl;
 		inpt = _getch();
 		cout << "You entered: " << inpt << endl;
 
