@@ -26,11 +26,34 @@ int main()
 		cd = mp.findPos('^');
 		cout << "Row: " << cd.X << " Column: " << cd.Y << endl;
 		
-		cd.Y = cd.Y + 1;
-		mp.moveObject('^', cd);
+		//cd.Y = cd.Y + 1;
+		//cd.X = cd.X + 1;
+		//mp.moveObject('^', cd);
 		//cout << mp.outOfBounds(cd) << endl;
 
 		inpt = _getch();
+		switch (inpt) 
+		{
+		case 'a':
+			cd.Y = cd.Y - 1;
+			mp.moveObject('^', cd);
+			break;
+		case 'w':
+			cd.X = cd.X - 1;
+			mp.moveObject('^', cd);
+			break;
+		case 's':
+			cd.X = cd.X + 1;
+			mp.moveObject('^', cd);
+			break;
+		case 'd':
+			cd.Y = cd.Y + 1;
+			mp.moveObject('^', cd);
+			break;
+		default:
+			cout << "Sorry, incorrect input" << endl;
+
+		}
 		cout << "You entered: " << inpt << endl;
 
 

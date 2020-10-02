@@ -86,10 +86,12 @@ public:
 	{
 		if (!outOfBounds(pos))
 		{
-			room_design[pos.X][pos.Y] == object;
+			cd = findPos(object);
+			room_design[cd.X][cd.Y] = '.';
+			room_design[pos.X][pos.Y] = object;	
+
 		}
 
-		cout << "New X: " << pos.X << "	New Y: " << pos.Y << endl;
 	}
 	
 	
