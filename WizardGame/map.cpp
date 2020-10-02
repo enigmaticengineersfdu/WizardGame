@@ -50,8 +50,8 @@ public:
 	void showMap()
 	{
 		for (int row = 0; row < room_design.size(); row++)
-
-		{	/*Prints out each character in the row, one by one (Assumed to be faster than cout)*/
+		{	
+			/*Prints out each character in the row, one by one (Assumed to be faster than cout)*/
 			printf("%s\n", room_design[row].c_str());
 		}
 		printf("\n");
@@ -81,17 +81,16 @@ public:
 		}
 		return cd;
 	}
-		
-		/*for (row = room_design.begin(); row != room_design.end(); row++)
+
+	void moveObject(char object, COORD pos)
+	{
+		if (!outOfBounds(pos))
 		{
-			for (int col =0; col <room_design.size(); row++)
-			{
-				if (room_design[row][col] == object)
-					return row;
-			}
+			room_design[pos.X][pos.Y] == object;
 		}
 
-	}*/
+		cout << "New X: " << pos.X << "	New Y: " << pos.Y << endl;
+	}
 	
 	
 

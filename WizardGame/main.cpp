@@ -1,4 +1,3 @@
-//#include <iostream>
 #include "map.cpp"
 #include <iostream>
 #include <cstdlib>
@@ -15,7 +14,7 @@ int main()
 	mp.loadMap(level1);
 	COORD cd;
 
-	//while loop to read in user input
+	/*while loop to read in user input*/
 	while (!gameOver)
 	{
 		mp.showMap();
@@ -26,7 +25,11 @@ int main()
 		
 		cd = mp.findPos('^');
 		cout << "Row: " << cd.X << " Column: " << cd.Y << endl;
-		cout << mp.outOfBounds(cd) << endl;
+		
+		cd.Y = cd.Y + 1;
+		mp.moveObject('^', cd);
+		//cout << mp.outOfBounds(cd) << endl;
+
 		inpt = _getch();
 		cout << "You entered: " << inpt << endl;
 
