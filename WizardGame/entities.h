@@ -15,6 +15,7 @@
 #define ID_TYPE size_t //This define makes is easier to change the type used for Item and Character IDs
 
 namespace ent {
+        /**Type Aliases**/
         /*The ID type and map key for items*/
         using ItemID = ID_TYPE;
         /*The ID type and map key for characters*/
@@ -22,6 +23,7 @@ namespace ent {
         /*Coordinate type used to index the Map*/
         using Coord = std::pair<int, int>;
 
+        /**Entity classes**/
         /*This class is an interface for item types to derive from.*/
         class Item
         {
@@ -80,7 +82,7 @@ namespace ent {
                 */
                 std::optional<Player> tick(const gl::Input input) const;
         };
-
+        /*NOT YET IMPLEMENTED*/
         class Enemy : public Character
         {
         private:
@@ -100,43 +102,6 @@ namespace ent {
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
                 std::optional<Enemy> tick(const gl::Input input) const;
-        };
-
-        class EntityMatrix
-        {
-        private:
-                std::unordered_map<ItemID, Item> item_table;
-                std::unordered_set<ItemID> item_id_pool;
-                std::unordered_map<CharacterID, Enemy> character_table;
-                std::unordered_set<CharacterID> character_id_pool;
-                Player player;
-                
-        public:
-                /*Purpose: To default construct objects of this type.
-                * Preconditions: None.
-                * Postconditions: An object of type EntityMatrix is created.
-                * Throws: Does not throw.
-                */
-                EntityMatrix() noexcept;
-        };
-
-        struct GameState
-        {
-                EntityMatrix entity_matrix;
-                //Map         map;
-
-                /*Purpose: To serialize the current game state to a file on disk.
-                * Preconditions: The calling object is valid.
-                * Postconditions: A representation of the calling object is written to disk.
-                * Throws: std::runtime_error if the file cannot be created or already exists.
-                */
-                void save(const std::string filepath);
-                /*Purpose: To populate the calling object using data from a file.
-                * Preconditions: There is a valid file with the specified path that contains save data for this game.
-                * Postconditions: A representation of the calling object is written to disk.
-                * Throws: std::runtime_error if the specified file cannot be opened.
-                */
-                void load(const std::string filepath);
         };
 }
 

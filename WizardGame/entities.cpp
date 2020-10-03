@@ -1,5 +1,18 @@
 #include "entities.h"
 
+/*Member Functions of the Item class*/
+ent::Item::Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon) :
+        id(_id), location(_location), icon(_icon)
+{
+        //No body needed
+}
+
+bool ent::Item::operator==(const Item& other) const
+{
+        //Two items are the same if they have the same id.
+        return id == other.id;
+}
+
 /*Member functions of the Character class*/
 ent::Character::Character(const CharacterID _id, const Coord &_location, const char &_icon):
         id(_id), location(_location), icon(_icon), health(100)
@@ -27,14 +40,4 @@ std::optional<ent::Player> ent::Player::tick(const gl::Input input) const
         return *this;
 }
 
-ent::Item::Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon):
-        id(_id), location(_location), icon(_icon)
-{
-        //No body needed
-}
 
-bool ent::Item::operator==(const Item& other) const
-{
-        //Two items are the same if they have the same id.
-        return id == other.id;
-}
