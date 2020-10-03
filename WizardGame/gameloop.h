@@ -6,13 +6,13 @@
 #include <string>
 #include <unordered_map>
 
-#include "entities.h"
+#include "entitymgmt.h"
 
 /*The event loop namespace*/
 namespace gl {
         /*Purpose: To provide the main event loop of the game
           Preconditions: save_path is a valid file path to a save file of this game.
-          Postconditions: The game exits after either the player dying or saving.
+          Postconditions: The game exits after either the player dies or saves and exits.
         */
         void play_game(const std::optional<std::string> load_path);
 
@@ -26,20 +26,26 @@ namespace gl {
                 MV_DOWN  = 's',     
                 MV_LEFT  = 'a',
                 MV_RIGHT = 'd',
-                OPEN_CMD = ':', //open command mode (to see inventory, save, quit, etc.)
+                //OPEN_CMD = ':', //open command mode (to see inventory, save, quit, etc.)
         };
-        
-        /*InputHandler is an alias for const pointers to functions which will be used as input handlers.
-        * They are required to have the following signature:
-        * void name();
-        */
-        using InputHandler = void (*const)();
 
-        /*Purpose: Creates the input handler table where the event loop will look for input handler functions.
-        * The actual input handlers will not expose a public interface here but their addresses will be hard-coded
-        * into the table in the body of this function.
+        /*Purpose: Converts and input value as a char into a member of the input enum
+        * validating it in the process. 
+        * Preconditions: The int argument represents a valid keyboard input.
+        * Postconditions: The resulting Input value is returned. 
         */
-        const std::unordered_map<Input, InputHandler> make_handler_table();
+        const Input make_input(const int raw_input);
+
+        /**Input Handlers**/
+        /*Purpose: Handle movement input in the game loop.
+        * Preconditions: The current game state is valid.
+        * Postcondition: The next gamestate is returned.
+        * Throws: None.
+        * Note: Should only be called in the game loop. 
+        */
+        const ent::GameState handle_mv(const Input input, const ent::GameState &current_state) noexcept;
+
+      
 }
 
 #endif
