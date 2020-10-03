@@ -30,6 +30,11 @@ namespace ent {
         public:
                 const ItemID id;
                 const char   icon;
+
+                /*Constructor*/
+                Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon = '^');
+
+                bool operator==(const Item& other)const;
         };
 
         
@@ -52,8 +57,8 @@ namespace ent {
                 */
                 bool is_dead() const;
         public:
-                const CharacterID id; //Key in characters table
-                const char icon; //What the character looks like in the UI.
+                 const CharacterID id; //Key in characters table
+                 const char icon; //What the character looks like in the UI.
 
                 
         };
@@ -61,7 +66,7 @@ namespace ent {
         class Player : public Character
         {
         private: 
-                std::unordered_set<Item> inventory;
+                std::unordered_map<ItemID, Item> inventory;
         public:
                 //Delete the autogen'd default constructor because its use is invalid.
                 Player() = delete; 
