@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="entities.cpp" />
     <ClCompile Include="entitymgmt.cpp" />
+    <ClCompile Include="gameloop.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
   </ItemGroup>
