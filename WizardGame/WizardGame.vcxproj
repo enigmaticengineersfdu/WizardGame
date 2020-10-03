@@ -142,12 +142,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="entities.cpp" />
+    <ClCompile Include="entitymgmt.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="curses.h" />
     <ClInclude Include="entities.h" />
+    <ClInclude Include="entitymgmt.h" />
     <ClInclude Include="gameloop.h" />
     <ClInclude Include="map.h" />
   </ItemGroup>
