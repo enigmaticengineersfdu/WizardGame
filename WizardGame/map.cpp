@@ -84,13 +84,9 @@ public:
 
 	void moveObject(char object, COORD pos)
 	{
-		if (!outOfBounds(pos))
-		{
 			cd = findPos(object);
 			room_design[cd.X][cd.Y] = '.';
 			room_design[pos.X][pos.Y] = object;	
-
-		}
 
 	}
 
