@@ -93,38 +93,5 @@ public:
 		}
 
 	}
-	
-	
-
-	
-
-/*	
-	Will Probaly be best in inventory class
-	checks if the item that the user is trying to pick up is valid
-	based on if the cell matches the item from the list
-
-	bool isValidItem(coord cd)
-	{
-		if ()
-
-	}
-*/
-
-	void pickUpItem()
-	{
-
-	}
-
-	void dropItem()
-	{
-
-	}
-
-
-
-
-
-
-
 
 };

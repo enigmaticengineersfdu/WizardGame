@@ -18,18 +18,11 @@ int main()
 	while (!gameOver)
 	{
 		mp.showMap();
-
-		//string clearString(2, '\n');
 		cout << "Player Stats: " << 1 << "		Level Number: " << 2 << "		Win Condition: " << endl;
 		
 		
 		cd = mp.findPos('^');
 		cout << "Row: " << cd.X << " Column: " << cd.Y << endl;
-		
-		//cd.Y = cd.Y + 1;
-		//cd.X = cd.X + 1;
-		//mp.moveObject('^', cd);
-		//cout << mp.outOfBounds(cd) << endl;
 
 		inpt = _getch();
 		switch (inpt) 
