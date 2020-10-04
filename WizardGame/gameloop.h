@@ -6,8 +6,6 @@
 #include <string>
 #include <unordered_map>
 
-#include "entitymgmt.h"
-
 /*The event loop namespace*/
 namespace gl {
         /*Purpose: To provide the main event loop of the game
@@ -35,17 +33,6 @@ namespace gl {
         * Postconditions: The resulting Input value is returned. 
         */
         const Input make_input(const int raw_input);
-
-        /**Input Handlers**/
-        /*Purpose: Handle movement input in the game loop.
-        * Preconditions: The current game state is valid.
-        * Postcondition: The next gamestate is returned.
-        * Throws: None.
-        * Note: Should only be called in the game loop. 
-        */
-        const ent::GameState handle_mv(const Input input, const ent::GameState &current_state) noexcept;
-
-      
 }
 
 #endif

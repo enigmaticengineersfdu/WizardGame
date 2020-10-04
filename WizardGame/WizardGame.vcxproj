@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -142,15 +142,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="entities.cpp" />
-    <ClCompile Include="entitymgmt.cpp" />
     <ClCompile Include="gameloop.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="curses.h" />
-    <ClInclude Include="entities.h" />
-    <ClInclude Include="entitymgmt.h" />
+    <ClInclude Include="entities.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="gameloop.h" />
     <ClInclude Include="map.h" />
   </ItemGroup>
