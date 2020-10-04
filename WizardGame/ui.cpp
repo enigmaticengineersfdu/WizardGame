@@ -1,14 +1,11 @@
 #include "ui.h"
-#include "map.cpp"
-#include "gameloop.h"
-#include <iostream>
-#include <sstream>
+
 
 void startScreen()
 {
 	// This will print the start screen and will lead into the game
 
-	string choice;
+	std::string choice;
 
 	std::cin >> choice;
 
