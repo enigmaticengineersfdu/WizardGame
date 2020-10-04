@@ -1,10 +1,12 @@
-#include "ui.h"
+#include "Map.h"
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <conio.h>
 using namespace std;
 
 int main()
 {
-	
-	std::string startScreen();
-
-	return 0;
+        void startScreen();
+        return 0;
 }

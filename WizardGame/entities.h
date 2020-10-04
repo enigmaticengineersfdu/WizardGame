@@ -64,6 +64,7 @@ namespace ent {
                  const CharacterID id; //Key in characters table
                  const char icon; //What the character looks like in the UI.
 
+                 const unsigned int get_health() const;
                 
         };
 
@@ -75,7 +76,7 @@ namespace ent {
                 //Delete the autogen'd default constructor because its use is invalid.
                 Player() = delete; 
                 /*Constructor*/
-                Player(const Coord &_location, const char &_icon = '^');
+                Player(const Coord _location, const char &_icon = '^');
                 /*Purpose: Allow the player to move or take other actions.
                 * Preconditions: The game has started and the player character has been constructed.
                 * Postconditions: The player character state for the next frame is returned.
@@ -128,7 +129,7 @@ namespace ent {
                 * Postconditions: An object of type EntityMatrix is created.
                 * Throws: Does not throw.
                 */
-                EntityMatrix() noexcept;
+                EntityMatrix(Map &map) noexcept;
 
                 /*Purpose: To assign a unique ItemID to an item.
                 * Preconditions: The calling object must be valid.
@@ -165,10 +166,13 @@ namespace ent {
                 * Internally calls the tick functions of all contained entities.
                 */
                 std::optional<EntityMatrix> generate_next(const gl::Input input) const;
+
+                const Player& get_player() const;
         };
 
         struct GameState
         {
+                GameState();
                 EntityMatrix entity_matrix;//The entity matrix contains the state of all entities in play.
                 Map          map;          //Contains map state.
 

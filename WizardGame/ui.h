@@ -1,10 +1,8 @@
 #ifndef USERINTERFACEH
 #define USERINTERFACEH
-#include <sstream>
+#include "gameloop.h"
 
-#define HEIGHT 150
-#define WIDTH 150
-
+void startScreen();
 
 
 #endif 
