@@ -172,6 +172,7 @@ namespace ent {
 
         struct GameState
         {
+                GameState();
                 EntityMatrix entity_matrix;//The entity matrix contains the state of all entities in play.
                 Map          map;          //Contains map state.
 

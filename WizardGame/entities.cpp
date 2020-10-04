@@ -85,3 +85,8 @@ const ent::Player& ent::EntityMatrix::get_player() const
 {
         return player;
 }
+
+ent::GameState::GameState():
+        map(), entity_matrix(map)
+{
+}

@@ -18,7 +18,7 @@ void startScreen()
 		std::cout << "Play \nQuit" << std::endl;
 
 		if (choice == "play") {
-			gl::play_game;
+			gl::play_game(std::nullopt);
 		}
 		else if (choice == "quit") {
 			break;
