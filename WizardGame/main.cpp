@@ -1,4 +1,4 @@
-#include "map.cpp"
+#include "Map.h"
 #include <iostream>
 #include <cstdlib>
 #include <string>
@@ -9,10 +9,10 @@ int main()
 {
 	char inpt;
 	bool gameOver = false;
-	Map mp;
+	ent::Map mp;
 	string level1 = "MapDesign.txt";
 	mp.loadMap(level1);
-	COORD cd;
+	ent::COORD cd;
 
 	/*while loop to read in user input*/
 	while (!gameOver)

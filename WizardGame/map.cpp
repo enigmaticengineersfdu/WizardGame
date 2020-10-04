@@ -2,7 +2,7 @@
 using namespace ent;
 
 
-	Map::Map()
+	ent::Map::Map()
 	{
 		room_design = {};
 		current_line = "";
@@ -11,7 +11,7 @@ using namespace ent;
 
 	}
 
-	void Map::loadMap(string file_N)
+	void ent::Map::loadMap(string file_N)
 	{
 		/*This loads the txt file into the vector*/
 		ifstream file;
@@ -29,7 +29,7 @@ using namespace ent;
 		
 	}
 
-	void Map::showMap()
+	void ent::Map::showMap()
 	{
 		for (int row = 0; row < room_design.size(); row++)
 		{	
@@ -39,7 +39,7 @@ using namespace ent;
 		printf("\n");
 	}
 	
-	bool Map::outOfBounds(COORD coord)
+	bool ent::Map::outOfBounds(COORD coord)
 	{
 		if (room_design[cd.X][cd.Y] == '#')
 			return true;
@@ -47,7 +47,7 @@ using namespace ent;
 			return false;
 	}
 	
-	COORD Map::findPos(char object)
+	COORD ent::Map::findPos(char object)
 	{
 
 		for (int row = 0; row < room_design.size(); row++)
@@ -64,7 +64,7 @@ using namespace ent;
 		return cd;
 	}
 
-	void Map::moveObject(char object, COORD pos)
+	void ent::Map::moveObject(char object, COORD pos)
 	{
 			cd = findPos(object);
 			room_design[cd.X][cd.Y] = '.';
