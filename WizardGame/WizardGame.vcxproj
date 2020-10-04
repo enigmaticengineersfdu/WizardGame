@@ -145,6 +145,7 @@
     <ClCompile Include="gameloop.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="ui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="curses.h" />
@@ -153,6 +154,7 @@
     </ClInclude>
     <ClInclude Include="gameloop.h" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="ui.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="pdcurses.lib" />
