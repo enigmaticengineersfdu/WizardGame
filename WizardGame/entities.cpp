@@ -25,8 +25,13 @@ bool ent::Character::is_dead() const
         return health == 0;
 }
 
+const unsigned int ent::Character::get_health() const
+{
+        return health;
+}
+
 /*Member functions of the Player class*/
-ent::Player::Player(const Coord &_location, const char &_icon):
+ent::Player::Player(const Coord _location, const char &_icon):
         Character(0, _location, _icon), inventory()
 {
         //Body unneeded since all initialization was done in the initializer list.
@@ -50,8 +55,8 @@ void ent::EntityMatrix::replenish_id_pools() noexcept
         std::unordered_set<CharacterID> used_ids;
 }
 
-ent::EntityMatrix::EntityMatrix() noexcept :
-        item_table(), item_id_pool(), character_table(), character_id_pool(), player(std::pair(0, 0))
+ent::EntityMatrix::EntityMatrix(Map &map) noexcept :
+        item_table(), item_id_pool(), character_table(), character_id_pool(), player(std::pair(map.find_pos('^').X, map.find_pos('^').Y))
 {
         //Put 10 ids in both id pools
         for (size_t i = 1; i < 11; ++i) {
@@ -74,4 +79,9 @@ void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
 {
         //Return the id to the pool of available ids. 
         character_id_pool.push(id);
+}
+
+const ent::Player& ent::EntityMatrix::get_player() const
+{
+        return player;
 }
