@@ -1,35 +1,17 @@
-#include <vector>
-#include <string>
-#include <fstream>
-#include <iostream>
-using namespace std;
+#include "map.h"
+using namespace ent;
 
 
-struct COORD
-{
-	int X;
-	int Y;
-};
-
-class Map
-{
-private:
-	vector <string> room_design;
-	bool out_of_bounds;
-	string current_line;
-	COORD cd;
-public:
-
-	Map()
+	Map::Map()
 	{
 		room_design = {};
 		current_line = "";
 		cd.X = -1;
 		cd.Y = -1;
 
-	};
+	}
 
-	void loadMap(string file_N)
+	void Map::loadMap(string file_N)
 	{
 		/*This loads the txt file into the vector*/
 		ifstream file;
@@ -47,7 +29,7 @@ public:
 		
 	}
 
-	void showMap()
+	void Map::showMap()
 	{
 		for (int row = 0; row < room_design.size(); row++)
 		{	
@@ -57,7 +39,7 @@ public:
 		printf("\n");
 	}
 	
-	bool outOfBounds(COORD coord)
+	bool Map::outOfBounds(COORD coord)
 	{
 		if (room_design[cd.X][cd.Y] == '#')
 			return true;
@@ -65,7 +47,7 @@ public:
 			return false;
 	}
 	
-	COORD findPos(char object)
+	COORD Map::findPos(char object)
 	{
 
 		for (int row = 0; row < room_design.size(); row++)
@@ -82,12 +64,10 @@ public:
 		return cd;
 	}
 
-	void moveObject(char object, COORD pos)
+	void Map::moveObject(char object, COORD pos)
 	{
 			cd = findPos(object);
 			room_design[cd.X][cd.Y] = '.';
 			room_design[pos.X][pos.Y] = object;	
 
 	}
-
-};
