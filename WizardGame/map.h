@@ -7,11 +7,14 @@
 #include <iostream>
 using namespace std;
 
-namespace ent 
+namespace ent
 {
 	class Map
 	{
 	private:
+
+	public:
+
 
 	};
 
