@@ -13,6 +13,7 @@ void startScreen()
 	while (true) {
 		std::cout << "Welcome to Apostate!\nPick an option:\n" << std::endl;
 		std::cout << "Play \nQuit" << std::endl;
+		std::cout << std::flush;
 
 		if (choice == "play") {
 			gl::play_game(std::nullopt);
