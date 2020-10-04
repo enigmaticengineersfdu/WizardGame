@@ -24,11 +24,11 @@ namespace ent
 
 	public:
 		Map();
-		void loadMap(string file_N);
-		void showMap();
-		bool outOfBounds(COORD cd);
-		COORD findPos(char object);
-		void moveObject(char object, COORD pos);
+		void load_map(string file_N);
+		void show_map();
+		bool out_of_bounds(COORD cd);
+		COORD find_pos(char object);
+		void move_object(char object, COORD pos);
 
 
 	};
