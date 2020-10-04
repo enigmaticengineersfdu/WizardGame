@@ -8,6 +8,8 @@
 
 /*The event loop namespace*/
 namespace gl {
+
+        static const std::string levels[5] = {"MapDesign.txt", "Level2", "Level3", "Level4", "Level5"};
         /*Purpose: To provide the main event loop of the game
           Preconditions: save_path is a valid file path to a save file of this game.
           Postconditions: The game exits after either the player dies or saves and exits.

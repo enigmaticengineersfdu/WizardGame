@@ -26,6 +26,7 @@ void render_frame(ent::GameState& state) noexcept
 {
         /*****NEEDS TO BE IMPLEMENTED*****/
         //Show the Map
+        state.map.load_map(gl::levels[0]);
         state.map.show_map();
         std::cout << "Level:" << 1 << '\n'; //Level no. is hardcoded for now but needs to be implemented.
         std::cout << "Player HP:" << state.entity_matrix.get_player().get_health() << '\n';
