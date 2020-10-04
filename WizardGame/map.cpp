@@ -8,6 +8,7 @@ using namespace ent;
 		current_line = "";
 		cd.X = -1;
 		cd.Y = -1;
+		out_of_bounds = false;
 
 	}
 
@@ -39,7 +40,7 @@ using namespace ent;
 		printf("\n");
 	}
 	
-	bool ent::Map::out_of_bounds(COORD coord)
+	bool ent::Map::bounds_checking(COORD coord)
 	{
 		if (room_design[cd.X][cd.Y] == '#')
 			return true;
