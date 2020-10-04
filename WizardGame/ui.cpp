@@ -7,19 +7,19 @@ void startScreen()
 
 	std::string choice;
 
-	std::cin >> choice;
-
-
 	while (true) {
 		std::cout << "Welcome to Apostate!\nPick an option:\n" << std::endl;
 		std::cout << "Play \nQuit" << std::endl;
-		std::cout << std::flush;
+		std::cin >> choice;
 
 		if (choice == "play") {
 			gl::play_game(std::nullopt);
 		}
 		else if (choice == "quit") {
 			break;
+		}
+		else {
+			continue;
 		}
 	}
 }
