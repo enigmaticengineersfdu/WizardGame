@@ -2,6 +2,7 @@
 
 #include "gameloop.h"
 #include "entities.h"
+#include "commandmode.h"
 
 /**Input Handlers**/
 /*Purpose: Handle movement input in the game loop.
@@ -15,6 +16,7 @@ const ent::GameState handle_mv(const gl::Input input, const ent::GameState& curr
         /********DOES NOTHING SO FAR********/
         return current_state; 
 }
+
 
 /*Purpose: To render the game screen as a string.
 * Preconditions: State represents the game state to be shown.
