@@ -52,27 +52,36 @@ void gl::play_game(const std::optional<std::string> load_path)
                 //Handle the input.
                 switch (input) 
                 {
-                case gl::Input::MV_UP: //Intentional fallthrough because all movement is handled by one function.
+                case gl::Input::MV_UP:
                         cd.X -= 1;
+                        if (!current_state.map.in_bounds(cd))
+                                cd.X += 1;
                         break;
                 case gl::Input::MV_DOWN:
                         cd.X += 1;
+                        if (!current_state.map.in_bounds(cd))
+                                cd.X -= 1;
                         break;
                 case gl::Input::MV_LEFT:
                         cd.Y -= 1;
+                        if (!current_state.map.in_bounds(cd))
+                                cd.Y += 1;
                         break;
                 case gl::Input::MV_RIGHT:
-                        cd.Y = cd.Y + 1;
+                        cd.Y += 1;
+                        if (!current_state.map.in_bounds(cd))
+                                cd.Y -= 1;
                         break;
                         //call the movement handler to handle movement.
-                        /*handle_mv(input, current_state);
-                        break;*/
+                        handle_mv(input, current_state);
                 case gl::Input::INVALID:
                 default:
                         continue; // If the input is invalid, obtain another input.
                 }
                 /*Render the current game state to the console.*/
                 current_state.map.move_object('^', cd);
+                cout << "X: " << cd.X << " Y: " << cd.Y << endl;
+
                 render_frame(current_state);
         }
 }

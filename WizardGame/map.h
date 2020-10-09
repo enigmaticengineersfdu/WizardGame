@@ -26,7 +26,7 @@ namespace ent
 		Map();
 		void load_map(string file_N);
 		void show_map();
-		bool bounds_checking(COORD cd);
+		bool in_bounds(COORD cd);
 		COORD find_pos(char object);
 		void move_object(char object, COORD pos);
 
