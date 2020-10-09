@@ -41,7 +41,8 @@ void gl::play_game(const std::optional<std::string> load_path)
         ent::GameState current_state;
         //The latest input. Should not be modified other than in the gameloop.
         Input input;
-        current_state.map.load_map(gl::levels[0]);
+        int current_level = 0;
+        current_state.map.load_map(gl::levels[current_level]);
         ent::COORD cd = current_state.map.find_pos('^');
         render_frame(current_state);
 
@@ -79,6 +80,12 @@ void gl::play_game(const std::optional<std::string> load_path)
                         continue; // If the input is invalid, obtain another input.
                 }
                 /*Render the current game state to the console.*/
+                if (current_state.map.new_level(cd) && current_level <5)
+                {
+                        current_level += 1;
+                        current_state.map.load_map(gl::levels[current_level]);
+                        cd = current_state.map.find_pos('^');
+                }
                 current_state.map.move_object('^', cd);
                 cout << "X: " << cd.X << " Y: " << cd.Y << endl;
 

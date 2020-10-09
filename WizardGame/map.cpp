@@ -41,8 +41,19 @@ using namespace ent;
 	
 	bool ent::Map::in_bounds(COORD coord)
 	{
-		if (room_design[coord.X][coord.Y] == '.')
+		if (room_design[coord.X][coord.Y] == '.' || room_design[coord.X][coord.Y] == '*' )
 			return true;
+		else
+			return false;
+	}
+
+	bool ent::Map::new_level(COORD coord)
+	{
+		if (room_design[coord.X][coord.Y] == '*')
+		{
+			room_design.clear();
+			return true;
+		}
 		else
 			return false;
 	}
@@ -68,5 +79,6 @@ using namespace ent;
 	{
 			cd = find_pos(object);
 			room_design[cd.X][cd.Y] = '.';
-			room_design[pos.X][pos.Y] = object;			
+			room_design[pos.X][pos.Y] = object;
+
 	}

@@ -28,6 +28,7 @@ namespace ent
 		bool in_bounds(COORD cd);
 		COORD find_pos(char object);
 		void move_object(char object, COORD pos);
+		bool new_level(COORD coord);
 
 
 	};
