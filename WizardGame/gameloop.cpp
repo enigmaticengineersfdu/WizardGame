@@ -42,6 +42,7 @@ void gl::play_game(const std::optional<std::string> load_path)
         //The latest input. Should not be modified other than in the gameloop.
         Input input;
         current_state.map.load_map(gl::levels[0]);
+        ent::COORD cd = current_state.map.find_pos('^');
         render_frame(current_state);
 
         /*The main game loop*/
@@ -52,9 +53,17 @@ void gl::play_game(const std::optional<std::string> load_path)
                 switch (input) 
                 {
                 case gl::Input::MV_UP: //Intentional fallthrough because all movement is handled by one function.
+                        cd.X -= 1;
+                        break;
                 case gl::Input::MV_DOWN:
+                        cd.X += 1;
+                        break;
                 case gl::Input::MV_LEFT:
+                        cd.Y -= 1;
+                        break;
                 case gl::Input::MV_RIGHT:
+                        cd.Y = cd.Y + 1;
+                        break;
                         //call the movement handler to handle movement.
                         handle_mv(input, current_state);
                         break;
@@ -63,6 +72,8 @@ void gl::play_game(const std::optional<std::string> load_path)
                         continue; // If the input is invalid, obtain another input.
                 }
                 /*Render the current game state to the console.*/
+                current_state.map.move_object('^', cd);
+                cout << "X: " << cd.X << " Y: " << cd.Y << endl;
                 render_frame(current_state);
         }
 }
