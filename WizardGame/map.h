@@ -18,7 +18,6 @@ namespace ent
 	{
 	private:
 		vector <string> room_design;
-		bool out_of_bounds;
 		string current_line;
 		COORD cd;
 

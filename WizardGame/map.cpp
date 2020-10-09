@@ -8,7 +8,6 @@ using namespace ent;
 		current_line = "";
 		cd.X = -1;
 		cd.Y = -1;
-		out_of_bounds = false;
 
 	}
 
