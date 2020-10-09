@@ -65,15 +65,14 @@ void gl::play_game(const std::optional<std::string> load_path)
                         cd.Y = cd.Y + 1;
                         break;
                         //call the movement handler to handle movement.
-                        handle_mv(input, current_state);
-                        break;
+                        /*handle_mv(input, current_state);
+                        break;*/
                 case gl::Input::INVALID:
                 default:
                         continue; // If the input is invalid, obtain another input.
                 }
                 /*Render the current game state to the console.*/
                 current_state.map.move_object('^', cd);
-                cout << "X: " << cd.X << " Y: " << cd.Y << endl;
                 render_frame(current_state);
         }
 }
