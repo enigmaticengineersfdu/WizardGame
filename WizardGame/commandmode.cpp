@@ -67,6 +67,6 @@ void command_mode(const ent::GameState& gs) noexcept
         while (true) {
                 std::cout << ">" << std::flush;
                 std::getline(std::cin, read_buffer);
-
+                std::pair command = make_command(std::move(read_buffer));
         }
 }
