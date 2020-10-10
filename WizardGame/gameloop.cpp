@@ -4,6 +4,8 @@
 #include "entities.h"
 #include "commandmode.h"
 
+int current_level = 0;
+
 /**Input Handlers**/
 /*Purpose: Handle movement input in the game loop.
 * Preconditions: The current game state is valid.
@@ -29,7 +31,7 @@ void render_frame(ent::GameState& state) noexcept
         /*****NEEDS TO BE IMPLEMENTED*****/
         //Show the Map
         state.map.show_map();
-        std::cout << "Level:" << 1 << '\n'; //Level no. is hardcoded for now but needs to be implemented.
+        std::cout << "Level:" << current_level + 1 << '\n';
         std::cout << "Player HP:" << state.entity_matrix.get_player().get_health() << '\n';
 
 }
@@ -41,7 +43,6 @@ void gl::play_game(const std::optional<std::string> load_path)
         ent::GameState current_state;
         //The latest input. Should not be modified other than in the gameloop.
         Input input;
-        int current_level = 0;
         current_state.map.load_map(gl::levels[current_level]);
         ent::COORD cd = current_state.map.find_pos('^');
         render_frame(current_state);
@@ -80,7 +81,7 @@ void gl::play_game(const std::optional<std::string> load_path)
                         continue; // If the input is invalid, obtain another input.
                 }
                 /*Render the current game state to the console.*/
-                if (current_state.map.new_level(cd) && current_level <5)
+                if (current_state.map.new_level(cd) && current_level <4)
                 {
                         current_level += 1;
                         current_state.map.load_map(gl::levels[current_level]);
@@ -88,7 +89,6 @@ void gl::play_game(const std::optional<std::string> load_path)
                 }
                 current_state.map.move_object('^', cd);
                 cout << "X: " << cd.X << " Y: " << cd.Y << endl;
-
                 render_frame(current_state);
         }
 }
