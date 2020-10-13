@@ -110,7 +110,7 @@ void credits_handler() noexcept
         std::cout << credits_buf << std::flush;
 }
 
-void command_mode(const ent::GameState& gs) noexcept
+void gl::command_mode(const ent::GameState& gs) noexcept
 {
         //Print the command mode header
         std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n";
