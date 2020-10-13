@@ -109,6 +109,8 @@ const gl::Input gl::make_input(const int raw_input)
                 return gl::Input::MV_DOWN;
         case 'd':
                 return gl::Input::MV_RIGHT;
+        case '/':
+                return gl::Input::OPEN_CMD;
         default:
                 return gl::Input::INVALID;
         }

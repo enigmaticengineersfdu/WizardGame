@@ -74,19 +74,20 @@ void inline quit_handler() noexcept
 */
 void help_handler() noexcept
 {
-        //The help file is read from file to a buffer.
+        
         std::ifstream help_reader(gl::help_path);
         std::string help_buf;
-        //Print error message if the help file cannot be read.
-        try {
+        //If it can be opened the help file is read and printed.
+        if (help_reader.is_open()) {
+                //While the end of file hasn't been reached keep reading.
                 while (help_reader >> help_buf);
+                //The help text is printed
+                std::cout << help_buf << std::flush;
         }
-        catch (std::ifstream::failure& e) {
-                std::cout << "Error reading help file.\n";
-                return;
+        //If the file can't be opened print an error message.
+        else {
+                std::cout << "Error displaying help.\n";
         }
-        //The help text is printed
-        std::cout << help_buf << std::flush;
 }
 
 /*Purpose: Displays the credits file.
@@ -95,19 +96,19 @@ void help_handler() noexcept
 */
 void credits_handler() noexcept
 {
-        //The credits file is read from file to a buffer.
         std::ifstream credits_reader(gl::credits_path);
         std::string credits_buf;
-        //Print error message if the credits file cannot be read.
-        try {
+        //If it can be opened the help file is read and printed.
+        if (credits_reader.is_open()) {
+                //While the end of file hasn't been reached keep reading.
                 while (credits_reader >> credits_buf);
+                //The help text is printed.
+                std::cout << credits_buf << std::flush;
         }
-        catch (std::ifstream::failure& e) {
-                std::cout << "Error reading credits file.\n";
-                return;
+        //If the file can't be opened print an error message.
+        else {
+                std::cout << "Error displaying credits.\n";
         }
-        //The help text is printed
-        std::cout << credits_buf << std::flush;
 }
 
 void gl::command_mode(const ent::GameState& gs) noexcept
@@ -118,8 +119,9 @@ void gl::command_mode(const ent::GameState& gs) noexcept
         /*Read and carry out commands.*/
         std::string read_buffer;
         //I/O loop for command mode
+        std::cin.clear();
         while (true) {
-                std::cout << ">" << std::flush;
+                std::cout << '>' << std::flush;
                 std::getline(std::cin, read_buffer);
                 std::pair<Command, std::string> command = make_command(std::move(read_buffer));
 
