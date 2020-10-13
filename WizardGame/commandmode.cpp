@@ -4,6 +4,8 @@
 #include <string>
 #include <sstream>
 #include <cctype>
+#include <cstdlib>
+#include <fstream>
 
 
 enum class Command {
@@ -25,6 +27,7 @@ static const std::unordered_map<std::string, Command> command_table = {
         {"help",    Command::HELP},
         {"credits", Command::CREDITS}
 };
+
 
 const std::pair<Command, std::string> make_command(std::string &&raw_input) 
 {
@@ -56,6 +59,49 @@ const std::pair<Command, std::string> make_command(std::string &&raw_input)
         return std::pair(command, reader.str());
 }
 
+/*Purpose: To handle the quit command.
+* Preconditions: None.
+* Postconditions: The process terminates with exit code 0.
+*/
+void inline quit_handler() noexcept
+{
+        std::exit(0);
+}
+
+void help_handler() noexcept
+{
+        //The help file is read from file to a buffer.
+        std::ifstream help_reader(gl::help_path);
+        std::string help_buf;
+        //Print error message if the help file cannot be read.
+        try {
+                while (help_reader >> help_buf);
+        }
+        catch (std::ifstream::failure& e) {
+                std::cout << "Error reading help file.\n";
+                return;
+        }
+        //The help text is printed
+        std::cout << help_buf << std::flush;
+}
+
+void credits_handler() noexcept
+{
+        //The credits file is read from file to a buffer.
+        std::ifstream credits_reader(gl::credits_path);
+        std::string credits_buf;
+        //Print error message if the credits file cannot be read.
+        try {
+                while (credits_reader >> credits_buf);
+        }
+        catch (std::ifstream::failure& e) {
+                std::cout << "Error reading credits file.\n";
+                return;
+        }
+        //The help text is printed
+        std::cout << credits_buf << std::flush;
+}
+
 void command_mode(const ent::GameState& gs) noexcept
 {
         //Print the command mode header
@@ -67,6 +113,27 @@ void command_mode(const ent::GameState& gs) noexcept
         while (true) {
                 std::cout << ">" << std::flush;
                 std::getline(std::cin, read_buffer);
-                std::pair command = make_command(std::move(read_buffer));
+                std::pair<Command, std::string> command = make_command(std::move(read_buffer));
+
+                //Match the commands with their respective handlers
+                switch (command.first)
+                {
+                case Command::RESUME:
+                        //If the user opts to resume this function returns control to the game loop.
+                        return;
+                case Command::QUIT:
+                        /*Quits the game. This function will eventually ask if 
+                        the player wants to save.*/
+                        quit_handler();
+                        break;//this will never be reached but it is here to suppress a compiler warning.
+                case Command::HELP:
+                        /*Displays the help file.*/
+                        help_handler();
+                        break;
+                case Command::CREDITS:
+                        /*Displays the credits file.*/
+                        credits_handler();
+                        break;
+                }
         }
 }
