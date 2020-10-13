@@ -68,6 +68,10 @@ void inline quit_handler() noexcept
         std::exit(0);
 }
 
+/*Purpose: Displays the help file.
+* Preconditions: None.
+* Postconditions: The help file or an error message is displayed.
+*/
 void help_handler() noexcept
 {
         //The help file is read from file to a buffer.
@@ -85,6 +89,10 @@ void help_handler() noexcept
         std::cout << help_buf << std::flush;
 }
 
+/*Purpose: Displays the credits file.
+* Preconditions: None.
+* Postconditions: The credits file or an error message is displayed.
+*/
 void credits_handler() noexcept
 {
         //The credits file is read from file to a buffer.

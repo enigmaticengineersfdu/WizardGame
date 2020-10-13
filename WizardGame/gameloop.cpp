@@ -76,6 +76,10 @@ void gl::play_game(const std::optional<std::string> load_path)
                         break;
                         //call the movement handler to handle movement.
                         handle_mv(input, current_state);
+                case gl::Input::OPEN_CMD:
+                        /*Call the command_mode function to run command mode.*/
+                        gl::command_mode(current_state);
+                        break;
                 case gl::Input::INVALID:
                 default:
                         continue; // If the input is invalid, obtain another input.

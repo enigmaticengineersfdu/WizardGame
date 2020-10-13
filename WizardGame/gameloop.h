@@ -27,7 +27,7 @@ namespace gl {
                 MV_DOWN  = 's',     
                 MV_LEFT  = 'a',
                 MV_RIGHT = 'd',
-                //OPEN_CMD = ':', //open command mode (to see inventory, save, quit, etc.)
+                OPEN_CMD = ':', //open command mode (to see inventory, save, quit, etc.)
         };
 
         /*Purpose: Converts and input value as a char into a member of the input enum
