@@ -1,7 +1,8 @@
 #include "ui.h"
 
-int main()
-{
-        startScreen();
-        return 0;
-}
+//int main() {
+//
+//	startScreen();
+//
+//	return 0;
+//}

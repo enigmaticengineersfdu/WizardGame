@@ -1,5 +1,5 @@
 #include "commandmode.h"
-
+#include<assert.h>
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -147,3 +147,13 @@ void gl::command_mode(const ent::GameState& gs) noexcept
                 }
         }
 }
+
+void test() {
+    help_handler();
+    //credits_handler();
+    //quit_handler();
+   
+ 
+    
+}
+

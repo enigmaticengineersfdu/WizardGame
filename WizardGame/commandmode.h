@@ -15,4 +15,6 @@ namespace gl {
         void command_mode(const ent::GameState& gs) noexcept;
 }
 
+void test();
+
 #endif
