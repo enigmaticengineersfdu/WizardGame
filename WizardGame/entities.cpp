@@ -1,7 +1,7 @@
 #include "entities.h"
 
 /*Member Functions of the Item class*/
-ent::Item::Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon) :
+ent::Item::Item(const ItemID _id, const std::variant<COORD, CharacterID> _location, const char _icon) :
         id(_id), location(_location), icon(_icon)
 {
         //No body needed
@@ -14,7 +14,7 @@ bool ent::Item::operator==(const Item& other) const
 }
 
 /*Member functions of the Character class*/
-ent::Character::Character(const CharacterID _id, Coord _location, const char &_icon):
+ent::Character::Character(const CharacterID _id, COORD _location, const char &_icon):
         id(_id), location(_location), icon(_icon), health(100)
 {
         //Body unneeded since all initialization was done in the initializer list.
@@ -30,8 +30,13 @@ const unsigned int ent::Character::get_health() const
         return health;
 }
 
+const ent::Coord ent::Character::get_location() const
+{
+    return this->location;
+}
+
 /*Member functions of the Player class*/
-ent::Player::Player(Coord _location, const char &_icon):
+ent::Player::Player(COORD _location, const char &_icon):
         Character(0, _location, _icon), inventory()
 {
         //Body unneeded since all initialization was done in the initializer list.
@@ -117,7 +122,7 @@ void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
         character_id_pool.push(id);
 }
 
-ent::Player ent::EntityMatrix::get_player() const
+ent::Player& ent::EntityMatrix::get_player()
 {
         return player;
 }
@@ -125,4 +130,9 @@ ent::Player ent::EntityMatrix::get_player() const
 ent::GameState::GameState():
         map(), entity_matrix(map)
 {
+}
+
+void ent::GameState::operator=(GameState gs)
+{
+        *this = gs;
 }

@@ -13,7 +13,7 @@
 * Note: Should only be called in the game loop.
 */
 int current_level = 0;
-ent::GameState handle_mv(const gl::Input input, const ent::GameState current_state) noexcept 
+ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) noexcept 
 {
         /********DOES NOTHING SO FAR********/
 
@@ -63,9 +63,7 @@ void gl::play_game(const std::optional<std::string> load_path)
                 {
                 case gl::Input::MV_UP:
                 case gl::Input::MV_DOWN:
-                      
                 case gl::Input::MV_LEFT:
-                        
                 case gl::Input::MV_RIGHT:        
                         current_state = handle_mv(input, current_state);
                         break;

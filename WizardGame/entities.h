@@ -22,21 +22,21 @@ namespace ent {
         using ItemID = ID_TYPE;
         /*The ID type and map key for characters*/
         using CharacterID = ID_TYPE;
-        /*Coordinate type used to index the Map*/
-        //using Coord = std::pair<int, int>;
+        /*COORDinate type used to index the Map*/
+        using Coord = COORD;
 
         /**Entity classes**/
         /*This class is an interface for item types to derive from.*/
         class Item
         {
         protected:
-                std::variant<Coord, CharacterID> location;
+                std::variant<COORD, CharacterID> location;
         public:
                 const ItemID id;
                 const char   icon;
 
                 /*Constructor*/
-                Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon = '^');
+                Item(const ItemID _id, const std::variant<COORD, CharacterID> _location, const char _icon = '^');
 
                 bool operator==(const Item& other)const;
         };
@@ -52,7 +52,7 @@ namespace ent {
                 unsigned int health; //Character health. (Be careful not to underflow this value!)
 
                 /*Protected Constructor only used to implement derived constructors.*/
-                Character(const CharacterID _id, Coord _location, const char &_icon);
+                Character(const CharacterID _id, COORD _location, const char &_icon);
                 /*Purpose: Determines if the character is dead.
                 * Meant to be called from derived tick functions.
                 * Preconditiions: The calling object is valid.
@@ -65,6 +65,7 @@ namespace ent {
                  const char icon; //What the character looks like in the UI.
 
                  const unsigned int get_health() const;
+                 const Coord get_location() const;
                 
         };
 
@@ -76,7 +77,7 @@ namespace ent {
                 //Delete the autogen'd default constructor because its use is invalid.
                 Player() = delete; 
                 /*Constructor*/
-                Player(Coord _location, const char &_icon = '^');
+                Player(COORD _location, const char &_icon = '^');
                 /*Purpose: Allow the player to move or take other actions.
                 * Preconditions: The game has started and the player character has been constructed.
                 * Postconditions: The player character state for the next frame is returned.
@@ -84,6 +85,8 @@ namespace ent {
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
                 std::optional <ent::Player> tick(const gl::Input input, struct GameState current_state, int current_level);
+
+
         };
         /*NOT YET IMPLEMENTED*/
         class Enemy : public Character
@@ -94,7 +97,7 @@ namespace ent {
                 //Delete the autogen'd default constructor because its use is invalid.
                 Enemy() = delete;
                 /*constructor*/
-                Enemy(CharacterID _id, const Coord &&_location, const char &&_icon = 'X', const std::optional<Item> &&_drop_item = std::nullopt);
+                Enemy(CharacterID _id, const COORD &&_location, const char &&_icon = 'X', const std::optional<Item> &&_drop_item = std::nullopt);
                 /*destructor*/
                 //~Enemy();
                 /*Purpose: Generate enemy movements and other actions.
@@ -167,7 +170,7 @@ namespace ent {
                 */
                 std::optional<EntityMatrix> generate_next(const gl::Input input) const;
 
-                const Player& get_player() const;
+                Player& get_player();
         };
 
         struct GameState
@@ -188,6 +191,8 @@ namespace ent {
                 * Throws: std::runtime_error if the specified file cannot be opened.
                 */
                 //void load(const std::string filepath);
+                
+                void operator=(GameState gs);
         };
 }
 
