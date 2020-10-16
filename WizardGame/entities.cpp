@@ -1,7 +1,7 @@
 #include "entities.h"
 
 /*Member Functions of the Item class*/
-ent::Item::Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon) :
+ent::Item::Item(const ItemID _id, const std::variant<COORD, CharacterID> _location, const char _icon) :
         id(_id), location(_location), icon(_icon)
 {
         //No body needed
@@ -14,7 +14,7 @@ bool ent::Item::operator==(const Item& other) const
 }
 
 /*Member functions of the Character class*/
-ent::Character::Character(const CharacterID _id, const Coord &_location, const char &_icon):
+ent::Character::Character(const CharacterID _id, COORD _location, const char &_icon):
         id(_id), location(_location), icon(_icon), health(100)
 {
         //Body unneeded since all initialization was done in the initializer list.
@@ -31,18 +31,84 @@ const unsigned int ent::Character::get_health() const
 }
 
 /*Member functions of the Player class*/
-ent::Player::Player(const Coord _location, const char &_icon):
+ent::Player::Player(COORD _location, const char &_icon):
         Character(0, _location, _icon), inventory()
 {
         //Body unneeded since all initialization was done in the initializer list.
 }
 
-std::optional<ent::Player> ent::Player::tick(const gl::Input input) const
+void ent::Player::tick(const gl::Input input, struct GameState current_state, int current_level)
 {
+ 
         //currently just returns a copy of the current object.
         //will be improved upon a lot
         //currently doesn't even take user input. 
-        return *this;
+
+        ent::COORD loc = current_state.map.find_pos(ent::Player::icon);
+        //location = current_state.map.find_pos(ent::Player::icon);
+
+        if (input == gl::Input::MV_UP)
+        {
+                loc.X -= 1;
+                if (!current_state.map.in_bounds(loc))
+                        loc.X += 1;
+        }
+        else if (input == gl::Input::MV_DOWN)
+        {
+                loc.X += 1;
+                if (!current_state.map.in_bounds(loc))
+                        loc.X -= 1;
+        }
+        else if (input == gl::Input::MV_LEFT)
+        {
+                loc.Y -= 1;
+                if (!current_state.map.in_bounds(loc))
+                        loc.Y += 1;
+        
+        }
+        else if (input == gl::Input::MV_RIGHT)
+        {
+                loc.Y += 1;
+                if (!current_state.map.in_bounds(loc))
+                        loc.Y -= 1;
+        }
+        //switch (input)
+        //{
+        //case gl::Input::MV_UP:
+        //        loc.X -= 1;
+        //        if (!current_state.map.in_bounds(loc))
+        //                loc.X += 1;
+        //                break;
+        //case gl::Input::MV_DOWN:
+        //        loc.X += 1;
+        //        if (!current_state.map.in_bounds(loc))
+        //                loc.X -= 1;
+        //                break;
+        //case gl::Input::MV_LEFT:
+        //        loc.Y -= 1;
+        //        if (!current_state.map.in_bounds(loc))
+        //                loc.Y += 1;
+        //                break;
+        //case gl::Input::MV_RIGHT:
+        //        loc.Y += 1;
+        //        if (!current_state.map.in_bounds(loc))
+        //                loc.Y -= 1;
+        //        break;
+        //}
+
+        /*Checks if the player reaches the marker for a new level*/
+        if (current_state.map.new_level(loc) && current_level < 4)
+        {
+                current_level += 1;
+                current_state.map.load_map(gl::levels[current_level]);
+                loc = current_state.map.find_pos('^');
+        }
+        /*Moves the player according to their input*/
+        current_state.map.move_object('^', loc);
+
+
+
+        //return *this;
 }
 
 
@@ -56,7 +122,7 @@ void ent::EntityMatrix::replenish_id_pools() noexcept
 }
 
 ent::EntityMatrix::EntityMatrix(Map &map) noexcept :
-        item_table(), item_id_pool(), character_table(), character_id_pool(), player(std::pair(map.find_pos('^').X, map.find_pos('^').Y))
+        item_table(), item_id_pool(), character_table(), character_id_pool(), player(map.find_pos('^'), '^')
 {
         //Put 10 ids in both id pools
         for (size_t i = 1; i < 11; ++i) {

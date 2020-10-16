@@ -4,7 +4,6 @@
 #include "entities.h"
 #include "commandmode.h"
 
-int current_level = 0;
 
 /**Input Handlers**/
 /*Purpose: Handle movement input in the game loop.
@@ -13,9 +12,17 @@ int current_level = 0;
 * Throws: None.
 * Note: Should only be called in the game loop.
 */
-const ent::GameState handle_mv(const gl::Input input, const ent::GameState& current_state) noexcept 
+int current_level = 0;
+const ent::GameState handle_mv(const gl::Input input, const ent::GameState current_state) noexcept 
 {
         /********DOES NOTHING SO FAR********/
+        //current_state.entity_matrix
+        //ent::Player::tick;
+        //ent::Player::ent::Player::tick()
+        
+
+        ent::Player::tick(input, current_state, current_level);
+    
         return current_state; 
 }
 
@@ -28,8 +35,7 @@ const ent::GameState handle_mv(const gl::Input input, const ent::GameState& curr
 */
 void render_frame(ent::GameState& state) noexcept
 {
-        /*****NEEDS TO BE IMPLEMENTED*****/
-        //Show the Map
+        //Shows the Map, Level and player stats
         state.map.show_map();
         std::cout << "Level:" << current_level + 1 << '\n';
         std::cout << "Player HP:" << state.entity_matrix.get_player().get_health() << '\n';
@@ -74,8 +80,6 @@ void gl::play_game(const std::optional<std::string> load_path)
                         if (!current_state.map.in_bounds(cd))
                                 cd.Y -= 1;
                         break;
-                        //call the movement handler to handle movement.
-                        handle_mv(input, current_state);
                 case gl::Input::OPEN_CMD:
                         /*Call the command_mode function to run command mode.*/
                         gl::command_mode(current_state);
@@ -84,15 +88,23 @@ void gl::play_game(const std::optional<std::string> load_path)
                 default:
                         continue; // If the input is invalid, obtain another input.
                 }
-                /*Render the current game state to the console.*/
-                if (current_state.map.new_level(cd) && current_level <4)
-                {
-                        current_level += 1;
-                        current_state.map.load_map(gl::levels[current_level]);
-                        cd = current_state.map.find_pos('^');
-                }
-                current_state.map.move_object('^', cd);
+               
+                ///*Checks if the player reaches the marker for a new level*/
+                //if (current_state.map.new_level(cd) && current_level <4)
+                //{
+                //        current_level += 1;
+                //        current_state.map.load_map(gl::levels[current_level]);
+                //        cd = current_state.map.find_pos('^');
+                //}
+                ///*Moves the player according to their input*/
+                //current_state.map.move_object('^', cd);
+
+                /*
+                * Checks to make sure coordinates are being updated
                 cout << "X: " << cd.X << " Y: " << cd.Y << endl;
+                */
+
+                /*Render the current game state to the console.*/
                 render_frame(current_state);
         }
 }
