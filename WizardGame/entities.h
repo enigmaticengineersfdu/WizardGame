@@ -64,6 +64,7 @@ namespace ent {
 
                  const unsigned int get_health() const;
                  const Coord get_location() const;
+                 void set_location(const Coord loc);
                 
         };
 

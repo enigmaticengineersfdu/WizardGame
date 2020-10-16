@@ -36,6 +36,11 @@ const ent::Coord ent::Character::get_location() const
     return this->location;
 }
 
+void ent::Character::set_location(const Coord loc)
+{
+        this->location = loc;
+}
+
 /*Member functions of the Player class*/
 ent::Player::Player(Coord _location, const char &_icon):
         Character(0, _location, _icon), inventory()
@@ -74,14 +79,6 @@ std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct Game
                 if (!current_state.map.in_bounds(location))
                         location.Y -= 1;
                 break;
-        }
-
-        /*Checks if the player reaches the marker for a new level*/
-        if (current_state.map.new_level(location) && current_level < 4)
-        {
-                current_level += 1;
-                current_state.map.load_map(gl::levels[current_level]);
-                location = current_state.map.find_pos('^');
         }
 
         return play1;
