@@ -10,7 +10,6 @@
 #include <optional>
 #include <variant>
 #include <memory>
-#include <utility>
 #include <queue>
 
 #define ID_TYPE size_t //This define makes is easier to change the type used for Item and Character IDs
@@ -31,8 +30,8 @@ namespace ent {
         protected:
                 std::variant<Coord, CharacterID> location;
         public:
-                const ItemID id;
-                const char   icon;
+                ItemID id;
+                char   icon;
 
                 /*Constructor*/
                 Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon = '^');
@@ -60,8 +59,8 @@ namespace ent {
                 */
                 bool is_dead() const;
         public:
-                 const CharacterID id; //Key in characters table
-                 const char icon; //What the character looks like in the UI.
+                 CharacterID id; //Key in characters table
+                 char icon; //What the character looks like in the UI.
 
                  const unsigned int get_health() const;
                  const Coord get_location() const;
@@ -73,8 +72,7 @@ namespace ent {
         private: 
                 std::unordered_map<ItemID, Item> inventory;
         public:
-                //Delete the autogen'd default constructor because its use is invalid.
-                Player() = delete; 
+                Player() = default;
                 /*Constructor*/
                 Player(Coord _location, const char &_icon = '^');
                 /*Purpose: Allow the player to move or take other actions.
@@ -84,6 +82,8 @@ namespace ent {
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
                 std::optional <ent::Player> tick(const gl::Input input, struct GameState current_state, int current_level);
+
+                void operator=(Player& p);
 
 
         };
@@ -168,6 +168,8 @@ namespace ent {
                 * Internally calls the tick functions of all contained entities.
                 */
                 std::optional<EntityMatrix> generate_next(const gl::Input input) const;
+
+                void operator=(EntityMatrix &em);
 
                 Player& get_player();
         };
