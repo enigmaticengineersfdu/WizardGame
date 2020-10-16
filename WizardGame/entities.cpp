@@ -87,6 +87,15 @@ std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct Game
         return play1;
 }
 
+void ent::Player::operator=(Player& p)
+{
+        this->id = p.id;
+        this->icon = p.icon;
+        this->health = p.health;
+        this->inventory = p.inventory;
+        this->location = p.location;
+}
+
 
 void ent::EntityMatrix::replenish_id_pools() noexcept
 {
@@ -123,6 +132,15 @@ void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
         character_id_pool.push(id);
 }
 
+void ent::EntityMatrix::operator=(EntityMatrix &em)
+{
+        this->item_table = em.item_table;
+        this->item_id_pool = em.item_id_pool;
+        this->character_table = em.character_table;
+        this->character_id_pool = em.character_id_pool;
+        this->player = em.player;
+}
+
 ent::Player& ent::EntityMatrix::get_player()
 {
         return player;
@@ -135,5 +153,8 @@ ent::GameState::GameState():
 
 void ent::GameState::operator=(GameState gs)
 {
-        *this = gs;
+        this->map = gs.map;
+        this->entity_matrix = gs.entity_matrix;
 }
+
+
