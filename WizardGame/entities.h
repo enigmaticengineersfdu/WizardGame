@@ -23,7 +23,7 @@ namespace ent {
         /*The ID type and map key for characters*/
         using CharacterID = ID_TYPE;
         /*COORDinate type used to index the Map*/
-        //using COORD = std::pair<int, int>;
+        using Coord = COORD;
 
         /**Entity classes**/
         /*This class is an interface for item types to derive from.*/
@@ -48,7 +48,7 @@ namespace ent {
         class Character
         {
         protected:
-                COORD location; //location on the Map
+                Coord location; //location on the Map
                 unsigned int health; //Character health. (Be careful not to underflow this value!)
 
                 /*Protected Constructor only used to implement derived constructors.*/
@@ -170,7 +170,7 @@ namespace ent {
                 */
                 std::optional<EntityMatrix> generate_next(const gl::Input input) const;
 
-                Player& get_player() const;
+                Player& get_player();
         };
 
         struct GameState
@@ -191,6 +191,8 @@ namespace ent {
                 * Throws: std::runtime_error if the specified file cannot be opened.
                 */
                 //void load(const std::string filepath);
+                
+                void operator=(GameState gs);
         };
 }
 

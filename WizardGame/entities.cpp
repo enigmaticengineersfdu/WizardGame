@@ -30,9 +30,9 @@ const unsigned int ent::Character::get_health() const
         return health;
 }
 
-const Coord ent::Character::get_location() const
+const ent::Coord ent::Character::get_location() const
 {
-    return Coord();
+    return this->location;
 }
 
 /*Member functions of the Player class*/
@@ -122,7 +122,7 @@ void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
         character_id_pool.push(id);
 }
 
-const ent::Player& ent::EntityMatrix::get_player() const
+ent::Player& ent::EntityMatrix::get_player()
 {
         return player;
 }
@@ -130,4 +130,9 @@ const ent::Player& ent::EntityMatrix::get_player() const
 ent::GameState::GameState():
         map(), entity_matrix(map)
 {
+}
+
+void ent::GameState::operator=(GameState gs)
+{
+        *this = gs;
 }
