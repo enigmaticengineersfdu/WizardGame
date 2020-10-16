@@ -39,17 +39,17 @@ using namespace ent;
 		printf("\n");
 	}
 	
-	bool ent::Map::in_bounds(COORD coord)
+	bool ent::Map::in_bounds(Coord Coord)
 	{
-		if (room_design[coord.X][coord.Y] == '.' || room_design[coord.X][coord.Y] == '*' )
+		if (room_design[Coord.X][Coord.Y] == '.' || room_design[Coord.X][Coord.Y] == '*' )
 			return true;
 		else
 			return false;
 	}
 
-	bool ent::Map::new_level(COORD coord)
+	bool ent::Map::new_level(Coord Coord)
 	{
-		if (room_design[coord.X][coord.Y] == '*')
+		if (room_design[Coord.X][Coord.Y] == '*')
 		{
 			room_design.clear();
 			return true;
@@ -58,7 +58,7 @@ using namespace ent;
 			return false;
 	}
 	
-	COORD ent::Map::find_pos(char object)
+	Coord ent::Map::find_pos(char object)
 	{
 
 		for (int row = 0; row < room_design.size(); row++)
@@ -75,7 +75,7 @@ using namespace ent;
 		return cd;
 	}
 
-	void ent::Map::move_object(char object, COORD pos)
+	void ent::Map::move_object(char object, Coord pos)
 	{
 			cd = find_pos(object);
 			room_design[cd.X][cd.Y] = '.';
