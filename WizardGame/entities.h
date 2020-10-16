@@ -65,6 +65,7 @@ namespace ent {
                  const char icon; //What the character looks like in the UI.
 
                  const unsigned int get_health() const;
+                 const Coord get_location() const;
                 
         };
 
@@ -167,7 +168,7 @@ namespace ent {
                 */
                 std::optional<EntityMatrix> generate_next(const gl::Input input) const;
 
-                const Player& get_player() const;
+                Player& get_player() const;
         };
 
         struct GameState

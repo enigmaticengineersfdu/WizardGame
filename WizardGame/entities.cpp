@@ -30,6 +30,11 @@ const unsigned int ent::Character::get_health() const
         return health;
 }
 
+const Coord ent::Character::get_location() const
+{
+    return Coord();
+}
+
 /*Member functions of the Player class*/
 ent::Player::Player(const Coord _location, const char &_icon):
         Character(0, _location, _icon), inventory()
