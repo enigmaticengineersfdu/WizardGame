@@ -37,78 +37,48 @@ ent::Player::Player(COORD _location, const char &_icon):
         //Body unneeded since all initialization was done in the initializer list.
 }
 
-void ent::Player::tick(const gl::Input input, struct GameState current_state, int current_level)
+std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct GameState current_state, int current_level)
 {
  
         //currently just returns a copy of the current object.
         //will be improved upon a lot
         //currently doesn't even take user input. 
+        Player play1 = current_state.entity_matrix.get_player();
+        this->location = current_state.map.find_pos(this->icon);
 
-        ent::COORD loc = current_state.map.find_pos(ent::Player::icon);
-        //location = current_state.map.find_pos(ent::Player::icon);
-
-        if (input == gl::Input::MV_UP)
+        switch (input)
         {
-                loc.X -= 1;
-                if (!current_state.map.in_bounds(loc))
-                        loc.X += 1;
+        case gl::Input::MV_UP:
+                location.X -= 1;
+                if (!current_state.map.in_bounds(location))
+                        location.X += 1;
+                        break;
+        case gl::Input::MV_DOWN:
+                location.X += 1;
+                if (!current_state.map.in_bounds(location))
+                        location.X -= 1;
+                        break;
+        case gl::Input::MV_LEFT:
+                location.Y -= 1;
+                if (!current_state.map.in_bounds(location))
+                        location.Y += 1;
+                        break;
+        case gl::Input::MV_RIGHT:
+                location.Y += 1;
+                if (!current_state.map.in_bounds(location))
+                        location.Y -= 1;
+                break;
         }
-        else if (input == gl::Input::MV_DOWN)
-        {
-                loc.X += 1;
-                if (!current_state.map.in_bounds(loc))
-                        loc.X -= 1;
-        }
-        else if (input == gl::Input::MV_LEFT)
-        {
-                loc.Y -= 1;
-                if (!current_state.map.in_bounds(loc))
-                        loc.Y += 1;
-        
-        }
-        else if (input == gl::Input::MV_RIGHT)
-        {
-                loc.Y += 1;
-                if (!current_state.map.in_bounds(loc))
-                        loc.Y -= 1;
-        }
-        //switch (input)
-        //{
-        //case gl::Input::MV_UP:
-        //        loc.X -= 1;
-        //        if (!current_state.map.in_bounds(loc))
-        //                loc.X += 1;
-        //                break;
-        //case gl::Input::MV_DOWN:
-        //        loc.X += 1;
-        //        if (!current_state.map.in_bounds(loc))
-        //                loc.X -= 1;
-        //                break;
-        //case gl::Input::MV_LEFT:
-        //        loc.Y -= 1;
-        //        if (!current_state.map.in_bounds(loc))
-        //                loc.Y += 1;
-        //                break;
-        //case gl::Input::MV_RIGHT:
-        //        loc.Y += 1;
-        //        if (!current_state.map.in_bounds(loc))
-        //                loc.Y -= 1;
-        //        break;
-        //}
 
         /*Checks if the player reaches the marker for a new level*/
-        if (current_state.map.new_level(loc) && current_level < 4)
+        if (current_state.map.new_level(location) && current_level < 4)
         {
                 current_level += 1;
                 current_state.map.load_map(gl::levels[current_level]);
-                loc = current_state.map.find_pos('^');
+                location = current_state.map.find_pos('^');
         }
-        /*Moves the player according to their input*/
-        current_state.map.move_object('^', loc);
 
-
-
-        //return *this;
+        return play1;
 }
 
 

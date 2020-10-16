@@ -83,7 +83,9 @@ namespace ent {
                 * Note: The result of this will need to be downcasted to Player before being inserted into the 
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                void tick(const gl::Input input, struct GameState current_state, int current_level);
+                std::optional <ent::Player> tick(const gl::Input input, struct GameState current_state, int current_level);
+
+
         };
         /*NOT YET IMPLEMENTED*/
         class Enemy : public Character
@@ -167,7 +169,7 @@ namespace ent {
                 */
                 std::optional<EntityMatrix> generate_next(const gl::Input input) const;
 
-                const Player& get_player() const;
+                Player& get_player() const;
         };
 
         struct GameState

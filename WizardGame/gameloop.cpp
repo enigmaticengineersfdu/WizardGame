@@ -13,17 +13,19 @@
 * Note: Should only be called in the game loop.
 */
 int current_level = 0;
-const ent::GameState handle_mv(const gl::Input input, const ent::GameState current_state) noexcept 
+ent::GameState handle_mv(const gl::Input input, const ent::GameState current_state) noexcept 
 {
         /********DOES NOTHING SO FAR********/
-        //current_state.entity_matrix
-        //ent::Player::tick;
-        //ent::Player::ent::Player::tick()
-        
 
-        ent::Player::tick(input, current_state, current_level);
+        auto player = current_state.entity_matrix.get_player();
+             player.tick(input, current_state, current_level);
+
+             /*Moves the player according to their input*/
+             ent::GameState new_gamestate = current_state;
+             new_gamestate.entity_matrix.get_player().tick(input, current_state, current_level);
+             new_gamestate.map.move_object('^', new_gamestate.entity_matrix.get_player().get_location());
     
-        return current_state; 
+        return new_gamestate; 
 }
 
 
@@ -50,7 +52,6 @@ void gl::play_game(const std::optional<std::string> load_path)
         //The latest input. Should not be modified other than in the gameloop.
         Input input;
         current_state.map.load_map(gl::levels[current_level]);
-        ent::COORD cd = current_state.map.find_pos('^');
         render_frame(current_state);
 
         /*The main game loop*/
@@ -61,24 +62,12 @@ void gl::play_game(const std::optional<std::string> load_path)
                 switch (input) 
                 {
                 case gl::Input::MV_UP:
-                        cd.X -= 1;
-                        if (!current_state.map.in_bounds(cd))
-                                cd.X += 1;
-                        break;
                 case gl::Input::MV_DOWN:
-                        cd.X += 1;
-                        if (!current_state.map.in_bounds(cd))
-                                cd.X -= 1;
-                        break;
+                      
                 case gl::Input::MV_LEFT:
-                        cd.Y -= 1;
-                        if (!current_state.map.in_bounds(cd))
-                                cd.Y += 1;
-                        break;
-                case gl::Input::MV_RIGHT:
-                        cd.Y += 1;
-                        if (!current_state.map.in_bounds(cd))
-                                cd.Y -= 1;
+                        
+                case gl::Input::MV_RIGHT:        
+                        current_state = handle_mv(input, current_state);
                         break;
                 case gl::Input::OPEN_CMD:
                         /*Call the command_mode function to run command mode.*/
@@ -89,21 +78,7 @@ void gl::play_game(const std::optional<std::string> load_path)
                         continue; // If the input is invalid, obtain another input.
                 }
                
-                ///*Checks if the player reaches the marker for a new level*/
-                //if (current_state.map.new_level(cd) && current_level <4)
-                //{
-                //        current_level += 1;
-                //        current_state.map.load_map(gl::levels[current_level]);
-                //        cd = current_state.map.find_pos('^');
-                //}
-                ///*Moves the player according to their input*/
-                //current_state.map.move_object('^', cd);
-
-                /*
-                * Checks to make sure coordinates are being updated
-                cout << "X: " << cd.X << " Y: " << cd.Y << endl;
-                */
-
+               
                 /*Render the current game state to the console.*/
                 render_frame(current_state);
         }
