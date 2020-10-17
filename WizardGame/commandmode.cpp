@@ -148,12 +148,11 @@ void gl::command_mode(const ent::GameState& gs) noexcept
         }
 }
 
+
+//Function to run tests for the handlers
 void test() {
-    help_handler();
+    help_handler(); 
     //credits_handler();
     //quit_handler();
-   
- 
-    
 }
 

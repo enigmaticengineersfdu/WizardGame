@@ -12,10 +12,10 @@
 
 int main() {
 
-	/*ent::GameState testing;
-	gl::command_mode(testing);*/
+	/*ent::GameState testing;		//Tests command_mode function
+	gl::command_mode(testing);*/	
 
-	//make_command(std::move("help"));
+	//make_command(std::move("help"));	//Tests make_command function
 
 	test();
 
