@@ -9,7 +9,7 @@ using namespace std;
 
 namespace ent
 {
-	struct COORD
+	struct Coord
 	{
 		int X;
 		int Y;
@@ -19,16 +19,16 @@ namespace ent
 	private:
 		vector <string> room_design;
 		string current_line;
-		COORD cd;
+		Coord cd;
 
 	public:
 		Map();
 		void load_map(string file_N);
 		void show_map();
-		bool in_bounds(COORD cd);
-		COORD find_pos(char object);
-		void move_object(char object, COORD pos);
-		bool new_level(COORD coord);
+		bool in_bounds(Coord cd);
+		Coord find_pos(char object);
+		void move_object(char object, Coord pos);
+		bool new_level(Coord Coord);
 
 
 	};

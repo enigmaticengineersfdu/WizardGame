@@ -1,4 +1,5 @@
 #include "entities.h"
+#include <unordered_set>
 
 /*Member Functions of the Item class*/
 ent::Item::Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon) :
@@ -14,7 +15,7 @@ bool ent::Item::operator==(const Item& other) const
 }
 
 /*Member functions of the Character class*/
-ent::Character::Character(const CharacterID _id, const Coord &_location, const char &_icon):
+ent::Character::Character(const CharacterID _id, Coord _location, const char &_icon):
         id(_id), location(_location), icon(_icon), health(100)
 {
         //Body unneeded since all initialization was done in the initializer list.
@@ -30,19 +31,66 @@ const unsigned int ent::Character::get_health() const
         return health;
 }
 
+const ent::Coord ent::Character::get_location() const
+{
+    return this->location;
+}
+
+void ent::Character::set_location(const Coord loc)
+{
+        this->location = loc;
+}
+
 /*Member functions of the Player class*/
-ent::Player::Player(const Coord _location, const char &_icon):
+ent::Player::Player(Coord _location, const char &_icon):
         Character(0, _location, _icon), inventory()
 {
         //Body unneeded since all initialization was done in the initializer list.
 }
 
-std::optional<ent::Player> ent::Player::tick(const gl::Input input) const
+std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct GameState current_state, int current_level)
 {
+ 
         //currently just returns a copy of the current object.
         //will be improved upon a lot
         //currently doesn't even take user input. 
-        return *this;
+        Player play1 = current_state.entity_matrix.get_player();
+        this->location = current_state.map.find_pos(this->icon);
+
+        switch (input)
+        {
+        case gl::Input::MV_UP:
+                location.X -= 1;
+                if (!current_state.map.in_bounds(location))
+                        location.X += 1;
+                        break;
+        case gl::Input::MV_DOWN:
+                location.X += 1;
+                if (!current_state.map.in_bounds(location))
+                        location.X -= 1;
+                        break;
+        case gl::Input::MV_LEFT:
+                location.Y -= 1;
+                if (!current_state.map.in_bounds(location))
+                        location.Y += 1;
+                        break;
+        case gl::Input::MV_RIGHT:
+                location.Y += 1;
+                if (!current_state.map.in_bounds(location))
+                        location.Y -= 1;
+                break;
+        }
+
+        return play1;
+}
+
+void ent::Player::operator=(Player& p)
+{
+        this->id = p.id;
+        this->icon = p.icon;
+        this->health = p.health;
+        this->inventory = p.inventory;
+        this->location = p.location;
 }
 
 
@@ -56,7 +104,7 @@ void ent::EntityMatrix::replenish_id_pools() noexcept
 }
 
 ent::EntityMatrix::EntityMatrix(Map &map) noexcept :
-        item_table(), item_id_pool(), character_table(), character_id_pool(), player(std::pair(map.find_pos('^').X, map.find_pos('^').Y))
+        item_table(), item_id_pool(), character_table(), character_id_pool(), player(map.find_pos('^'), '^')
 {
         //Put 10 ids in both id pools
         for (size_t i = 1; i < 11; ++i) {
@@ -81,7 +129,16 @@ void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
         character_id_pool.push(id);
 }
 
-const ent::Player& ent::EntityMatrix::get_player() const
+void ent::EntityMatrix::operator=(EntityMatrix &em)
+{
+        this->item_table = em.item_table;
+        this->item_id_pool = em.item_id_pool;
+        this->character_table = em.character_table;
+        this->character_id_pool = em.character_id_pool;
+        this->player = em.player;
+}
+
+ent::Player& ent::EntityMatrix::get_player()
 {
         return player;
 }
@@ -90,3 +147,11 @@ ent::GameState::GameState():
         map(), entity_matrix(map)
 {
 }
+
+void ent::GameState::operator=(GameState gs)
+{
+        this->map = gs.map;
+        this->entity_matrix = gs.entity_matrix;
+}
+
+

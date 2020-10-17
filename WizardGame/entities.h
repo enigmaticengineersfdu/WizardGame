@@ -7,11 +7,9 @@
 #include <string>
 #include <fstream>
 #include <unordered_map>
-#include <unordered_set>
 #include <optional>
 #include <variant>
 #include <memory>
-#include <utility>
 #include <queue>
 
 #define ID_TYPE size_t //This define makes is easier to change the type used for Item and Character IDs
@@ -22,8 +20,8 @@ namespace ent {
         using ItemID = ID_TYPE;
         /*The ID type and map key for characters*/
         using CharacterID = ID_TYPE;
-        /*Coordinate type used to index the Map*/
-        using Coord = std::pair<int, int>;
+        /*COORDinate type used to index the Map*/
+        //using Coord = Coord;
 
         /**Entity classes**/
         /*This class is an interface for item types to derive from.*/
@@ -32,8 +30,8 @@ namespace ent {
         protected:
                 std::variant<Coord, CharacterID> location;
         public:
-                const ItemID id;
-                const char   icon;
+                ItemID id;
+                char   icon;
 
                 /*Constructor*/
                 Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon = '^');
@@ -52,7 +50,7 @@ namespace ent {
                 unsigned int health; //Character health. (Be careful not to underflow this value!)
 
                 /*Protected Constructor only used to implement derived constructors.*/
-                Character(const CharacterID _id, const Coord &_location, const char &_icon);
+                Character(const CharacterID _id, Coord _location, const char &_icon);
                 /*Purpose: Determines if the character is dead.
                 * Meant to be called from derived tick functions.
                 * Preconditiions: The calling object is valid.
@@ -61,10 +59,12 @@ namespace ent {
                 */
                 bool is_dead() const;
         public:
-                 const CharacterID id; //Key in characters table
-                 const char icon; //What the character looks like in the UI.
+                 CharacterID id; //Key in characters table
+                 char icon; //What the character looks like in the UI.
 
                  const unsigned int get_health() const;
+                 const Coord get_location() const;
+                 void set_location(const Coord loc);
                 
         };
 
@@ -73,17 +73,20 @@ namespace ent {
         private: 
                 std::unordered_map<ItemID, Item> inventory;
         public:
-                //Delete the autogen'd default constructor because its use is invalid.
-                Player() = delete; 
+                Player() = default;
                 /*Constructor*/
-                Player(const Coord _location, const char &_icon = '^');
+                Player(Coord _location, const char &_icon = '^');
                 /*Purpose: Allow the player to move or take other actions.
                 * Preconditions: The game has started and the player character has been constructed.
                 * Postconditions: The player character state for the next frame is returned.
                 * Note: The result of this will need to be downcasted to Player before being inserted into the 
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                std::optional<Player> tick(const gl::Input input) const;
+                std::optional <ent::Player> tick(const gl::Input input, struct GameState current_state, int current_level);
+
+                void operator=(Player& p);
+
+
         };
         /*NOT YET IMPLEMENTED*/
         class Enemy : public Character
@@ -167,7 +170,9 @@ namespace ent {
                 */
                 std::optional<EntityMatrix> generate_next(const gl::Input input) const;
 
-                const Player& get_player() const;
+                void operator=(EntityMatrix &em);
+
+                Player& get_player();
         };
 
         struct GameState
@@ -188,6 +193,8 @@ namespace ent {
                 * Throws: std::runtime_error if the specified file cannot be opened.
                 */
                 //void load(const std::string filepath);
+                
+                void operator=(GameState gs);
         };
 }
 
