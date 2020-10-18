@@ -153,5 +153,3 @@ void ent::GameState::operator=(GameState gs)
         this->map = gs.map;
         this->entity_matrix = gs.entity_matrix;
 }
-
-
