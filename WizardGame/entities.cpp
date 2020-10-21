@@ -31,6 +31,11 @@ const unsigned int ent::Character::get_health() const
         return health;
 }
 
+void ent::Character::set_health(int h)
+{
+        health = h;
+}
+
 const ent::Coord ent::Character::get_location() const
 {
     return this->location;
@@ -86,20 +91,47 @@ std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct Game
 
 void ent::Player::attack(const gl::Input input, struct GameState current_state)
 {
-        this->location = get_location();
+        ent::Coord atck = get_location();
+        cout << "Location: " << location.X << " " << location.Y << endl;
+        //Enemy en();
+        //int health = ent::Enemy::get_health();
+        //int health = 
 
         switch (input)
         { 
         case gl::Input::ATCK_UP:
-                cout<< "Location: " << location.X  << " " << location.Y << endl;
-                cout << "Attcaked: " << location.X - 3 << " " << location.Y << endl;
+                atck.X -= 3;
+                if (!current_state.map.in_bounds(atck))
+                        atck.X += 3;
+                else
+                        cout << "Attacked: " << atck.X << " " << atck.Y << endl;
                 break;
         case gl::Input::ATCK_LEFT:
+                atck.Y -= 3;
+                if (!current_state.map.in_bounds(atck))
+                        atck.Y += 3;
+                else
+                        cout << "Attacked: " << atck.X << " " << atck.Y << endl;
                 break;
         case gl::Input::ATCK_DOWN:
+                atck.X += 3;
+                if (!current_state.map.in_bounds(atck))
+                        atck.X -= 3;
+                else
+                        cout << "Attacked: " << atck.X << " " << atck.Y << endl;
                 break;
         case gl::Input::ATCK_RIGHT:
+                atck.Y += 3;
+                if (!current_state.map.in_bounds(atck))
+                        atck.Y -= 3;
+                else
+                        cout << "Attacked: " << atck.X << " " << atck.Y << endl;
                 break;
+        }
+
+        if (current_state.map.enemy_loc(atck))
+        {
+                
         }
 }
 

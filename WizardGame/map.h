@@ -29,6 +29,7 @@ namespace ent
 		Coord find_pos(char object);
 		void move_object(char object, Coord pos);
 		bool new_level(Coord Coord);
+		bool enemy_loc(Coord Coord);
 
 
 	};
