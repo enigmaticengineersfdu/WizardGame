@@ -18,11 +18,11 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
 
        
         auto player = current_state.entity_matrix.get_player();
-             player.tick(input, current_state, current_level);
+             player.tick(input, current_state);
              
              /*Moves the player according to their input*/
              ent::GameState new_gamestate = current_state;
-             new_gamestate.entity_matrix.get_player().tick(input, current_state, current_level);
+             new_gamestate.entity_matrix.get_player().tick(input, current_state);
 
 
              if (new_gamestate.map.new_level(new_gamestate.entity_matrix.get_player().get_location()) && current_level < 4)
@@ -35,6 +35,18 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
              new_gamestate.map.move_object('^', new_gamestate.entity_matrix.get_player().get_location());
 
         return new_gamestate; 
+}
+
+ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) noexcept
+{
+        auto player = current_state.entity_matrix.get_player();
+        player.attack(input, current_state);
+
+        /*Launches the player's attack according to their input*/
+        ent::GameState new_gamestate = current_state;
+        new_gamestate.entity_matrix.get_player().attack(input, current_state);
+
+        return new_gamestate;
 }
 
 
@@ -80,6 +92,13 @@ void gl::play_game(const std::optional<std::string> load_path)
                         /*Call the command_mode function to run command mode.*/
                         gl::command_mode(current_state);
                         break;
+                /*Handles User attack*/
+                case gl::Input::ATCK_UP:
+                case gl::Input::ATCK_DOWN:
+                case gl::Input::ATCK_LEFT:
+                case::gl::Input::ATCK_RIGHT:
+                        current_state = handle_atck(input, current_state);
+                        break;
                 case gl::Input::INVALID:
                 default:
                         continue; // If the input is invalid, obtain another input.
@@ -105,6 +124,14 @@ const gl::Input gl::make_input(const int raw_input)
                 return gl::Input::MV_RIGHT;
         case '/':
                 return gl::Input::OPEN_CMD;
+        case 'i':
+                return gl::Input::ATCK_UP;
+        case 'j':
+                return gl::Input::ATCK_LEFT;
+        case 'k':
+                return gl::Input::ATCK_DOWN;
+        case 'l':
+                return gl::Input::ATCK_RIGHT;
         default:
                 return gl::Input::INVALID;
         }

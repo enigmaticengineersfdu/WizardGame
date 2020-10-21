@@ -48,7 +48,7 @@ ent::Player::Player(Coord _location, const char &_icon):
         //Body unneeded since all initialization was done in the initializer list.
 }
 
-std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct GameState current_state, int current_level)
+std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct GameState current_state)
 {
  
         //currently just returns a copy of the current object.
@@ -82,6 +82,25 @@ std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct Game
         }
 
         return play1;
+}
+
+void ent::Player::attack(const gl::Input input, struct GameState current_state)
+{
+        this->location = get_location();
+
+        switch (input)
+        { 
+        case gl::Input::ATCK_UP:
+                cout<< "Location: " << location.X  << " " << location.Y << endl;
+                cout << "Attcaked: " << location.X - 3 << " " << location.Y << endl;
+                break;
+        case gl::Input::ATCK_LEFT:
+                break;
+        case gl::Input::ATCK_DOWN:
+                break;
+        case gl::Input::ATCK_RIGHT:
+                break;
+        }
 }
 
 void ent::Player::operator=(Player& p)
