@@ -144,6 +144,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
                 atck.COL = -1;
         }
         cout<< " Attacked: " << atck.ROW << " " << atck.COL << endl; 
+        //health.pop_back(); Testing deletion of player's health after attack. Function works as intended
 }
 
 void ent::Player::operator=(Player& p)
