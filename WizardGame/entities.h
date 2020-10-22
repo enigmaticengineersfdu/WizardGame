@@ -48,7 +48,7 @@ namespace ent {
         {
         protected:
                 Coord location; //location on the Map
-                unsigned int health; //Character health. (Be careful not to underflow this value!)
+                std::string health; //Character health. (Be careful not to underflow this value!)
 
                 /*Protected Constructor only used to implement derived constructors.*/
                 Character(const CharacterID _id, Coord _location, const char &_icon);
@@ -63,10 +63,10 @@ namespace ent {
                  CharacterID id; //Key in characters table
                  char icon; //What the character looks like in the UI.
 
-                 const unsigned int get_health() const;
+                 const std::string get_health() const;
                  const Coord get_location() const;
                  void set_location(const Coord loc);
-                 void set_health(int h);
+                 void set_health(std::string h);
                 
         };
 

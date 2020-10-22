@@ -16,22 +16,22 @@ bool ent::Item::operator==(const Item& other) const
 
 /*Member functions of the Character class*/
 ent::Character::Character(const CharacterID _id, Coord _location, const char &_icon):
-        id(_id), location(_location), icon(_icon), health(100)
+        id(_id), location(_location), icon(_icon), health("---")
 {
         //Body unneeded since all initialization was done in the initializer list.
 }
 
 bool ent::Character::is_dead() const
 {
-        return health == 0;
+        return health == " ";
 }
 
-const unsigned int ent::Character::get_health() const
+const std::string ent::Character::get_health() const
 {
         return health;
 }
 
-void ent::Character::set_health(int h)
+void ent::Character::set_health(string h)
 {
         health = h;
 }
