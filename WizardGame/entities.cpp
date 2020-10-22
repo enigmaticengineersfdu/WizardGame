@@ -91,7 +91,8 @@ std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct Game
 
 void ent::Player::attack(const gl::Input input, struct GameState current_state)
 {
-        ent::Coord atck = get_location();
+        this->location = current_state.map.find_pos(this->icon);
+        ent::Coord atck = location;
         cout << "Location: " << location.X << " " << location.Y << endl;
         int count = 3;
         //Enemy en();
@@ -107,24 +108,16 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
                         atck.X--;
                         count--;
                 }
-                if (!current_state.map.in_bounds(atck))
-                {
-                        atck.X += 3;
-                }
-                cout << "Attacked: " << atck.X << " " << atck.Y << endl;
+                cout << "(Up)";
                 break;
         case gl::Input::ATCK_LEFT:
-                atck.Y --;
+                atck.Y -=1;
                 while (!current_state.map.in_bounds(atck) && count > 0)
                 {
                         atck.Y--;
                         count--;
                 }
-                if (!current_state.map.in_bounds(atck))
-                {
-                        atck.Y += 3;
-                }
-                cout << "Attacked: " << atck.X << " " << atck.Y << endl;
+                cout << "(Left)";
                 break;
         case gl::Input::ATCK_DOWN:
                 atck.X ++;
@@ -133,11 +126,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
                         atck.X++;
                         count--;
                 }
-                if (!current_state.map.in_bounds(atck))
-                {
-                        atck.X -= 3;
-                }
-                cout << "Attacked: " << atck.X << " " << atck.Y << endl;
+                cout << "(Down)";
                 break;
         case gl::Input::ATCK_RIGHT:
                 atck.Y ++;
@@ -146,13 +135,15 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
                         atck.Y++;
                         count--;
                 }
-                if (!current_state.map.in_bounds(atck))
-                {
-                        atck.Y -= 3;
-                }
-                cout << "Attacked: " << atck.X << " " << atck.Y << endl;
+                cout << "(Right)";
                 break;
         }
+        if (!current_state.map.in_bounds(atck))
+        {
+                atck.X = -1;
+                atck.Y = -1;
+        }
+        cout<< " Attacked: " << atck.X << " " << atck.Y << endl; 
 }
 
 void ent::Player::operator=(Player& p)
