@@ -11,6 +11,7 @@
 #include <variant>
 #include <memory>
 #include <queue>
+#include <iostream>
 
 #define ID_TYPE size_t //This define makes is easier to change the type used for Item and Character IDs
 

@@ -93,6 +93,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
 {
         ent::Coord atck = get_location();
         cout << "Location: " << location.X << " " << location.Y << endl;
+        int count = 3;
         //Enemy en();
         //int health = ent::Enemy::get_health();
         //int health = 
@@ -100,38 +101,57 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
         switch (input)
         { 
         case gl::Input::ATCK_UP:
-                atck.X -= 3;
+                atck.X --;
+                while (!current_state.map.in_bounds(atck) && count >0)
+                {
+                        atck.X--;
+                        count--;
+                }
                 if (!current_state.map.in_bounds(atck))
+                {
                         atck.X += 3;
-                else
-                        cout << "Attacked: " << atck.X << " " << atck.Y << endl;
+                }
+                cout << "Attacked: " << atck.X << " " << atck.Y << endl;
                 break;
         case gl::Input::ATCK_LEFT:
-                atck.Y -= 3;
+                atck.Y --;
+                while (!current_state.map.in_bounds(atck) && count > 0)
+                {
+                        atck.Y--;
+                        count--;
+                }
                 if (!current_state.map.in_bounds(atck))
+                {
                         atck.Y += 3;
-                else
-                        cout << "Attacked: " << atck.X << " " << atck.Y << endl;
+                }
+                cout << "Attacked: " << atck.X << " " << atck.Y << endl;
                 break;
         case gl::Input::ATCK_DOWN:
-                atck.X += 3;
+                atck.X ++;
+                while (!current_state.map.in_bounds(atck) && count > 0)
+                {
+                        atck.X++;
+                        count--;
+                }
                 if (!current_state.map.in_bounds(atck))
+                {
                         atck.X -= 3;
-                else
-                        cout << "Attacked: " << atck.X << " " << atck.Y << endl;
+                }
+                cout << "Attacked: " << atck.X << " " << atck.Y << endl;
                 break;
         case gl::Input::ATCK_RIGHT:
-                atck.Y += 3;
+                atck.Y ++;
+                while (!current_state.map.in_bounds(atck) && count > 0)
+                {
+                        atck.Y++;
+                        count--;
+                }
                 if (!current_state.map.in_bounds(atck))
+                {
                         atck.Y -= 3;
-                else
-                        cout << "Attacked: " << atck.X << " " << atck.Y << endl;
+                }
+                cout << "Attacked: " << atck.X << " " << atck.Y << endl;
                 break;
-        }
-
-        if (current_state.map.enemy_loc(atck))
-        {
-                
         }
 }
 
