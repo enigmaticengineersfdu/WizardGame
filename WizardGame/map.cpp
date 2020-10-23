@@ -29,7 +29,7 @@ using namespace ent;
 		
 	}
 
-	void ent::Map::show_map()
+	void ent::Map::show_map() const
 	{
 		for (int row = 0; row < room_design.size(); row++)
 		{	
@@ -57,7 +57,19 @@ using namespace ent;
 		else
 			return false;
 	}
-	bool ent::Map::enemy_loc(Coord Coord)
+	std::vector<Coord> ent::Map::get_enemy_locs() const
+	{
+		std::vector<Coord> locs;
+
+		for (size_t y = 0; y < room_design.size(); ++y) {
+			for (size_t x = 0; x < room_design[y].length(); ++x) {
+				if (enemy_loc({ x, y }))
+					locs.push_back({ x, y });
+			}
+		}
+		return locs;
+	}
+	bool ent::Map::enemy_loc(Coord Coord) const
 	{
 		/*Try to somehow have a list of all enemies ids to check if player hits valid enemy*/
 		if (room_design[Coord.ROW][Coord.COL] == 'A')  
@@ -66,9 +78,9 @@ using namespace ent;
 			return false;
 	}
 	
-	Coord ent::Map::find_pos(char object)
+	Coord ent::Map::find_pos(char object) const
 	{
-
+		Coord cd;
 		for (int row = 0; row < room_design.size(); row++)
 		{
 			for (int col = 0; col < room_design[row].size(); col++)

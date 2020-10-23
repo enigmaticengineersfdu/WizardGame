@@ -73,6 +73,7 @@ void gl::play_game(const std::optional<std::string> load_path)
         //The latest input. Should not be modified other than in the gameloop.
         Input input;
         current_state.map.load_map(gl::levels[current_level]);
+
         render_frame(current_state);
 
         /*The main game loop*/

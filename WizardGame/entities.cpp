@@ -206,6 +206,15 @@ ent::Player& ent::EntityMatrix::get_player()
         return player;
 }
 
+void ent::EntityMatrix::set_enemies(std::vector<Coord> enemy_locs)
+{
+        CharacterID curr_id;
+        for (Coord loc : enemy_locs) {
+                curr_id = request_character_id();
+                character_table.insert(std::pair(curr_id, Enemy(curr_id, std::move(loc))));
+        }
+}
+
 ent::GameState::GameState():
         map(), entity_matrix(map)
 {
@@ -217,4 +226,8 @@ void ent::GameState::operator=(GameState gs)
         this->entity_matrix = gs.entity_matrix;
 }
 
-
+ent::Enemy::Enemy(CharacterID _id, const Coord&& _location, const char&& _icon)
+        :Character(_id, _location, _icon)
+{
+        //No body needed
+}

@@ -48,7 +48,7 @@ namespace ent {
         {
         protected:
                 Coord location; //location on the Map
-                std::string health; //Character health. (Be careful not to underflow this value!)
+                std::string health; //Character health.
 
                 /*Protected Constructor only used to implement derived constructors.*/
                 Character(const CharacterID _id, Coord _location, const char &_icon);
@@ -94,13 +94,9 @@ namespace ent {
         /*NOT YET IMPLEMENTED*/
         class Enemy : public Character
         {
-        private:
-                std::optional<Item> drop_item;
         public:
-                //Delete the autogen'd default constructor because its use is invalid.
-                Enemy() = delete;
                 /*constructor*/
-                Enemy(CharacterID _id, const Coord &&_location, const char &&_icon = 'X', const std::optional<Item> &&_drop_item = std::nullopt);
+                Enemy(CharacterID _id, const Coord &&_location, const char &&_icon = 'A');
                 /*destructor*/
                 //~Enemy();
                 /*Purpose: Generate enemy movements and other actions.
@@ -116,8 +112,8 @@ namespace ent {
         class EntityMatrix
         {
         private:
-                std::unordered_map<ItemID, Item>       item_table;       //Contains all items in play.
-                std::queue<ItemID>                     item_id_pool;     //Contains all available ItemIDs.
+                //std::unordered_map<ItemID, Item>       item_table;       //Contains all items in play.
+                //std::queue<ItemID>                     item_id_pool;     //Contains all available ItemIDs.
                 std::unordered_map<CharacterID, Enemy> character_table;  //Contains all enemies in play.
                 std::queue <CharacterID> character_id_pool;//Contains all available CharacterIDs.
                 Player player;
@@ -164,7 +160,7 @@ namespace ent {
                 * Throws: None.
                 * Note: Meant to be called in the tick function of a Character. (Not in the destructor!!!)
                 */
-                void reclaim_character_id(const ItemID& id) noexcept;
+                void reclaim_character_id(const CharacterID& id) noexcept;
                 /*Purpose: To create the next iteration of the EntityMatrix.
                 * Preconditions: The calling object is valid and the player is alive.
                 * Postconditions: The next iteration of the EntityMatrix is created.
@@ -176,6 +172,8 @@ namespace ent {
                 void operator=(EntityMatrix &em);
 
                 Player& get_player();
+
+                void set_enemies(std::vector<Coord> enemy_locs);
         };
 
         struct GameState
