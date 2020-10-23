@@ -6,8 +6,8 @@ using namespace ent;
 	{
 		room_design = {};
 		current_line = "";
-		cd.X = -1;
-		cd.Y = -1;
+		cd.ROW = -1;
+		cd.COL = -1;
 
 	}
 
@@ -41,7 +41,7 @@ using namespace ent;
 	
 	bool ent::Map::in_bounds(Coord Coord)
 	{
-		if (room_design[Coord.X][Coord.Y] == '.' || room_design[Coord.X][Coord.Y] == '*' )
+		if (room_design[Coord.ROW][Coord.COL] == '.' || room_design[Coord.ROW][Coord.COL] == '*' )
 			return true;
 		else
 			return false;
@@ -49,11 +49,19 @@ using namespace ent;
 
 	bool ent::Map::new_level(Coord Coord)
 	{
-		if (room_design[Coord.X][Coord.Y] == '*')
+		if (room_design[Coord.ROW][Coord.COL] == '*')
 		{
 			room_design.clear();
 			return true;
 		}
+		else
+			return false;
+	}
+	bool ent::Map::enemy_loc(Coord Coord)
+	{
+		/*Try to somehow have a list of all enemies ids to check if player hits valid enemy*/
+		if (room_design[Coord.ROW][Coord.COL] == 'A')  
+			return true;
 		else
 			return false;
 	}
@@ -67,8 +75,8 @@ using namespace ent;
 			{
 				if (room_design[row][col] == object)
 				{
-					cd.X = row;
-					cd.Y = col;
+					cd.ROW = row;
+					cd.COL = col;
 				}
 			}
 		}
@@ -78,7 +86,7 @@ using namespace ent;
 	void ent::Map::move_object(char object, Coord pos)
 	{
 			cd = find_pos(object);
-			room_design[cd.X][cd.Y] = '.';
-			room_design[pos.X][pos.Y] = object;
+			room_design[cd.ROW][cd.COL] = '.';
+			room_design[pos.ROW][pos.COL] = object;
 
 	}

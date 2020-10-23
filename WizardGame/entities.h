@@ -11,6 +11,7 @@
 #include <variant>
 #include <memory>
 #include <queue>
+#include <iostream>
 
 #define ID_TYPE size_t //This define makes is easier to change the type used for Item and Character IDs
 
@@ -47,7 +48,7 @@ namespace ent {
         {
         protected:
                 Coord location; //location on the Map
-                unsigned int health; //Character health. (Be careful not to underflow this value!)
+                std::string health; //Character health. (Be careful not to underflow this value!)
 
                 /*Protected Constructor only used to implement derived constructors.*/
                 Character(const CharacterID _id, Coord _location, const char &_icon);
@@ -62,9 +63,10 @@ namespace ent {
                  CharacterID id; //Key in characters table
                  char icon; //What the character looks like in the UI.
 
-                 const unsigned int get_health() const;
+                 const std::string get_health() const;
                  const Coord get_location() const;
                  void set_location(const Coord loc);
+                 void set_health(std::string h);
                 
         };
 
@@ -82,7 +84,8 @@ namespace ent {
                 * Note: The result of this will need to be downcasted to Player before being inserted into the 
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                std::optional <ent::Player> tick(const gl::Input input, struct GameState current_state, int current_level);
+                std::optional <ent::Player> tick(const gl::Input input, struct GameState current_state);
+                void attack(const gl::Input input, struct GameState current_state);
 
                 void operator=(Player& p);
 

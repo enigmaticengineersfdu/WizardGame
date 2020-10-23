@@ -16,19 +16,24 @@ bool ent::Item::operator==(const Item& other) const
 
 /*Member functions of the Character class*/
 ent::Character::Character(const CharacterID _id, Coord _location, const char &_icon):
-        id(_id), location(_location), icon(_icon), health(100)
+        id(_id), location(_location), icon(_icon), health("---")
 {
         //Body unneeded since all initialization was done in the initializer list.
 }
 
 bool ent::Character::is_dead() const
 {
-        return health == 0;
+        return health == " ";
 }
 
-const unsigned int ent::Character::get_health() const
+const std::string ent::Character::get_health() const
 {
         return health;
+}
+
+void ent::Character::set_health(string h)
+{
+        health = h;
 }
 
 const ent::Coord ent::Character::get_location() const
@@ -48,7 +53,7 @@ ent::Player::Player(Coord _location, const char &_icon):
         //Body unneeded since all initialization was done in the initializer list.
 }
 
-std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct GameState current_state, int current_level)
+std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct GameState current_state)
 {
  
         //currently just returns a copy of the current object.
@@ -60,28 +65,86 @@ std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct Game
         switch (input)
         {
         case gl::Input::MV_UP:
-                location.X -= 1;
+                location.ROW -= 1;
                 if (!current_state.map.in_bounds(location))
-                        location.X += 1;
+                        location.ROW += 1;
                         break;
         case gl::Input::MV_DOWN:
-                location.X += 1;
+                location.ROW += 1;
                 if (!current_state.map.in_bounds(location))
-                        location.X -= 1;
+                        location.ROW -= 1;
                         break;
         case gl::Input::MV_LEFT:
-                location.Y -= 1;
+                location.COL -= 1;
                 if (!current_state.map.in_bounds(location))
-                        location.Y += 1;
+                        location.COL += 1;
                         break;
         case gl::Input::MV_RIGHT:
-                location.Y += 1;
+                location.COL += 1;
                 if (!current_state.map.in_bounds(location))
-                        location.Y -= 1;
+                        location.COL -= 1;
                 break;
         }
 
         return play1;
+}
+
+void ent::Player::attack(const gl::Input input, struct GameState current_state)
+{
+        this->location = current_state.map.find_pos(this->icon);
+        ent::Coord atck = location;
+        cout << "Location: " << location.ROW << " " << location.COL << endl;
+        int count = 3;
+        //Enemy en();
+        //int health = ent::Enemy::get_health();
+        //int health = 
+
+        switch (input)
+        { 
+        case gl::Input::ATCK_UP:
+                atck.ROW --;
+                while (!current_state.map.in_bounds(atck) && count >0)
+                {
+                        atck.ROW--;
+                        count--;
+                }
+                cout << "(Up)";
+                break;
+        case gl::Input::ATCK_LEFT:
+                atck.COL -=1;
+                while (!current_state.map.in_bounds(atck) && count > 0)
+                {
+                        atck.COL--;
+                        count--;
+                }
+                cout << "(Left)";
+                break;
+        case gl::Input::ATCK_DOWN:
+                atck.ROW ++;
+                while (!current_state.map.in_bounds(atck) && count > 0)
+                {
+                        atck.ROW++;
+                        count--;
+                }
+                cout << "(Down)";
+                break;
+        case gl::Input::ATCK_RIGHT:
+                atck.COL ++;
+                while (!current_state.map.in_bounds(atck) && count > 0)
+                {
+                        atck.COL++;
+                        count--;
+                }
+                cout << "(Right)";
+                break;
+        }
+        if (!current_state.map.in_bounds(atck))
+        {
+                atck.ROW = -1;
+                atck.COL = -1;
+        }
+        cout<< " Attacked: " << atck.ROW << " " << atck.COL << endl; 
+        //health.pop_back(); Testing deletion of player's health after attack. Function works as intended
 }
 
 void ent::Player::operator=(Player& p)
