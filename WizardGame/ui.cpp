@@ -10,6 +10,10 @@ void startScreen()
 	while (true) {
 		std::cout << "Welcome to Apostate!\nPick an option:\n" << std::endl;
 		std::cout << "Play \nQuit" << std::endl;
+
+		std::cout << "\n*If you need instructions on how to play the game\ntype \"/\" when the game starts";
+		std::cout << " then type \"help\".\n" << std::endl;
+
 		std::cin >> choice;
 
 		if (choice == "play") {
