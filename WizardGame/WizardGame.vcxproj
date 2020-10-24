@@ -157,6 +157,10 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="ui.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Credits.txt" />
+    <Text Include="HelpAndCredits.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

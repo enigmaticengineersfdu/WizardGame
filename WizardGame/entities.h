@@ -105,7 +105,10 @@ namespace ent {
         private:
                 //Where this enemy spawned. Used to compute its range of movement. 
                 Coord spawn_pt;
-
+                /*Moves this enemy on the Map and updates its location.
+                * Preconditions: Is valid.
+                * Posconditions: Updates the Map and location if the movment was valid and does nothing otherwise
+                */
                 void move(const Direction &&direction);
         public:
                 //The furthest distance the enemies will move from their spawn point.
