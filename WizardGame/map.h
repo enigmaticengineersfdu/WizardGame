@@ -11,8 +11,9 @@ namespace ent
 {
 	struct Coord
 	{
-		int ROW;
-		int COL;
+		int row;
+		int col;
+		Coord(int _row, int _col);
 	};
 	class Map
 	{

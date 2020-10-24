@@ -65,24 +65,24 @@ std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct Game
         switch (input)
         {
         case gl::Input::MV_UP:
-                location.ROW -= 1;
+                location.row -= 1;
                 if (!current_state.map.in_bounds(location))
-                        location.ROW += 1;
+                        location.row += 1;
                         break;
         case gl::Input::MV_DOWN:
-                location.ROW += 1;
+                location.row += 1;
                 if (!current_state.map.in_bounds(location))
-                        location.ROW -= 1;
+                        location.row -= 1;
                         break;
         case gl::Input::MV_LEFT:
-                location.COL -= 1;
+                location.col -= 1;
                 if (!current_state.map.in_bounds(location))
-                        location.COL += 1;
+                        location.col += 1;
                         break;
         case gl::Input::MV_RIGHT:
-                location.COL += 1;
+                location.col += 1;
                 if (!current_state.map.in_bounds(location))
-                        location.COL -= 1;
+                        location.col -= 1;
                 break;
         }
 
@@ -93,7 +93,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
 {
         this->location = current_state.map.find_pos(this->icon);
         ent::Coord atck = location;
-        cout << "Location: " << location.ROW << " " << location.COL << endl;
+        cout << "Location: " << location.row << " " << location.col << endl;
         int count = 3;
         //Enemy en();
         //int health = ent::Enemy::get_health();
@@ -102,37 +102,37 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
         switch (input)
         { 
         case gl::Input::ATCK_UP:
-                atck.ROW --;
+                atck.row --;
                 while (!current_state.map.in_bounds(atck) && count >0)
                 {
-                        atck.ROW--;
+                        atck.row--;
                         count--;
                 }
                 cout << "(Up)";
                 break;
         case gl::Input::ATCK_LEFT:
-                atck.COL -=1;
+                atck.col -=1;
                 while (!current_state.map.in_bounds(atck) && count > 0)
                 {
-                        atck.COL--;
+                        atck.col--;
                         count--;
                 }
                 cout << "(Left)";
                 break;
         case gl::Input::ATCK_DOWN:
-                atck.ROW ++;
+                atck.row ++;
                 while (!current_state.map.in_bounds(atck) && count > 0)
                 {
-                        atck.ROW++;
+                        atck.row++;
                         count--;
                 }
                 cout << "(Down)";
                 break;
         case gl::Input::ATCK_RIGHT:
-                atck.COL ++;
+                atck.col ++;
                 while (!current_state.map.in_bounds(atck) && count > 0)
                 {
-                        atck.COL++;
+                        atck.col++;
                         count--;
                 }
                 cout << "(Right)";
@@ -140,10 +140,10 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
         }
         if (!current_state.map.in_bounds(atck))
         {
-                atck.ROW = -1;
-                atck.COL = -1;
+                atck.row = -1;
+                atck.col = -1;
         }
-        cout<< " Attacked: " << atck.ROW << " " << atck.COL << endl; 
+        cout<< " Attacked: " << atck.row << " " << atck.col << endl; 
         //health.pop_back(); Testing deletion of player's health after attack. Function works as intended
 }
 

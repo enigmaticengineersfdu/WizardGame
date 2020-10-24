@@ -15,8 +15,12 @@ using namespace ent;
 		file.open(file_N);
 		if (file.fail())
 		{
-			system("pause");
-			exit(1);
+			//Reading a throwaway is much more portable and performant than 
+			//std::system("pause")
+			char throwaway;
+			std::cin >> throwaway;
+			//Negative exit codes indicate errors.
+			std::exit(-1);
 		}
 
 		while (getline(file, current_line))
@@ -30,15 +34,15 @@ using namespace ent;
 	{
 		for (int row = 0; row < room_design.size(); row++)
 		{	
-			/*Prints out each character in the row, one by one (Assumed to be faster than cout)*/
-			printf("%s\n", room_design[row].c_str());
+			/*Prints out each character in the row. (cout is idiomatic C++ and is faster than mixing printf, puts, and cout)*/
+			std::cout << room_design[row] << '\n';
 		}
-		printf("\n");
+		std::cout << std::endl;
 	}
 	
 	bool ent::Map::in_bounds(Coord Coord)
 	{
-		if (room_design[Coord.ROW][Coord.COL] == '.' || room_design[Coord.ROW][Coord.COL] == '*' )
+		if (room_design[Coord.row][Coord.col] == '.' || room_design[Coord.row][Coord.col] == '*' )
 			return true;
 		else
 			return false;
@@ -46,7 +50,7 @@ using namespace ent;
 
 	bool ent::Map::new_level(Coord Coord)
 	{
-		if (room_design[Coord.ROW][Coord.COL] == '*')
+		if (room_design[Coord.row][Coord.col] == '*')
 		{
 			room_design.clear();
 			return true;
@@ -69,7 +73,7 @@ using namespace ent;
 	bool ent::Map::enemy_loc(Coord Coord) const
 	{
 		/*Try to somehow have a list of all enemies ids to check if player hits valid enemy*/
-		if (room_design[Coord.ROW][Coord.COL] == 'A')  
+		if (room_design[Coord.row][Coord.col] == 'A')  
 			return true;
 		else
 			return false;
@@ -77,15 +81,15 @@ using namespace ent;
 	
 	Coord ent::Map::find_pos(char object) const
 	{
-		Coord cd;
+		Coord cd(0, 0);
 		for (int row = 0; row < room_design.size(); row++)
 		{
 			for (int col = 0; col < room_design[row].size(); col++)
 			{
 				if (room_design[row][col] == object)
 				{
-					cd.ROW = row;
-					cd.COL = col;
+					cd.row = row;
+					cd.col = col;
 				}
 			}
 		}
@@ -95,7 +99,13 @@ using namespace ent;
 	void ent::Map::move_object(char object, Coord pos)
 	{
 		Coord cd = find_pos(object);
-		room_design[cd.ROW][cd.COL] = '.';
-		room_design[pos.ROW][pos.COL] = object;
+		room_design[cd.row][cd.col] = '.';
+		room_design[pos.row][pos.col] = object;
 
+	}
+
+	ent::Coord::Coord(int _row, int _col):
+		row(_row), col(_col)
+	{
+		//No body needed.
 	}
