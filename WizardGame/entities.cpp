@@ -167,11 +167,10 @@ void ent::EntityMatrix::replenish_id_pools() noexcept
 }
 
 ent::EntityMatrix::EntityMatrix(Map &map) noexcept :
-        item_table(), item_id_pool(), character_table(), character_id_pool(), player(map.find_pos('^'), '^')
+        character_table(), character_id_pool(), player(map.find_pos('^'), '^')
 {
         //Put 10 ids in both id pools
         for (size_t i = 1; i < 11; ++i) {
-                item_id_pool.push(i);
                 character_id_pool.push(i);
         }
 }
@@ -194,8 +193,6 @@ void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
 
 void ent::EntityMatrix::operator=(EntityMatrix &em)
 {
-        this->item_table = em.item_table;
-        this->item_id_pool = em.item_id_pool;
         this->character_table = em.character_table;
         this->character_id_pool = em.character_id_pool;
         this->player = em.player;

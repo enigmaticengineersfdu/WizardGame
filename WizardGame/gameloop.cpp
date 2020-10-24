@@ -4,6 +4,8 @@
 #include "entities.h"
 #include "commandmode.h"
 
+//Level 
+static unsigned int current_level = 0;
 
 /**Input Handlers**/
 /*Purpose: Handle movement input in the game loop.
@@ -12,7 +14,6 @@
 * Throws: None.
 * Note: Should only be called in the game loop.
 */
-int current_level = 0;
 ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) noexcept 
 {
 

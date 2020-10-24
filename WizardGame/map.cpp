@@ -6,9 +6,6 @@ using namespace ent;
 	{
 		room_design = {};
 		current_line = "";
-		cd.ROW = -1;
-		cd.COL = -1;
-
 	}
 
 	void ent::Map::load_map(string file_N)
@@ -61,8 +58,8 @@ using namespace ent;
 	{
 		std::vector<Coord> locs;
 
-		for (size_t y = 0; y < room_design.size(); ++y) {
-			for (size_t x = 0; x < room_design[y].length(); ++x) {
+		for (int y = 0; y < room_design.size(); ++y) {
+			for (int x = 0; x < room_design[y].length(); ++x) {
 				if (enemy_loc({ x, y }))
 					locs.push_back({ x, y });
 			}
@@ -97,8 +94,8 @@ using namespace ent;
 
 	void ent::Map::move_object(char object, Coord pos)
 	{
-			cd = find_pos(object);
-			room_design[cd.ROW][cd.COL] = '.';
-			room_design[pos.ROW][pos.COL] = object;
+		Coord cd = find_pos(object);
+		room_design[cd.ROW][cd.COL] = '.';
+		room_design[pos.ROW][pos.COL] = object;
 
 	}
