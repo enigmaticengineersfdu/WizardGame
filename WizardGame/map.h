@@ -13,7 +13,9 @@ namespace ent
 	{
 		int row;
 		int col;
+		//Constructor
 		Coord(int _row, int _col);
+		unsigned int distance(const Coord other) const noexcept;
 	};
 	class Map
 	{
@@ -30,7 +32,6 @@ namespace ent
 		bool new_level(Coord Coord);
 		bool enemy_loc(Coord Coord) const;
 		std::vector<Coord> get_enemy_locs() const;
-
 	};
 
 }

@@ -91,12 +91,29 @@ namespace ent {
 
 
         };
-        /*NOT YET IMPLEMENTED*/
+
+        enum Direction 
+        {
+                UP,
+                DOWN,
+                LEFT,
+                RIGHT
+        };
+
         class Enemy : public Character
         {
+        private:
+                //Where this enemy spawned. Used to compute its range of movement. 
+                Coord spawn_pt;
+
+                void move(const Direction &&direction);
         public:
+                //The furthest distance the enemies will move from their spawn point.
+                static const unsigned int max_dist = 10;
+                //The furthest distance at which the enemies can detect the player.
+                static const unsigned int detection_distance = 15;
                 /*constructor*/
-                Enemy(CharacterID _id, const Coord &&_location, const char &&_icon = 'A');
+                Enemy(CharacterID _id, const Coord _location, const char &&_icon = 'A');
                 /*destructor*/
                 //~Enemy();
                 /*Purpose: Generate enemy movements and other actions.
@@ -106,7 +123,7 @@ namespace ent {
                 * The result of this will need to be downcasted to Enemy before being inserted into the
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                std::optional<Enemy> tick(const gl::Input input) const;
+                std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
         };
         /**Entity Management Classes**/
         class EntityMatrix
