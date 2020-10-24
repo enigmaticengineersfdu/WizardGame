@@ -5,12 +5,6 @@ VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WizardGame", "WizardGame\WizardGame.vcxproj", "{A5FFB1D4-012C-49A6-88AD-839D7B259D0B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3637C84F-17BA-451C-81E3-1DF4E9E087C2}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\OneDrive\Desktop\Credits.txt = ..\..\..\OneDrive\Desktop\Credits.txt
-		..\..\..\OneDrive\Desktop\HelpAndCredits.txt = ..\..\..\OneDrive\Desktop\HelpAndCredits.txt
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

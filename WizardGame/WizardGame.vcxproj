@@ -150,20 +150,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commandmode.h" />
-    <ClInclude Include="curses.h" />
     <ClInclude Include="entities.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="gameloop.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="ui.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="pdcurses.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\..\..\OneDrive\Desktop\Credits.txt" />
-    <Text Include="..\..\..\..\OneDrive\Desktop\HelpAndCredits.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
