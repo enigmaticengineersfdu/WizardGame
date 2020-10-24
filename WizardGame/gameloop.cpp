@@ -72,8 +72,9 @@ void gl::play_game(const std::optional<std::string> load_path)
         ent::GameState current_state;
         //The latest input. Should not be modified other than in the gameloop.
         Input input;
+        /*Setup operations before rendering the first game state.*/
         current_state.map.load_map(gl::levels[current_level]);
-
+        current_state.entity_matrix.set_enemies(current_state.map.get_enemy_locs());
         render_frame(current_state);
 
         /*The main game loop*/
