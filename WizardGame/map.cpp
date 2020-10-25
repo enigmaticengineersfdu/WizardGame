@@ -61,11 +61,13 @@ using namespace ent;
 	std::vector<Coord> ent::Map::get_enemy_locs() const
 	{
 		std::vector<Coord> locs;
+		Coord curr_coord(0,0);
 
-		for (int y = 0; y < room_design.size(); ++y) {
-			for (int x = 0; x < room_design[y].length(); ++x) {
-				if (enemy_loc({ x, y }))
-					locs.push_back({ x, y });
+		for (int row = 0; row < room_design.size(); ++row) {
+			for (int col = 0; col < room_design[row].length(); ++col) {
+				curr_coord = { 0, 0 };
+				if (enemy_loc(curr_coord))
+					locs.push_back(curr_coord);
 			}
 		}
 		return locs;
@@ -110,15 +112,15 @@ using namespace ent;
 		//No body needed.
 	}
 
-	unsigned int ent::Coord::distance(const Coord other)
+	unsigned int ent::Coord::distance(const Coord other) const noexcept
 	{
 		/*These variables represent the lengths a and b legs of the right
-		* triangle formed by the x and y value of each of the two ordered pairs.
+		* triangle formed by the x and y values of the two ordered pairs.
 		*/
 		unsigned int a, b;
 		a = this->row - other.row;
 		b = this->col - other.col;
-		/*The Cartesian distance between the two points is computed using
+		/*The Euclidean distance between the two points is computed using
 		* the Pythagorean theorem. 
 		*/
 		return std::sqrt(std::pow(a, 2) + pow(b, 2));
