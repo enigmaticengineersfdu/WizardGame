@@ -92,14 +92,6 @@ namespace ent {
 
         };
 
-        enum Direction 
-        {
-                UP,
-                DOWN,
-                LEFT,
-                RIGHT
-        };
-
         class Enemy : public Character
         {
         private:
@@ -109,7 +101,7 @@ namespace ent {
                 * Preconditions: Is valid.
                 * Posconditions: Updates the Map and location if the movment was valid and does nothing otherwise
                 */
-                void move(const Direction &&direction);
+                void move(const gl::Input input);
         public:
                 //The furthest distance the enemies will move from their spawn point.
                 static const unsigned int max_dist = 10;

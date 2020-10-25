@@ -223,7 +223,7 @@ void ent::GameState::operator=(GameState gs)
         this->entity_matrix = gs.entity_matrix;
 }
 
-void ent::Enemy::move(const Direction&& direction)
+void ent::Enemy::move(const gl::Input input)
 {
         /*Need to fix Map::move_object to return a bool and take a character ID
         * before implementing this.
@@ -238,10 +238,10 @@ ent::Enemy::Enemy(CharacterID _id, const Coord _location, const char&& _icon)
 
 std::optional<ent::Enemy> ent::Enemy::tick(const gl::Input input, const Player& player) const
 {
-        //Copy the calling object to create the base for the new version.
+        //Copy the calling object to create the new version.
         auto next = *this;
-        /*If the player is withing range start moving toward them. If not then do nothing.*/
-        if (location.distance(player.get_location()) < detection_distance) {
-                //start moving toward the player
-        }
+        /*If the player is within range start moving toward them. If not then do nothing.*/
+        if (next.location.distance(player.get_location()) < detection_distance)
+                next.move(input); //start moving toward the player
+        return next;
 }
