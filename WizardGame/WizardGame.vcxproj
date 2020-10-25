@@ -151,7 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commandmode.h" />
-    <ClInclude Include="curses.h" />
     <ClInclude Include="entities.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -160,7 +159,8 @@
     <ClInclude Include="ui.h" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="pdcurses.lib" />
+    <Text Include="Credits.txt" />
+    <Text Include="HelpAndCredits.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

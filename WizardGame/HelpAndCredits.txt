@@ -1,0 +1,10 @@
+Move with the WASD keys, pause with "/". Make your way through the tower while fighting off evil monsters using your wizardly skills!
+
+
+Basic Movement W, A, S, D
+Attack I, J, K, L
+
+Commands "/"
+/ Help - view help
+/ Credits - view credits
+

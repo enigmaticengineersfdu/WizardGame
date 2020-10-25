@@ -75,19 +75,30 @@ void inline quit_handler() noexcept
 void help_handler() noexcept
 {
         
-        std::ifstream help_reader(gl::help_path);
+       /* std::ifstream help_reader(gl::help_path);*/
         std::string help_buf;
-        //If it can be opened the help file is read and printed.
-        if (help_reader.is_open()) {
-                //While the end of file hasn't been reached keep reading.
-                while (help_reader >> help_buf);
-                //The help text is printed
-                std::cout << help_buf << std::flush;
-        }
-        //If the file can't be opened print an error message.
-        else {
-                std::cout << "Error displaying help.\n";
-        }
+        
+
+		std::string text;
+		ifstream file(gl::help_path);
+
+		if (file.is_open()) {
+				//While the end of file hasn't been reached keep reading.
+
+		
+			while (getline(file, text))
+			{
+				std::cout << text << endl;
+			}
+		
+		}
+		else {
+			std::cout << "Error displaying credits.\n";
+		}
+
+
+
+
 }
 
 /*Purpose: Displays the credits file.
@@ -98,17 +109,42 @@ void credits_handler() noexcept
 {
         std::ifstream credits_reader(gl::credits_path);
         std::string credits_buf;
+
+		std::string text;
+		ifstream file(gl::credits_path);
+
         //If it can be opened the help file is read and printed.
-        if (credits_reader.is_open()) {
-                //While the end of file hasn't been reached keep reading.
-                while (credits_reader >> credits_buf);
-                //The help text is printed.
-                std::cout << credits_buf << std::flush;
+        if (file.is_open()) {
+                
+			while (getline(file, text))
+			{
+				std::cout << text << endl;
+			}
+
         }
         //If the file can't be opened print an error message.
         else {
                 std::cout << "Error displaying credits.\n";
         }
+
+
+		//std::ifstream credits_reader(gl::credits_path);
+		//std::string credits_buf;
+
+		//std::string text;
+		//ifstream file(gl::help_path);
+
+		////If it can be opened the help file is read and printed.
+		//if (credits_reader.is_open()) {
+		//	//While the end of file hasn't been reached keep reading.
+		//	while (credits_reader >> credits_buf);
+		//	//The help text is printed.
+		//	std::cout << credits_buf << std::flush;
+		//}
+		////If the file can't be opened print an error message.
+		//else {
+		//	std::cout << "Error displaying credits.\n";
+		//}
 }
 
 void gl::command_mode(const ent::GameState& gs) noexcept
