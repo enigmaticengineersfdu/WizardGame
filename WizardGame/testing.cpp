@@ -12,6 +12,7 @@
 
 
 
+
 int main() {
 
 	/*ent::GameState testing;		//Tests command_mode function
@@ -54,6 +55,7 @@ int main() {
 
 	testMap.load_map("MapDesign.txt"); 
 	testMap.show_map();
+	//testMap.show_map();
 
 	//ent::EntityMatrix testMatrix(testMap);
 
@@ -63,13 +65,20 @@ int main() {
 	ent::Enemy testEnemy3(3, { 12, 10 }, 'A');
 	*/
 
-	//std::vector<ent::Coord> testVector;
+	std::vector<ent::Coord> testVector;
 
 	//testVector.push_back({ 30, 30 });
 
 	//testMatrix.set_enemies(testVector);
 
-	testMap.get_enemy_locs(); 
+	
+
+	testVector = testMap.get_enemy_locs(); 
+
+	for (auto loc : testVector) {
+		std::cout << loc.row << ',' << loc.col << "\n";
+	}
+
 
 	//test();
 
