@@ -110,16 +110,16 @@ using namespace ent;
 		//No body needed.
 	}
 
-	unsigned int ent::Coord::distance(const Coord other)
-	{
-		/*These variables represent the lengths a and b legs of the right
-		* triangle formed by the x and y value of each of the two ordered pairs.
-		*/
-		unsigned int a, b;
-		a = this->row - other.row;
-		b = this->col - other.col;
-		/*The Cartesian distance between the two points is computed using
-		* the Pythagorean theorem. 
-		*/
-		return std::sqrt(std::pow(a, 2) + pow(b, 2));
-	}
+	//unsigned int ent::Coord::distance(const Coord other)
+	//{
+	//	/*These variables represent the lengths a and b legs of the right
+	//	* triangle formed by the x and y value of each of the two ordered pairs.
+	//	*/
+	//	unsigned int a, b;
+	//	a = this->row - other.row;
+	//	b = this->col - other.col;
+	//	/*The Cartesian distance between the two points is computed using
+	//	* the Pythagorean theorem. 
+	//	*/
+	//	return std::sqrt(std::pow(a, 2) + pow(b, 2));
+	//}

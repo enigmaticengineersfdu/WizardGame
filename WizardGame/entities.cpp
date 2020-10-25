@@ -223,12 +223,12 @@ void ent::GameState::operator=(GameState gs)
         this->entity_matrix = gs.entity_matrix;
 }
 
-void ent::Enemy::move(const Direction&& direction)
-{
-        /*Need to fix Map::move_object to return a bool and take a character ID
-        * before implementing this.
-        */
-}
+//void ent::Enemy::move(const Direction&& direction)
+//{
+//        /*Need to fix Map::move_object to return a bool and take a character ID
+//        * before implementing this.
+//        */
+//}
 
 ent::Enemy::Enemy(CharacterID _id, const Coord _location, const char&& _icon)
         :Character(_id, _location, _icon), spawn_pt(_location)
@@ -236,12 +236,12 @@ ent::Enemy::Enemy(CharacterID _id, const Coord _location, const char&& _icon)
         //No body needed
 }
 
-std::optional<ent::Enemy> ent::Enemy::tick(const gl::Input input, const Player& player) const
-{
-        //Copy the calling object to create the base for the new version.
-        auto next = *this;
-        /*If the player is withing range start moving toward them. If not then do nothing.*/
-        if (location.distance(player.get_location()) < detection_distance) {
-                //start moving toward the player
-        }
-}
+//std::optional<ent::Enemy> ent::Enemy::tick(const gl::Input input, const Player& player) const
+//{
+//        //Copy the calling object to create the base for the new version.
+//        auto next = *this;
+//        /*If the player is withing range start moving toward them. If not then do nothing.*/
+//        if (location.distance(player.get_location()) < detection_distance) {
+//                //start moving toward the player
+//        }
+//}
