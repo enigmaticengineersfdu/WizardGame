@@ -219,11 +219,13 @@ void ent::EntityMatrix::set_enemies(std::vector<Coord> enemy_locs)
 
 std::optional<ent::CharacterID> ent::EntityMatrix::get_enemy_by_loc(const ent::Coord loc) const noexcept
 {
-        //search the entity matrix. O(n) time, use sparingly.
+        //search the enemy table. O(n) time.
         for (auto enemy_pair : character_table) {
                 if (enemy_pair.second.get_location() == loc)
                         return enemy_pair.first;
         }
+        //If no enemy is found at the indicated location then return nothing.
+        return std::nullopt;
 }
 
 ent::GameState::GameState():
