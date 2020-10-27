@@ -127,3 +127,8 @@ using namespace ent;
 		*/
 		return std::sqrt(std::pow(a, 2) + pow(b, 2));
 	}
+
+	bool ent::Coord::operator==(const Coord &other) const noexcept
+	{
+		return row == other.row && col == other.col;
+	}

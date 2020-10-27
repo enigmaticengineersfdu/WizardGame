@@ -191,6 +191,11 @@ void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
         character_id_pool.push(id);
 }
 
+std::optional<EntityMatrix> ent::EntityMatrix::generate_next(const gl::Input input) const
+{
+        return std::optional<EntityMatrix>();
+}
+
 void ent::EntityMatrix::operator=(EntityMatrix &em)
 {
         this->character_table = em.character_table;
@@ -209,6 +214,15 @@ void ent::EntityMatrix::set_enemies(std::vector<Coord> enemy_locs)
         for (Coord loc : enemy_locs) {
                 curr_id = request_character_id();
                 character_table.insert(std::pair(curr_id, Enemy(curr_id, std::move(loc))));
+        }
+}
+
+std::optional<ent::CharacterID> ent::EntityMatrix::get_enemy_by_loc(const ent::Coord loc) const noexcept
+{
+        //search the entity matrix. O(n) time, use sparingly.
+        for (auto enemy_pair : character_table) {
+                if (enemy_pair.second.get_location() == loc)
+                        return enemy_pair.first;
         }
 }
 

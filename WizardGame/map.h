@@ -16,6 +16,7 @@ namespace ent
 		//Constructor
 		Coord(int _row, int _col);
 		unsigned int distance(const Coord other) const noexcept;
+		bool operator==(const Coord &other) const noexcept;
 	};
 	class Map
 	{
