@@ -98,12 +98,14 @@ using namespace ent;
 		return cd;
 	}
 
-	void ent::Map::move_object(char object, Coord pos)
+	bool ent::Map::move_object(char object, Coord pos)
 	{
-		Coord cd = find_pos(object);
-		room_design[cd.row][cd.col] = '.';
-		room_design[pos.row][pos.col] = object;
-
+		if (in_bounds(pos)) {
+			Coord cd = find_pos(object);
+			room_design[cd.row][cd.col] = '.';
+			room_design[pos.row][pos.col] = object;
+		}
+		return in_bounds(pos);
 	}
 
 	ent::Coord::Coord(int _row, int _col):

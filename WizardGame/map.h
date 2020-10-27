@@ -28,7 +28,7 @@ namespace ent
 		void show_map() const;
 		bool in_bounds(Coord cd);
 		Coord find_pos(char object) const;
-		void move_object(char object, Coord pos);
+		bool move_object(char object, Coord pos);
 		bool new_level(Coord Coord);
 		bool enemy_loc(Coord Coord) const;
 		std::vector<Coord> get_enemy_locs() const;
