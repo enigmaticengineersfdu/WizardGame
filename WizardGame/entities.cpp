@@ -99,6 +99,9 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
         //int health = ent::Enemy::get_health();
         //int health = 
 
+		
+		
+
         switch (input)
         { 
         case gl::Input::ATCK_UP:
@@ -144,7 +147,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
                 atck.col = -1;
         }
         cout<< " Attacked: " << atck.row << " " << atck.col << endl; 
-        //health.pop_back(); Testing deletion of player's health after attack. Function works as intended
+		 health.pop_back(); //Testing deletion of player's health after attack. Function works as intended
 }
 
 void ent::Player::operator=(Player& p)
