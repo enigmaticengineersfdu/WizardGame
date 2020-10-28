@@ -77,14 +77,18 @@ namespace ent {
         public:
                 Player() = default;
                 /*Constructor*/
-                Player(Coord _location, const char &_icon = '^');
+                Player(Coord _location, const char &&_icon = '^');
                 /*Purpose: Allow the player to move or take other actions.
                 * Preconditions: The game has started and the player character has been constructed.
                 * Postconditions: The player character state for the next frame is returned.
                 * Note: The result of this will need to be downcasted to Player before being inserted into the 
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
+<<<<<<< HEAD
+                std::optional<ent::Player> tick(const gl::Input input, const Map& curr_map, const std::optional<Player>& curr_player) const;
+=======
                 std::optional <ent::Player> tick(const gl::Input input, struct GameState current_state);
+>>>>>>> e4511d13c20ec70f28e6024ba5c130814b658ccf
                 void attack(const gl::Input input, struct GameState current_state);
 
                 void operator=(Player& p);
@@ -128,7 +132,7 @@ namespace ent {
                 //std::queue<ItemID>                     item_id_pool;     //Contains all available ItemIDs.
                 std::unordered_map<CharacterID, Enemy> character_table;  //Contains all enemies in play.
                 std::queue <CharacterID> character_id_pool;//Contains all available CharacterIDs.
-                Player player;
+                std::optional<Player> player;
 
                 /*Purpose: To add more ids to the id pools if they become empty.
                 * Preconditions: Either of the id pools is empty.
@@ -183,7 +187,7 @@ namespace ent {
 
                 void operator=(EntityMatrix &em);
 
-                Player& get_player();
+                std::optional<Player>& get_player();
 
                 void set_enemies(std::vector<Coord> enemy_locs);
                 std::optional<CharacterID> get_enemy_by_loc(const Coord loc) const noexcept;
