@@ -86,6 +86,14 @@ std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct Game
                 break;
         }
 
+        if (current_state.map.enemy_loc(location))
+        {
+                std::optional<ent::Enemy> enemy = current_state.entity_matrix.get_enemy(location);
+                cout << enemy->icon << endl;
+                cout << enemy->get_health();
+                //id = current_state.entity_matrix.get_enemy_by_loc(location);
+        }
+
         return play1;
 }
 
@@ -245,6 +253,19 @@ std::optional<ent::CharacterID> ent::EntityMatrix::get_enemy_by_loc(const ent::C
         }
         //If no enemy is found at the indicated location then return nothing.
         return std::nullopt;
+}
+
+//MTrying to see if I need the enemy object instead for attack inplementation
+std::optional<ent::Enemy> ent::EntityMatrix::get_enemy(const ent::Coord loc) const noexcept
+{
+        //search the enemy table. O(n) time.
+        for (auto enemy_pair : character_table) {
+                if (enemy_pair.second.get_location() == loc)
+                        return enemy_pair.second;
+        }
+        //If no enemy is found at the indicated location then return nothing.
+        return std::nullopt;
+
 }
 
 ent::GameState::GameState():
