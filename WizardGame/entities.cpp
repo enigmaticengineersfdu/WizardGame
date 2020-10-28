@@ -203,8 +203,13 @@ std::optional<ent::EntityMatrix> ent::EntityMatrix::generate_next(const gl::Inpu
                         next.character_table.insert(std::pair(enemy_pair.first, *next_enemy));
         }
         //Player
-        next.player = this->player->tick(input, curr_map, this->player); //NEEDS TO BE FIXED
-
+        auto next_player_val = this->player->tick(input, curr_map, this->player);
+        if (next_player_val) {
+                next.player = *next_player_val;
+        }
+        else {
+                next.player = std::nullopt;
+        }
         return next;
 }
 
