@@ -40,7 +40,7 @@ using namespace ent;
 		std::cout << std::endl;
 	}
 	
-	bool ent::Map::in_bounds(Coord Coord)
+	bool ent::Map::in_bounds(Coord Coord) const noexcept
 	{
 		if (room_design[Coord.row][Coord.col] == '.' || room_design[Coord.row][Coord.col] == '*' )
 			return true;
