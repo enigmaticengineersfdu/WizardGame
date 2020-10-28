@@ -191,29 +191,29 @@ void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
         character_id_pool.push(id);
 }
 
-std::optional<ent::EntityMatrix> ent::EntityMatrix::generate_next(const gl::Input input) const
-{
-        //Copy the current EM.
-        auto next = *this;
-        /*Call the tick function of everything in it to generate the next.*/
-        //Enemies
-        for (auto enemy_pair : this->character_table) {
-                auto next_enemy = enemy_pair.second.tick(input, this->player);
-                if (next_enemy)
-                        next.character_table.insert(std::pair(enemy_pair.first, *next_enemy));
-        }
-        //Player
-        std::optional<ent::Player> next_player = this->player.tick(input);
-        if (next_player) {
-                next.player = *next_player;
-        }
-        else {
-                //handle player death
-        }
-
-
-        return next;
-}
+//std::optional<ent::EntityMatrix> ent::EntityMatrix::generate_next(const gl::Input input) const
+//{
+//        //Copy the current EM.
+//        auto next = *this;
+//        /*Call the tick function of everything in it to generate the next.*/
+//        //Enemies
+//        for (auto enemy_pair : this->character_table) {
+//                auto next_enemy = enemy_pair.second.tick(input, this->player);
+//                if (next_enemy)
+//                        next.character_table.insert(std::pair(enemy_pair.first, *next_enemy));
+//        }
+//        //Player
+//        std::optional<ent::Player> next_player = this->player.tick(input);
+//        if (next_player) {
+//                next.player = *next_player;
+//        }
+//        else {
+//                //handle player death
+//        }
+//
+//
+//        return next;
+//}
 
 void ent::EntityMatrix::operator=(EntityMatrix &em)
 {
