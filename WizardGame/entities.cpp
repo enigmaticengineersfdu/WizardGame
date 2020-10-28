@@ -53,35 +53,35 @@ ent::Player::Player(Coord _location, const char &&_icon):
         //Body unneeded since all initialization was done in the initializer list.
 }
 
-std::optional <ent::Player> ent::Player::tick(const gl::Input input, const ent::Map &curr_map, const std::optional<ent::Player> &curr_player) const
+std::optional <ent::Player> ent::Player::tick(const gl::Input input, const ent::Map &curr_map, std::optional<ent::Player> &curr_player) const
 {
         //currently just returns a copy of the current object.
         //will be improved upon a lot
         //currently doesn't even take user input. 
-        Player next_player = *curr_player;
-        next_player.location = curr_map.find_pos(this->icon);
+        std::optional<ent::Player> next_player = curr_player;
+        next_player->location = curr_map.find_pos(next_player->icon);
 
         switch (input)
         {
         case gl::Input::MV_UP:
-                next_player.location.row -= 1;
-                if (!curr_map.in_bounds(next_player.location))
-                        next_player.location.row += 1;
+                next_player->location.row -= 1;
+                if (!curr_map.in_bounds(next_player->location))
+                        next_player->location.row += 1;
                         break;
         case gl::Input::MV_DOWN:
-                next_player.location.row += 1;
-                if (!curr_map.in_bounds(next_player.location))
-                        next_player.location.row -= 1;
+                next_player->location.row += 1;
+                if (!curr_map.in_bounds(next_player->location))
+                        next_player->location.row -= 1;
                         break;
         case gl::Input::MV_LEFT:
-                next_player.location.col -= 1;
-                if (!curr_map.in_bounds(next_player.location))
-                        next_player.location.col += 1;
+                next_player->location.col -= 1;
+                if (!curr_map.in_bounds(next_player->location))
+                        next_player->location.col += 1;
                         break;
         case gl::Input::MV_RIGHT:
-                next_player.location.col += 1;
-                if (!curr_map.in_bounds(next_player.location))
-                        next_player.location.col -= 1;
+                next_player->location.col += 1;
+                if (!curr_map.in_bounds(next_player->location))
+                        next_player->location.col -= 1;
                 break;
         }
 
@@ -191,7 +191,7 @@ void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
         character_id_pool.push(id);
 }
 
-std::optional<ent::EntityMatrix> ent::EntityMatrix::generate_next(const gl::Input input) const
+std::optional<ent::EntityMatrix> ent::EntityMatrix::generate_next(const gl::Input input, const ent::Map &curr_map)
 {
         //Copy the current EM.
         auto next = *this;
@@ -203,7 +203,7 @@ std::optional<ent::EntityMatrix> ent::EntityMatrix::generate_next(const gl::Inpu
                         next.character_table.insert(std::pair(enemy_pair.first, *next_enemy));
         }
         //Player
-        next.player = this->player->tick(input, ); //NEEDS TO BE FIXED
+        next.player = this->player->tick(input, curr_map, this->player); //NEEDS TO BE FIXED
 
         return next;
 }

@@ -84,11 +84,8 @@ namespace ent {
                 * Note: The result of this will need to be downcasted to Player before being inserted into the 
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-<<<<<<< HEAD
-                std::optional<ent::Player> tick(const gl::Input input, const Map& curr_map, const std::optional<Player>& curr_player) const;
-=======
-                std::optional <ent::Player> tick(const gl::Input input, struct GameState current_state);
->>>>>>> e4511d13c20ec70f28e6024ba5c130814b658ccf
+                std::optional<ent::Player> tick(const gl::Input input, const Map& curr_map, std::optional<Player>& curr_player) const;
+
                 void attack(const gl::Input input, struct GameState current_state);
 
                 void operator=(Player& p);
@@ -183,7 +180,7 @@ namespace ent {
                 * Note: Meant to be called in the handler functions of the game loop.
                 * Internally calls the tick functions of all contained entities.
                 */
-                std::optional<EntityMatrix> generate_next(const gl::Input input) const;
+                std::optional<EntityMatrix> generate_next(const gl::Input input, const Map& curr_map);
 
                 void operator=(EntityMatrix &em);
 
@@ -191,7 +188,6 @@ namespace ent {
 
                 void set_enemies(std::vector<Coord> enemy_locs);
                 std::optional<CharacterID> get_enemy_by_loc(const Coord loc) const noexcept;
-                std::optional<Enemy> get_enemy(const Coord loc) const noexcept;
         };
 
         struct GameState
