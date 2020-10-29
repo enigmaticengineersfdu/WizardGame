@@ -53,35 +53,35 @@ ent::Player::Player(Coord _location, const char &&_icon):
         //Body unneeded since all initialization was done in the initializer list.
 }
 
-std::optional <ent::Player> ent::Player::tick(const gl::Input input, const ent::Map &curr_map, std::optional<ent::Player> &curr_player) const
+std::optional <ent::Player> ent::Player::tick(const gl::Input input, const ent::Map &curr_map) const
 {
         //currently just returns a copy of the current object.
         //will be improved upon a lot
         //currently doesn't even take user input. 
-        std::optional<ent::Player> next_player = curr_player;
-        next_player->location = curr_map.find_pos(next_player->icon);
+        ent::Player next_player = *this;
+        next_player.location = curr_map.find_pos(next_player.icon);
 
         switch (input)
         {
         case gl::Input::MV_UP:
-                next_player->location.row -= 1;
-                if (!curr_map.in_bounds(next_player->location))
-                        next_player->location.row += 1;
+                next_player.location.row -= 1;
+                if (!curr_map.in_bounds(next_player.location))
+                        next_player.location.row += 1;
                         break;
         case gl::Input::MV_DOWN:
-                next_player->location.row += 1;
-                if (!curr_map.in_bounds(next_player->location))
-                        next_player->location.row -= 1;
+                next_player.location.row += 1;
+                if (!curr_map.in_bounds(next_player.location))
+                        next_player.location.row -= 1;
                         break;
         case gl::Input::MV_LEFT:
-                next_player->location.col -= 1;
-                if (!curr_map.in_bounds(next_player->location))
-                        next_player->location.col += 1;
+                next_player.location.col -= 1;
+                if (!curr_map.in_bounds(next_player.location))
+                        next_player.location.col += 1;
                         break;
         case gl::Input::MV_RIGHT:
-                next_player->location.col += 1;
-                if (!curr_map.in_bounds(next_player->location))
-                        next_player->location.col -= 1;
+                next_player.location.col += 1;
+                if (!curr_map.in_bounds(next_player.location))
+                        next_player.location.col -= 1;
                 break;
         }
 
@@ -166,7 +166,7 @@ void ent::EntityMatrix::replenish_id_pools() noexcept
 }
 
 ent::EntityMatrix::EntityMatrix(Map &map) noexcept :
-        character_table(), character_id_pool(), player(std::make_optional(Player(map.find_pos('^'), '^')))
+        character_table(), character_id_pool(), player(Player(map.find_pos('^'), '^'))
 {
         //Put 10 ids in both id pools
         for (size_t i = 1; i < 11; ++i) {
@@ -191,36 +191,36 @@ void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
         character_id_pool.push(id);
 }
 
-std::optional<ent::EntityMatrix> ent::EntityMatrix::generate_next(const gl::Input input, const ent::Map &curr_map)
-{
-        //Copy the current EM.
-        auto next = *this;
-        /*Call the tick function of everything in it to generate the next.*/
-        //Enemies
-        for (auto enemy_pair : this->character_table) {
-                auto next_enemy = enemy_pair.second.tick(input, *(this->player));
-                if (next_enemy)
-                        next.character_table.insert(std::pair(enemy_pair.first, *next_enemy));
-        }
-        //Player
-        auto next_player_val = this->player->tick(input, curr_map, this->player);
-        if (next_player_val) {
-                next.player = *next_player_val;
-        }
-        else {
-                next.player = std::nullopt;
-        }
-        return next;
-}
+//std::optional<ent::EntityMatrix> ent::EntityMatrix::generate_next(const gl::Input input, const ent::Map &curr_map)
+//{
+//        //Copy the current EM.
+//        auto next = *this;
+//        /*Call the tick function of everything in it to generate the next.*/
+//        //Enemies
+//        for (auto enemy_pair : this->character_table) {
+//                auto next_enemy = enemy_pair.second.tick(input, *(this->player));
+//                if (next_enemy)
+//                        next.character_table.insert(std::pair(enemy_pair.first, *next_enemy));
+//        }
+//        //Player
+//        auto next_player_val = this->player->tick(input, curr_map, this->player);
+//        if (next_player_val) {
+//                next.player = *next_player_val;
+//        }
+//        else {
+//                next.player = std::nullopt;
+//        }
+//        return next;
+//}
 
 void ent::EntityMatrix::operator=(EntityMatrix &em)
 {
         this->character_table = em.character_table;
         this->character_id_pool = em.character_id_pool;
-        this->player = *(em.player);
+        this->player = em.player;
 }
 
-std::optional<ent::Player> &ent::EntityMatrix::get_player()
+ent::Player &ent::EntityMatrix::get_player()
 {
         return player;
 }
@@ -229,8 +229,8 @@ void ent::EntityMatrix::set_enemies(std::vector<Coord> enemy_locs)
 {
         CharacterID curr_id;
         for (Coord loc : enemy_locs) {
-                curr_id = request_character_id();
-                character_table.insert(std::pair(curr_id, Enemy(curr_id, std::move(loc))));
+                curr_id = this->request_character_id();
+                this->character_table.insert(std::pair(curr_id, Enemy(curr_id, std::move(loc))));
         }
 }
 

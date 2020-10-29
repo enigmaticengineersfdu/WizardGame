@@ -75,10 +75,7 @@ using namespace ent;
 	bool ent::Map::enemy_loc(Coord Coord) const
 	{
 		/*Try to somehow have a list of all enemies ids to check if player hits valid enemy*/
-		if (room_design[Coord.row][Coord.col] == 'A')  
-			return true;
-		else
-			return false;
+		return room_design[Coord.row][Coord.col] == 'A';
 	}
 	
 	Coord ent::Map::find_pos(char object) const

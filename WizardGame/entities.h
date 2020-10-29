@@ -84,7 +84,7 @@ namespace ent {
                 * Note: The result of this will need to be downcasted to Player before being inserted into the 
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                std::optional<ent::Player> tick(const gl::Input input, const Map& curr_map, std::optional<Player>& curr_player) const;
+                std::optional<ent::Player> tick(const gl::Input input, const Map& curr_map) const;
 
                 void attack(const gl::Input input, struct GameState current_state);
 
@@ -129,7 +129,7 @@ namespace ent {
                 //std::queue<ItemID>                     item_id_pool;     //Contains all available ItemIDs.
                 std::unordered_map<CharacterID, Enemy> character_table;  //Contains all enemies in play.
                 std::queue <CharacterID> character_id_pool;//Contains all available CharacterIDs.
-                std::optional<Player> player;
+                Player player;
 
                 /*Purpose: To add more ids to the id pools if they become empty.
                 * Preconditions: Either of the id pools is empty.
@@ -180,11 +180,11 @@ namespace ent {
                 * Note: Meant to be called in the handler functions of the game loop.
                 * Internally calls the tick functions of all contained entities.
                 */
-                std::optional<EntityMatrix> generate_next(const gl::Input input, const Map& curr_map);
+                /*std::optional<EntityMatrix> generate_next(const gl::Input input, const Map& curr_map);*/
 
                 void operator=(EntityMatrix &em);
 
-                std::optional<Player>& get_player();
+                Player &get_player();
 
                 void set_enemies(std::vector<Coord> enemy_locs);
                 std::optional<CharacterID> get_enemy_by_loc(const Coord loc) const noexcept;
