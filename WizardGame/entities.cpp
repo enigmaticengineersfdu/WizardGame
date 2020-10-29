@@ -126,6 +126,7 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
                         count--;
                 }
                 cout << "(Down)";
+                cout << curr_map.enemy_loc(atck);
                 break;
         case gl::Input::ATCK_RIGHT:
                 atck.col ++;
@@ -143,6 +144,15 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
                 atck.col = -1;
         }
         cout<< " Attacked: " << atck.row << " " << atck.col << endl; 
+
+        if (curr_map.enemy_loc(atck))
+        {
+                GameState gs;
+                std::optional<ent::Enemy> enemy = gs.entity_matrix.get_enemy(location);
+                cout << "Enemy Health: " << enemy->get_health() << endl;
+                cout << "Enemy Row: " << enemy->get_location().row << endl;
+                cout<< "Enemy Col: " << enemy->get_location().col << endl;
+        }
         //health.pop_back(); Testing deletion of player's health after attack. Function works as intended
 }
 
@@ -240,6 +250,17 @@ std::optional<ent::CharacterID> ent::EntityMatrix::get_enemy_by_loc(const ent::C
         for (auto enemy_pair : character_table) {
                 if (enemy_pair.second.get_location() == loc)
                         return enemy_pair.first;
+        }
+        //If no enemy is found at the indicated location then return nothing.
+        return std::nullopt;
+}
+
+std::optional<ent::Enemy> ent::EntityMatrix::get_enemy(const ent::Coord loc) const noexcept
+{
+        //search the enemy table. O(n) time.
+        for (auto enemy_pair : character_table) {
+                if (enemy_pair.second.get_location() == loc)
+                        return enemy_pair.second;
         }
         //If no enemy is found at the indicated location then return nothing.
         return std::nullopt;

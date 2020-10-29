@@ -65,7 +65,7 @@ using namespace ent;
 
 		for (int row = 0; row < room_design.size(); ++row) {
 			for (int col = 0; col < room_design[row].length(); ++col) {
-				curr_coord = { 0, 0 };
+				curr_coord = { row, col };
 				if (enemy_loc(curr_coord))
 					locs.push_back(curr_coord);
 			}
@@ -75,7 +75,14 @@ using namespace ent;
 	bool ent::Map::enemy_loc(Coord Coord) const
 	{
 		/*Try to somehow have a list of all enemies ids to check if player hits valid enemy*/
-		return room_design[Coord.row][Coord.col] == 'A';
+		cout << "Test" << endl;
+		if (room_design[Coord.row][Coord.col] == 'A')
+		{
+			cout << "Found" << endl;
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	Coord ent::Map::find_pos(char object) const

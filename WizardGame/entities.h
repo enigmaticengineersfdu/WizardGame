@@ -187,6 +187,8 @@ namespace ent {
 
                 void set_enemies(std::vector<Coord> enemy_locs);
                 std::optional<CharacterID> get_enemy_by_loc(const Coord loc) const noexcept;
+                std::optional<ent::Enemy> get_enemy(const ent::Coord loc) const noexcept;
+
         };
 
         struct GameState
