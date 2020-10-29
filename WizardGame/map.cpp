@@ -75,10 +75,10 @@ using namespace ent;
 	bool ent::Map::enemy_loc(Coord Coord) const
 	{
 		/*Try to somehow have a list of all enemies ids to check if player hits valid enemy*/
-		cout << "Test" << endl;
+		//cout << "Test" << endl;
 		if (room_design[Coord.row][Coord.col] == 'A')
 		{
-			cout << "Found" << endl;
+			/*cout << "Found" << endl; Added for testing of get_enemy_loc function*/
 			return true;
 		}
 		else

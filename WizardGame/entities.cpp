@@ -94,15 +94,12 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
         ent::Coord atck = location;
         cout << "Location: " << location.row << " " << location.col << endl;
         int count = 3;
-        //Enemy en();
-        //int health = ent::Enemy::get_health();
-        //int health = 
 
         switch (input)
         { 
         case gl::Input::ATCK_UP:
-                atck.row --;
-                while (!curr_map.in_bounds(atck) && count >0)
+                atck.row -=1;
+                while (!curr_map.enemy_loc(atck) && count >1)
                 {
                         atck.row--;
                         count--;
@@ -111,7 +108,7 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
                 break;
         case gl::Input::ATCK_LEFT:
                 atck.col -=1;
-                while (!curr_map.in_bounds(atck) && count > 0)
+                while (!curr_map.enemy_loc(atck) && count > 1)
                 {
                         atck.col--;
                         count--;
@@ -120,17 +117,16 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
                 break;
         case gl::Input::ATCK_DOWN:
                 atck.row ++;
-                while (!curr_map.in_bounds(atck) && count > 0)
+                while (!curr_map.enemy_loc(atck) && count > 1)
                 {
                         atck.row++;
                         count--;
                 }
                 cout << "(Down)";
-                cout << curr_map.enemy_loc(atck);
                 break;
         case gl::Input::ATCK_RIGHT:
                 atck.col ++;
-                while (!curr_map.in_bounds(atck) && count > 0)
+                while (!curr_map.enemy_loc(atck) && count > 1)
                 {
                         atck.col++;
                         count--;
@@ -138,21 +134,21 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
                 cout << "(Right)";
                 break;
         }
-        if (!curr_map.in_bounds(atck))
-        {
-                atck.row = -1;
-                atck.col = -1;
-        }
-        cout<< " Attacked: " << atck.row << " " << atck.col << endl; 
-
         if (curr_map.enemy_loc(atck))
         {
                 GameState gs;
                 std::optional<ent::Enemy> enemy = gs.entity_matrix.get_enemy(location);
                 cout << "Enemy Health: " << enemy->get_health() << endl;
                 cout << "Enemy Row: " << enemy->get_location().row << endl;
-                cout<< "Enemy Col: " << enemy->get_location().col << endl;
+                cout << "Enemy Col: " << enemy->get_location().col << endl;
         }
+        else if (!curr_map.in_bounds(atck))
+        {
+                atck.row = -1;
+                atck.col = -1;
+        }
+        cout<< " Attacked: " << atck.row << " " << atck.col << endl; 
+
         //health.pop_back(); Testing deletion of player's health after attack. Function works as intended
 }
 
