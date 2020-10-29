@@ -77,27 +77,19 @@ namespace ent {
         public:
                 Player() = default;
                 /*Constructor*/
-                Player(Coord _location, const char &_icon = '^');
+                Player(Coord _location, const char &&_icon = '^');
                 /*Purpose: Allow the player to move or take other actions.
                 * Preconditions: The game has started and the player character has been constructed.
                 * Postconditions: The player character state for the next frame is returned.
                 * Note: The result of this will need to be downcasted to Player before being inserted into the 
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                std::optional <ent::Player> tick(const gl::Input input, struct GameState current_state);
+                Player tick(const gl::Input input, const Map& curr_map) const;
+
                 void attack(const gl::Input input, struct GameState current_state);
+                void operator=(Player p);
 
-                void operator=(Player& p);
 
-
-        };
-
-        enum Direction 
-        {
-                UP,
-                DOWN,
-                LEFT,
-                RIGHT
         };
 
         class Enemy : public Character
@@ -109,7 +101,7 @@ namespace ent {
                 * Preconditions: Is valid.
                 * Posconditions: Updates the Map and location if the movment was valid and does nothing otherwise
                 */
-                void move(const Direction &&direction);
+                void move(const gl::Input input);
         public:
                 //The furthest distance the enemies will move from their spawn point.
                 static const unsigned int max_dist = 10;
@@ -187,13 +179,14 @@ namespace ent {
                 * Note: Meant to be called in the handler functions of the game loop.
                 * Internally calls the tick functions of all contained entities.
                 */
-                std::optional<EntityMatrix> generate_next(const gl::Input input) const;
+                /*std::optional<EntityMatrix> generate_next(const gl::Input input, const Map& curr_map);*/
 
                 void operator=(EntityMatrix &em);
 
-                Player& get_player();
+                Player &get_player();
 
                 void set_enemies(std::vector<Coord> enemy_locs);
+                std::optional<CharacterID> get_enemy_by_loc(const Coord loc) const noexcept;
         };
 
         struct GameState

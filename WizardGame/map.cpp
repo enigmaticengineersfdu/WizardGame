@@ -40,7 +40,7 @@ using namespace ent;
 		std::cout << std::endl;
 	}
 	
-	bool ent::Map::in_bounds(Coord Coord)
+	bool ent::Map::in_bounds(Coord Coord) const noexcept
 	{
 		if (room_design[Coord.row][Coord.col] == '.' || room_design[Coord.row][Coord.col] == '*' )
 			return true;
@@ -76,10 +76,7 @@ using namespace ent;
 	bool ent::Map::enemy_loc(Coord Coord) const
 	{
 		/*Try to somehow have a list of all enemies ids to check if player hits valid enemy*/
-		if (room_design[Coord.row][Coord.col] == 'A')  
-			return true;
-		else
-			return false;
+		return room_design[Coord.row][Coord.col] == 'A';
 	}
 	
 	Coord ent::Map::find_pos(char object) const
@@ -99,12 +96,14 @@ using namespace ent;
 		return cd;
 	}
 
-	void ent::Map::move_object(char object, Coord pos)
+	bool ent::Map::move_object(char object, Coord pos)
 	{
-		Coord cd = find_pos(object);
-		room_design[cd.row][cd.col] = '.';
-		room_design[pos.row][pos.col] = object;
-
+		if (in_bounds(pos)) {
+			Coord cd = find_pos(object);
+			room_design[cd.row][cd.col] = '.';
+			room_design[pos.row][pos.col] = object;
+		}
+		return in_bounds(pos);
 	}
 
 	ent::Coord::Coord(int _row, int _col):
@@ -125,4 +124,9 @@ using namespace ent;
 		* the Pythagorean theorem. 
 		*/
 		return std::sqrt(std::pow(a, 2) + pow(b, 2));
+	}
+
+	bool ent::Coord::operator==(const Coord &other) const noexcept
+	{
+		return row == other.row && col == other.col;
 	}
