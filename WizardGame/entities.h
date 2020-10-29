@@ -86,7 +86,7 @@ namespace ent {
                 */
                 Player tick(const gl::Input input, const Map& curr_map) const;
 
-                void attack(const gl::Input input, struct GameState current_state);
+                void attack(const gl::Input input, const ent::Map& curr_map);
                 void operator=(Player p);
 
 

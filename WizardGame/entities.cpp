@@ -23,7 +23,7 @@ ent::Character::Character(const CharacterID _id, Coord _location, const char &_i
 
 bool ent::Character::is_dead() const
 {
-        return health == " ";
+        return health == "";
 }
 
 const std::string ent::Character::get_health() const
@@ -77,7 +77,7 @@ ent::Player ent::Player::tick(const gl::Input input, const ent::Map &curr_map) c
                 next_player.location.col -= 1;
                 if (!curr_map.in_bounds(next_player.location))
                         next_player.location.col += 1;
-                        break;
+                        break; 
         case gl::Input::MV_RIGHT:
                 next_player.location.col += 1;
                 if (!curr_map.in_bounds(next_player.location))
@@ -88,9 +88,9 @@ ent::Player ent::Player::tick(const gl::Input input, const ent::Map &curr_map) c
         return next_player;
 }
 
-void ent::Player::attack(const gl::Input input, struct GameState current_state)
+void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
 {
-        this->location = current_state.map.find_pos(this->icon);
+        this->location = curr_map.find_pos(this->icon);
         ent::Coord atck = location;
         cout << "Location: " << location.row << " " << location.col << endl;
         int count = 3;
@@ -102,7 +102,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
         { 
         case gl::Input::ATCK_UP:
                 atck.row --;
-                while (!current_state.map.in_bounds(atck) && count >0)
+                while (!curr_map.in_bounds(atck) && count >0)
                 {
                         atck.row--;
                         count--;
@@ -111,7 +111,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
                 break;
         case gl::Input::ATCK_LEFT:
                 atck.col -=1;
-                while (!current_state.map.in_bounds(atck) && count > 0)
+                while (!curr_map.in_bounds(atck) && count > 0)
                 {
                         atck.col--;
                         count--;
@@ -120,7 +120,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
                 break;
         case gl::Input::ATCK_DOWN:
                 atck.row ++;
-                while (!current_state.map.in_bounds(atck) && count > 0)
+                while (!curr_map.in_bounds(atck) && count > 0)
                 {
                         atck.row++;
                         count--;
@@ -129,7 +129,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
                 break;
         case gl::Input::ATCK_RIGHT:
                 atck.col ++;
-                while (!current_state.map.in_bounds(atck) && count > 0)
+                while (!curr_map.in_bounds(atck) && count > 0)
                 {
                         atck.col++;
                         count--;
@@ -137,7 +137,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
                 cout << "(Right)";
                 break;
         }
-        if (!current_state.map.in_bounds(atck))
+        if (!curr_map.in_bounds(atck))
         {
                 atck.row = -1;
                 atck.col = -1;
