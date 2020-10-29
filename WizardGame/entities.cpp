@@ -53,39 +53,42 @@ ent::Player::Player(Coord _location, const char &&_icon):
         //Body unneeded since all initialization was done in the initializer list.
 }
 
-std::optional <ent::Player> ent::Player::tick(const gl::Input input, const ent::Map &curr_map) const
+std::optional <ent::Player> ent::Player::tick(const gl::Input input, struct GameState current_state)
 {
-        //currently just returns a copy of the current object.
+ 
+       //currently just returns a copy of the current object.
         //will be improved upon a lot
         //currently doesn't even take user input. 
-        ent::Player next_player = *this;
-        next_player.location = curr_map.find_pos(next_player.icon);
+       Player play1 = current_state.entity_matrix.get_player();
+        this->location = current_state.map.find_pos(this->icon);
 
         switch (input)
-        {
-        case gl::Input::MV_UP:
-                next_player.location.row -= 1;
-                if (!curr_map.in_bounds(next_player.location))
-                        next_player.location.row += 1;
+         {
+                case gl::Input::MV_UP:
+                        location.row -= 1;
+                        if (!current_state.map.in_bounds(location))
+                                location.row += 1;
                         break;
-        case gl::Input::MV_DOWN:
-                next_player.location.row += 1;
-                if (!curr_map.in_bounds(next_player.location))
-                        next_player.location.row -= 1;
+                case gl::Input::MV_DOWN:
+                        location.row += 1;
+                        if (!current_state.map.in_bounds(location))
+                                location.row -= 1;
                         break;
-        case gl::Input::MV_LEFT:
-                next_player.location.col -= 1;
-                if (!curr_map.in_bounds(next_player.location))
-                        next_player.location.col += 1;
+                case gl::Input::MV_LEFT:
+                        location.col -= 1;
+                        if (!current_state.map.in_bounds(location))
+                                location.col += 1;
                         break;
-        case gl::Input::MV_RIGHT:
-                next_player.location.col += 1;
-                if (!curr_map.in_bounds(next_player.location))
-                        next_player.location.col -= 1;
-                break;
-        }
+                case gl::Input::MV_RIGHT:
+                        location.col += 1;
+                        if (!current_state.map.in_bounds(location))
+                                location.col -= 1;
+                        break;
+         }
 
-        return next_player;
+	
+
+        return play1;
 }
 
 void ent::Player::attack(const gl::Input input, struct GameState current_state)

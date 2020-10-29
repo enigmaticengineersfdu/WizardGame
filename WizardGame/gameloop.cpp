@@ -17,11 +17,11 @@ static unsigned int current_level = 0;
 ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) noexcept 
 {
         auto player = current_state.entity_matrix.get_player();
-        player.tick(input, current_state.map);
+        player.tick(input, current_state);
              
         /*Moves the player according to their input*/
         ent::GameState new_gamestate = current_state;
-        new_gamestate.entity_matrix.get_player().tick(input, current_state.map);
+        new_gamestate.entity_matrix.get_player().tick(input, current_state);
 
 
         if (new_gamestate.map.new_level(new_gamestate.entity_matrix.get_player().get_location()) && current_level < 4)
