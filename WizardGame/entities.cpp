@@ -53,7 +53,7 @@ ent::Player::Player(Coord _location, const char &&_icon):
         //Body unneeded since all initialization was done in the initializer list.
 }
 
-std::optional <ent::Player> ent::Player::tick(const gl::Input input, const ent::Map &curr_map) const
+ent::Player ent::Player::tick(const gl::Input input, const ent::Map &curr_map) const
 {
         //currently just returns a copy of the current object.
         //will be improved upon a lot
@@ -146,7 +146,7 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
         //health.pop_back(); Testing deletion of player's health after attack. Function works as intended
 }
 
-void ent::Player::operator=(Player& p)
+void ent::Player::operator=(Player p)
 {
         this->id = p.id;
         this->icon = p.icon;
