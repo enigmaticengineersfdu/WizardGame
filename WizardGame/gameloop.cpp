@@ -35,12 +35,10 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
 
 ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) noexcept
 {
-        auto player = current_state.entity_matrix.get_player();
-        player.attack(input, current_state);
 
         /*Launches the player's attack according to their input*/
         ent::GameState new_gamestate = current_state;
-        new_gamestate.entity_matrix.get_player().attack(input, current_state);
+        new_gamestate.entity_matrix.get_player().attack(input, current_state.map);
 
         return new_gamestate;
 }
