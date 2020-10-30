@@ -58,6 +58,11 @@ using namespace ent;
 		else
 			return false;
 	}
+	void ent::Map::remove_dead_en(Coord pos)
+	{
+		room_design[pos.row][pos.col] = '.';
+
+	}
 	std::vector<Coord> ent::Map::get_enemy_locs() const
 	{
 		std::vector<Coord> locs;

@@ -55,9 +55,7 @@ ent::Player::Player(Coord _location, const char &&_icon):
 
 ent::Player ent::Player::tick(const gl::Input input, const ent::Map &curr_map) const
 {
-        //currently just returns a copy of the current object.
-        //will be improved upon a lot
-        //currently doesn't even take user input. 
+        
         ent::Player next_player = *this;
         next_player.location = curr_map.find_pos(next_player.icon);
 
@@ -88,9 +86,9 @@ ent::Player ent::Player::tick(const gl::Input input, const ent::Map &curr_map) c
         return next_player;
 }
 
-void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
+void ent::Player::attack(const gl::Input input, struct GameState current_state)
 {
-        this->location = curr_map.find_pos(this->icon);
+        this->location = current_state.map.find_pos(this->icon);
         ent::Coord atck = location;
         cout << "Location: " << location.row << " " << location.col << endl;
         int count = 3;
@@ -99,7 +97,7 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
         { 
         case gl::Input::ATCK_UP:
                 atck.row -=1;
-                while (!curr_map.enemy_loc(atck) && count >1)
+                while (!current_state.map.enemy_loc(atck) && count >1)
                 {
                         atck.row--;
                         count--;
@@ -108,7 +106,7 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
                 break;
         case gl::Input::ATCK_LEFT:
                 atck.col -=1;
-                while (!curr_map.enemy_loc(atck) && count > 1)
+                while (!current_state.map.enemy_loc(atck) && count > 1)
                 {
                         atck.col--;
                         count--;
@@ -117,7 +115,7 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
                 break;
         case gl::Input::ATCK_DOWN:
                 atck.row ++;
-                while (!curr_map.enemy_loc(atck) && count > 1)
+                while (!current_state.map.enemy_loc(atck) && count > 1)
                 {
                         atck.row++;
                         count--;
@@ -126,7 +124,7 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
                 break;
         case gl::Input::ATCK_RIGHT:
                 atck.col ++;
-                while (!curr_map.enemy_loc(atck) && count > 1)
+                while (!current_state.map.enemy_loc(atck) && count > 1)
                 {
                         atck.col++;
                         count--;
@@ -134,15 +132,22 @@ void ent::Player::attack(const gl::Input input, const ent::Map& curr_map)
                 cout << "(Right)";
                 break;
         }
-        if (curr_map.enemy_loc(atck))
+        if (current_state.map.enemy_loc(atck))
         {
-                GameState gs;
-                std::optional<ent::Enemy> enemy = gs.entity_matrix.get_enemy(location);
-                cout << "Enemy Health: " << enemy->get_health() << endl;
-                cout << "Enemy Row: " << enemy->get_location().row << endl;
-                cout << "Enemy Col: " << enemy->get_location().col << endl;
+                std::optional<ent::Enemy> enemy = current_state.entity_matrix.get_enemy(atck);
+                string enemy_health = enemy->get_health();
+                enemy_health.pop_back();
+                enemy->set_health(enemy_health);
+                cout << "Enemy Health: " << enemy_health << endl;
+
+                if (enemy->get_health().empty())
+                {
+                        current_state.entity_matrix.reclaim_character_id(enemy->id);
+                        current_state.map.remove_dead_en(atck);
+                }
+                
         }
-        else if (!curr_map.in_bounds(atck))
+        else if (!current_state.map.in_bounds(atck))
         {
                 atck.row = -1;
                 atck.col = -1;
@@ -191,7 +196,7 @@ const ent::CharacterID ent::EntityMatrix::request_character_id() noexcept
         return id;
 }
 
-void ent::EntityMatrix::reclaim_character_id(const ItemID& id) noexcept
+void ent::EntityMatrix::reclaim_character_id(const CharacterID& id) noexcept
 {
         //Return the id to the pool of available ids. 
         character_id_pool.push(id);
@@ -238,6 +243,7 @@ void ent::EntityMatrix::set_enemies(std::vector<Coord> enemy_locs)
                 curr_id = this->request_character_id();
                 this->character_table.insert(std::pair(curr_id, Enemy(curr_id, std::move(loc))));
         }
+
 }
 
 std::optional<ent::CharacterID> ent::EntityMatrix::get_enemy_by_loc(const ent::Coord loc) const noexcept
@@ -261,6 +267,7 @@ std::optional<ent::Enemy> ent::EntityMatrix::get_enemy(const ent::Coord loc) con
         //If no enemy is found at the indicated location then return nothing.
         return std::nullopt;
 }
+
 
 ent::GameState::GameState():
         map(), entity_matrix(map)

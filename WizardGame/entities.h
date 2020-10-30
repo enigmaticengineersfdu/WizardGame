@@ -86,7 +86,7 @@ namespace ent {
                 */
                 Player tick(const gl::Input input, const Map& curr_map) const;
 
-                void attack(const gl::Input input, const ent::Map& curr_map);
+                void attack(const gl::Input input, struct GameState current_state);
                 void operator=(Player p);
 
 
@@ -184,6 +184,7 @@ namespace ent {
                 void operator=(EntityMatrix &em);
 
                 Player &get_player();
+                
 
                 void set_enemies(std::vector<Coord> enemy_locs);
                 std::optional<CharacterID> get_enemy_by_loc(const Coord loc) const noexcept;

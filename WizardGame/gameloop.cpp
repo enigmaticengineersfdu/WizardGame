@@ -38,7 +38,7 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
 
         /*Launches the player's attack according to their input*/
         ent::GameState new_gamestate = current_state;
-        new_gamestate.entity_matrix.get_player().attack(input, current_state.map);
+        new_gamestate.entity_matrix.get_player().attack(input, current_state);
 
         return new_gamestate;
 }

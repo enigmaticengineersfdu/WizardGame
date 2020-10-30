@@ -32,6 +32,7 @@ namespace ent
 		bool move_object(char object, Coord pos);
 		bool new_level(Coord Coord);
 		bool enemy_loc(Coord Coord) const;
+		void remove_dead_en(Coord Coord);
 		std::vector<Coord> get_enemy_locs() const;
 	};
 
