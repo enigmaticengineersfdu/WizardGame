@@ -230,7 +230,7 @@ void ent::EntityMatrix::set_enemies(std::vector<Coord> enemy_locs)
         CharacterID curr_id;
         for (Coord loc : enemy_locs) {
                 curr_id = this->request_character_id();
-                this->character_table.insert(std::pair(curr_id, Enemy(curr_id, std::move(loc))));
+                this->character_table.insert(std::pair(curr_id, Enemy(curr_id, loc)));
         }
 }
 

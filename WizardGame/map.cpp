@@ -65,7 +65,8 @@ using namespace ent;
 
 		for (int row = 0; row < room_design.size(); ++row) {
 			for (int col = 0; col < room_design[row].length(); ++col) {
-				curr_coord = { 0, 0 };
+				curr_coord.row = row;
+				curr_coord.col = col;
 				if (enemy_loc(curr_coord))
 					locs.push_back(curr_coord);
 			}
