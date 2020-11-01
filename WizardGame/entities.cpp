@@ -268,6 +268,15 @@ std::optional<ent::Enemy> ent::EntityMatrix::get_enemy(const ent::Coord loc) con
         return std::nullopt;
 }
 
+void ent::EntityMatrix::clear_enemy_table() noexcept
+{
+        //reclaim all character ids and then clear the table
+        for (auto &enemy : character_table) {
+                reclaim_character_id(enemy.first);
+        }
+        character_table.clear();
+}
+
 
 ent::GameState::GameState():
         map(), entity_matrix(map)

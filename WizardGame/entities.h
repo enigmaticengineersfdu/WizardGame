@@ -190,6 +190,8 @@ namespace ent {
                 std::optional<CharacterID> get_enemy_by_loc(const Coord loc) const noexcept;
                 std::optional<ent::Enemy> get_enemy(const ent::Coord loc) const noexcept;
 
+                void clear_enemy_table() noexcept;
+
         };
 
         struct GameState

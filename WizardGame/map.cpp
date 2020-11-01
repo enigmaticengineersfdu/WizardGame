@@ -15,10 +15,11 @@ using namespace ent;
 		file.open(file_N);
 		if (file.fail())
 		{
+			std::cerr << "The map files could not be found.\n";
 			//Reading a throwaway is much more portable and performant than 
 			//std::system("pause")
-			char throwaway;
-			std::cin >> throwaway;
+			/*char throwaway;
+			std::cin >> throwaway;*/
 			//Negative exit codes indicate errors.
 			std::exit(-1);
 		}

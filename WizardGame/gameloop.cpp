@@ -26,6 +26,8 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
                 current_level += 1;
                 new_gamestate.map.load_map(gl::levels[current_level]);
                 new_gamestate.entity_matrix.get_player().set_location(new_gamestate.map.find_pos('^'));
+                new_gamestate.entity_matrix.clear_enemy_table();
+                new_gamestate.entity_matrix.set_enemies(new_gamestate.map.get_enemy_locs());
         }
 
         new_gamestate.map.move_object('^', new_gamestate.entity_matrix.get_player().get_location());
