@@ -103,6 +103,8 @@ namespace ent {
                 */
                 void move(const gl::Input input);
         public:
+                Enemy () = default;
+                void operator=(Enemy p);
                 //The furthest distance the enemies will move from their spawn point.
                 static const unsigned int max_dist = 10;
                 //The furthest distance at which the enemies can detect the player.
@@ -129,6 +131,7 @@ namespace ent {
                 std::unordered_map<CharacterID, Enemy> character_table;  //Contains all enemies in play.
                 std::queue <CharacterID> character_id_pool;//Contains all available CharacterIDs.
                 Player player;
+                Enemy enemy;
 
                 /*Purpose: To add more ids to the id pools if they become empty.
                 * Preconditions: Either of the id pools is empty.
@@ -184,12 +187,13 @@ namespace ent {
                 void operator=(EntityMatrix &em);
 
                 Player &get_player();
+                Enemy& get_enem();
                 
 
                 void set_enemies(std::vector<Coord> enemy_locs);
                 std::optional<CharacterID> get_enemy_by_loc(const Coord loc) const noexcept;
-                std::optional<ent::Enemy> get_enemy(const ent::Coord loc) const noexcept;
-
+                ent::Enemy get_enemy(const ent::Coord loc) const noexcept;
+                void update_table(ent::Enemy);
                 void clear_enemy_table() noexcept;
 
         };

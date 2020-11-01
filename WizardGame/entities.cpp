@@ -134,15 +134,18 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
         }
         if (current_state.map.enemy_loc(atck))
         {
-                std::optional<ent::Enemy> enemy = current_state.entity_matrix.get_enemy(atck);
-                string enemy_health = enemy->get_health();
+                ent::Enemy enemy = current_state.entity_matrix.get_enemy(atck);
+                string enemy_health = enemy.get_health();
+                cout << "Enemy Health (P): " << enemy_health << endl;
                 enemy_health.pop_back();
-                enemy->set_health(enemy_health);
+                enemy.set_health(enemy_health);
+                current_state.entity_matrix.update_table(enemy);
+                
                 cout << "Enemy Health: " << enemy_health << endl;
 
-                if (enemy->get_health().empty())
+                if (enemy.get_health().empty())
                 {
-                        current_state.entity_matrix.reclaim_character_id(enemy->id);
+                        current_state.entity_matrix.reclaim_character_id(enemy.id);
                         current_state.map.remove_dead_en(atck);
                 }
                 
@@ -154,7 +157,6 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
         }
         cout<< " Attacked: " << atck.row << " " << atck.col << endl; 
 
-        //health.pop_back(); Testing deletion of player's health after attack. Function works as intended
 }
 
 void ent::Player::operator=(Player p)
@@ -177,7 +179,7 @@ void ent::EntityMatrix::replenish_id_pools() noexcept
 }
 
 ent::EntityMatrix::EntityMatrix(Map &map) noexcept :
-        character_table(), character_id_pool(), player(Player(map.find_pos('^'), '^'))
+        character_table(), character_id_pool(), player(Player(map.find_pos('^'), '^')), enemy(Enemy(-1, {-1,-1}, 'A'))
 {
         //Put 10 ids in both id pools
         for (size_t i = 1; i < 11; ++i) {
@@ -236,6 +238,11 @@ ent::Player &ent::EntityMatrix::get_player()
         return player;
 }
 
+ent::Enemy& ent::EntityMatrix::get_enem()
+{
+        return enemy;
+}
+
 void ent::EntityMatrix::set_enemies(std::vector<Coord> enemy_locs)
 {
         CharacterID curr_id;
@@ -257,7 +264,7 @@ std::optional<ent::CharacterID> ent::EntityMatrix::get_enemy_by_loc(const ent::C
         return std::nullopt;
 }
 
-std::optional<ent::Enemy> ent::EntityMatrix::get_enemy(const ent::Coord loc) const noexcept
+ent::Enemy ent::EntityMatrix::get_enemy(const ent::Coord loc) const noexcept
 {
         //search the enemy table. O(n) time.
         for (auto enemy_pair : character_table) {
@@ -265,7 +272,16 @@ std::optional<ent::Enemy> ent::EntityMatrix::get_enemy(const ent::Coord loc) con
                         return enemy_pair.second;
         }
         //If no enemy is found at the indicated location then return nothing.
-        return std::nullopt;
+        Enemy en(-1, { -1,-1 }, 'A');
+        return en;
+}
+
+void ent::EntityMatrix::update_table(ent::Enemy en)
+{
+        for (auto enemy : character_table) {
+                if (enemy.first == en.id)
+                        character_table.at(en.id) = en;
+        }
 }
 
 void ent::EntityMatrix::clear_enemy_table() noexcept
@@ -287,8 +303,16 @@ void ent::GameState::operator=(GameState gs)
 {
         this->map = gs.map;
         this->entity_matrix = gs.entity_matrix;
+       
 }
 
+void ent::Enemy::operator=(Enemy enemy)
+{
+        this->health = enemy.health;
+        this->icon = enemy.icon;
+        this->id = enemy.id;
+        this->location = enemy.location;
+}
 void ent::Enemy::move(const gl::Input input)
 {
         /*Need to fix Map::move_object to return a bool and take a character ID
