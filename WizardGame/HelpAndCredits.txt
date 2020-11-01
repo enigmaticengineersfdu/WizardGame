@@ -7,4 +7,6 @@ Attack I, J, K, L
 Commands "/"
 / Help - view help
 / Credits - view credits
+/ Resume - resumes game
+/ Quit - quits game
 
