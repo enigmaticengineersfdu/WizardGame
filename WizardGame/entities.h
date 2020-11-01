@@ -70,27 +70,6 @@ namespace ent {
                 
         };
 
-        class Player : public Character
-        {
-        private: 
-                std::unordered_map<ItemID, Item> inventory;
-        public:
-                Player() = default;
-                /*Constructor*/
-                Player(Coord _location, const char &&_icon = '^');
-                /*Purpose: Allow the player to move or take other actions.
-                * Preconditions: The game has started and the player character has been constructed.
-                * Postconditions: The player character state for the next frame is returned.
-                * Note: The result of this will need to be downcasted to Player before being inserted into the 
-                * entity matrix of the next_game_state. Make absolutely certain to do this!!!
-                */
-                Player tick(const gl::Input input, const Map& curr_map) const;
-
-                void attack(const gl::Input input, struct GameState current_state);
-                void operator=(Player p);
-
-
-        };
 
         class Enemy : public Character
         {
@@ -120,7 +99,31 @@ namespace ent {
                 * The result of this will need to be downcasted to Enemy before being inserted into the
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
+                //std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
+        };
+
+        class Player : public Character
+        {
+        private:
+                std::unordered_map<ItemID, Item> inventory;
+        public:
+                Player() = default;
+                /*Constructor*/
+                Player(Coord _location, const char&& _icon = '^');
+                /*Purpose: Allow the player to move or take other actions.
+                * Preconditions: The game has started and the player character has been constructed.
+                * Postconditions: The player character state for the next frame is returned.
+                * Note: The result of this will need to be downcasted to Player before being inserted into the
+                * entity matrix of the next_game_state. Make absolutely certain to do this!!!
+                */
+                Player tick(const gl::Input input, const Map& curr_map) const;
+
+                void attack(const gl::Input input, struct GameState current_state);
+
+                ent::Enemy attacks(const gl::Input input, struct GameState current_state);
+                void operator=(Player p);
+
+
         };
         /**Entity Management Classes**/
         class EntityMatrix

@@ -86,7 +86,7 @@ ent::Player ent::Player::tick(const gl::Input input, const ent::Map &curr_map) c
         return next_player;
 }
 
-void ent::Player::attack(const gl::Input input, struct GameState current_state)
+ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_state)
 {
         this->location = current_state.map.find_pos(this->icon);
         ent::Coord atck = location;
@@ -148,13 +148,17 @@ void ent::Player::attack(const gl::Input input, struct GameState current_state)
                         current_state.entity_matrix.reclaim_character_id(enemy.id);
                         current_state.map.remove_dead_en(atck);
                 }
+                return enemy;
                 
         }
         else if (!current_state.map.in_bounds(atck))
         {
                 atck.row = -1;
                 atck.col = -1;
+                
         }
+        Enemy en(-1, { -1,-1 }, 'A');
+        return en;
         cout<< " Attacked: " << atck.row << " " << atck.col << endl; 
 
 }
@@ -326,12 +330,12 @@ ent::Enemy::Enemy(CharacterID _id, const Coord _location, const char&& _icon)
         //No body needed
 }
 
-std::optional<ent::Enemy> ent::Enemy::tick(const gl::Input input, const Player& player) const
-{
-        //Copy the calling object to create the new version.
-        auto next = *this;
-        /*If the player is within range start moving toward them. If not then do nothing.*/
-        if (next.location.distance(player.get_location()) < detection_distance)
-                next.move(input); //start moving toward the player
-        return next;
-}
+//std::optional<ent::Enemy> ent::Enemy::tick(const gl::Input input, const Player& player) const
+//{
+//        //Copy the calling object to create the new version.
+//        auto next = *this;
+//        /*If the player is within range start moving toward them. If not then do nothing.*/
+//        if (next.location.distance(player.get_location()) < detection_distance)
+//                next.move(input); //start moving toward the player
+//        return next;
+//}
