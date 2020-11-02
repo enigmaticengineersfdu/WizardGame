@@ -44,6 +44,12 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
 
         new_gamestate.entity_matrix.update_table(new_gamestate.entity_matrix.get_enem());
 
+        if (new_gamestate.entity_matrix.get_enem().get_health().empty())
+        {
+                new_gamestate.entity_matrix.reclaim_character_id(new_gamestate.entity_matrix.get_enem().id);
+                new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_enem().get_location());
+        }
+
         return new_gamestate;
 }
 

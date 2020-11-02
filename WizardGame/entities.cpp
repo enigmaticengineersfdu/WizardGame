@@ -138,16 +138,8 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                 string enemy_health = enemy.get_health();
                 cout << "Enemy Health (P): " << enemy_health << endl;
                 enemy_health.pop_back();
-                enemy.set_health(enemy_health);
-                //current_state.entity_matrix.update_table(enemy);
-                
+                enemy.set_health(enemy_health);              
                 cout << "Enemy Health: " << enemy_health << endl;
-
-                if (enemy.get_health().empty())
-                {
-                        current_state.entity_matrix.reclaim_character_id(enemy.id);
-                        current_state.map.remove_dead_en(atck);
-                }
                 return enemy;
                 
         }
