@@ -42,6 +42,8 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
         ent::GameState new_gamestate = current_state;
         new_gamestate.entity_matrix.get_enem() = current_state.entity_matrix.get_player().attacks(input, current_state);
 
+        new_gamestate.entity_matrix.update_table(new_gamestate.entity_matrix.get_enem());
+
         return new_gamestate;
 }
 

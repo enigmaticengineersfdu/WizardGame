@@ -139,7 +139,7 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                 cout << "Enemy Health (P): " << enemy_health << endl;
                 enemy_health.pop_back();
                 enemy.set_health(enemy_health);
-                current_state.entity_matrix.update_table(enemy);
+                //current_state.entity_matrix.update_table(enemy);
                 
                 cout << "Enemy Health: " << enemy_health << endl;
 
