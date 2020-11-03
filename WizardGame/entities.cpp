@@ -177,8 +177,8 @@ void ent::EntityMatrix::replenish_id_pools() noexcept
 ent::EntityMatrix::EntityMatrix(Map &map) noexcept :
         character_table(), character_id_pool(), player(Player(map.find_pos('^'), '^')), enemy(Enemy(-1, {-1,-1}, 'A'))
 {
-        //Put 10 ids in both id pools
-        for (size_t i = 1; i < 11; ++i) {
+        //Put 25 ids in both id pools
+        for (size_t i = 1; i < 26; ++i) {
                 character_id_pool.push(i);
         }
 }

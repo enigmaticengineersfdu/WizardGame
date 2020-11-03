@@ -100,6 +100,7 @@ namespace ent {
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
                 //std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
+                //Player attack(const gl::Input input, struct GameState current_state);
         };
 
         class Player : public Character
