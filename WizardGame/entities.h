@@ -12,6 +12,8 @@
 #include <memory>
 #include <queue>
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 
 #define ID_TYPE size_t //This define makes is easier to change the type used for Item and Character IDs
 
@@ -101,8 +103,8 @@ namespace ent {
                 * The result of this will need to be downcasted to Enemy before being inserted into the
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                //std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
-                ent::Player attack(const Player& player, struct GameState current_state);
+                std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
+                ent::Player attack(struct GameState current_state);
         };
 
         class Player : public Character

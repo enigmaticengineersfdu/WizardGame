@@ -34,6 +34,8 @@ namespace ent
 		bool enemy_loc(Coord Coord) const;
 		void remove_dead_en(Coord Coord);
 		std::vector<Coord> get_enemy_locs() const;
+		Coord attack_loc(Coord loc, char obj);
+		Coord closest_enem(Coord loc);
 	};
 
 }
