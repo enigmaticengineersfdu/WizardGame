@@ -102,7 +102,7 @@ void gl::play_game(const std::optional<std::string> load_path)
                 case gl::Input::ATCK_UP:
                 case gl::Input::ATCK_DOWN:
                 case gl::Input::ATCK_LEFT:
-                case::gl::Input::ATCK_RIGHT:
+                case gl::Input::ATCK_RIGHT:
                         current_state = handle_atck(input, current_state);
                         break;
                 case gl::Input::INVALID:

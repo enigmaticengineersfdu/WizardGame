@@ -102,7 +102,7 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         atck.row--;
                         count--;
                 }
-                cout << "(Up)";
+                //cout << "(Up)";
                 break;
         case gl::Input::ATCK_LEFT:
                 atck.col -=1;
@@ -111,7 +111,7 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         atck.col--;
                         count--;
                 }
-                cout << "(Left)";
+                //cout << "(Left)";
                 break;
         case gl::Input::ATCK_DOWN:
                 atck.row ++;
@@ -120,7 +120,7 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         atck.row++;
                         count--;
                 }
-                cout << "(Down)";
+                //cout << "(Down)";
                 break;
         case gl::Input::ATCK_RIGHT:
                 atck.col ++;
@@ -129,7 +129,7 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         atck.col++;
                         count--;
                 }
-                cout << "(Right)";
+                //cout << "(Right)";
                 break;
         }
         if (current_state.map.enemy_loc(atck))
@@ -137,6 +137,7 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                 ent::Enemy enemy = current_state.entity_matrix.get_enemy(atck);
                 string enemy_health = enemy.get_health();
                 cout << "Enemy Health (P): " << enemy_health << endl;
+                cout << "Enemy ID: " << enemy.id << endl;
                 enemy_health.pop_back();
                 enemy.set_health(enemy_health);              
                 cout << "Enemy Health: " << enemy_health << endl;
@@ -151,7 +152,7 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
         }
         Enemy en(-1, { -1,-1 }, 'A');
         return en;
-        cout<< " Attacked: " << atck.row << " " << atck.col << endl; 
+        //cout<< "\n Attacked: " << atck.row << " " << atck.col << endl; 
 
 }
 
