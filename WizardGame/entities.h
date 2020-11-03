@@ -70,6 +70,8 @@ namespace ent {
                 
         };
 
+        class Player; //Forward declaration of Player class, to stop compiler errors within Enemy Class
+        struct GameState; //Forward declaration of GameState struct, to stop compiler errors
 
         class Enemy : public Character
         {
@@ -100,7 +102,7 @@ namespace ent {
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
                 //std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
-                //Player attack(const gl::Input input, struct GameState current_state);
+                ent::Player attack(const Player& player, struct GameState current_state);
         };
 
         class Player : public Character

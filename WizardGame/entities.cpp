@@ -323,6 +323,12 @@ ent::Enemy::Enemy(CharacterID _id, const Coord _location, const char&& _icon)
         //No body needed
 }
 
+ent::Player ent::Enemy::attack(const Player& player, struct GameState current_state)
+{
+
+        return player;
+}
+
 //std::optional<ent::Enemy> ent::Enemy::tick(const gl::Input input, const Player& player) const
 //{
 //        //Copy the calling object to create the new version.
