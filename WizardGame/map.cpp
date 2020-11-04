@@ -118,6 +118,27 @@ using namespace ent;
 		//No body needed.
 	}
 
+	////According to the location of the player, returns the closet enemy within attacking distance
+	//Coord ent::Map::closest_enem(Coord loc)
+	//{
+
+	//}
+
+	/*Returns the best attacking location for enemy, if possible
+	Given the player's location*/
+	Coord ent::Map::attack_loc(Coord loc, char obj)
+	{
+		for (int row = loc.row; row < loc.row + 2; row++)
+		{
+			for (int col = loc.col; col < loc.col + 2; col++)
+			{
+				if (room_design[row][col] == obj)
+					return { row, col };
+			}
+		}
+		return { -1,-1 };
+	}
+
 	unsigned int ent::Coord::distance(const Coord other) const noexcept
 	{
 		/*These variables represent the lengths a and b legs of the right

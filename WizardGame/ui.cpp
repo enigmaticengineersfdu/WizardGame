@@ -25,6 +25,25 @@ void startScreen()
 		else {
 			continue;
 		}
+
 	}
+
+	//cout << "Would you like to play again? 'Yes' or 'No'" << endl;
+	//cin >> choice;
+
+	//while (choice == "yes")
+	//{
+	//	std::cout << "Welcome to Apostate!\nPick an option:\n" << std::endl;
+	//	std::cout << "Play \nQuit" << std::endl;
+
+	//	std::cout << "\n*If you need instructions on how to play the game\ntype \"/\" when the game starts";
+	//	std::cout << " then type \"help\".\n" << std::endl;
+	//	gl::play_game(std::nullopt);
+
+	//	cout << "Would you like to play again? 'Yes' or 'No'" << endl;
+	//	cin >> choice;
+
+	//}
+
 }
 
