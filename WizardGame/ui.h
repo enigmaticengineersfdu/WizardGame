@@ -3,6 +3,7 @@
 
 #include "gameloop.h"
 #include <iostream>
+using namespace std;
 
 void startScreen();
 

@@ -37,10 +37,27 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
 
 ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) noexcept
 {
-
+        srand(time(NULL));
         /*Launches the player's attack according to their input*/
         ent::GameState new_gamestate = current_state;
         new_gamestate.entity_matrix.get_enem() = current_state.entity_matrix.get_player().attacks(input, current_state);
+
+        new_gamestate.entity_matrix.update_table(new_gamestate.entity_matrix.get_enem());
+
+        if (new_gamestate.entity_matrix.get_enem().get_health().empty())
+        {
+                new_gamestate.entity_matrix.reclaim_character_id(new_gamestate.entity_matrix.get_enem().id);
+                new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_enem().get_location());
+        }
+
+        //new_gamestate.entity_matrix.get_player() = current_state.entity_matrix.get_enem().attack(current_state);
+
+        if (new_gamestate.entity_matrix.get_player().get_health().empty())
+        {
+                cout << "Sorry, better luck next time" << endl;
+                std::exit(0);
+               
+        }
 
         return new_gamestate;
 }
@@ -94,7 +111,7 @@ void gl::play_game(const std::optional<std::string> load_path)
                 case gl::Input::ATCK_UP:
                 case gl::Input::ATCK_DOWN:
                 case gl::Input::ATCK_LEFT:
-                case::gl::Input::ATCK_RIGHT:
+                case gl::Input::ATCK_RIGHT:
                         current_state = handle_atck(input, current_state);
                         break;
                 case gl::Input::INVALID:

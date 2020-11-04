@@ -12,6 +12,8 @@
 #include <memory>
 #include <queue>
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 
 #define ID_TYPE size_t //This define makes is easier to change the type used for Item and Character IDs
 
@@ -70,6 +72,8 @@ namespace ent {
                 
         };
 
+        class Player; //Forward declaration of Player class, to stop compiler errors within Enemy Class
+        struct GameState; //Forward declaration of GameState struct, to stop compiler errors
 
         class Enemy : public Character
         {
@@ -99,7 +103,8 @@ namespace ent {
                 * The result of this will need to be downcasted to Enemy before being inserted into the
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                //std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
+                std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
+                ent::Player attack(struct GameState current_state);
         };
 
         class Player : public Character
@@ -117,8 +122,6 @@ namespace ent {
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
                 Player tick(const gl::Input input, const Map& curr_map) const;
-
-                void attack(const gl::Input input, struct GameState current_state);
 
                 ent::Enemy attacks(const gl::Input input, struct GameState current_state);
                 void operator=(Player p);
