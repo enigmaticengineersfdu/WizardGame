@@ -90,10 +90,10 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
 {
         this->location = current_state.map.find_pos(this->icon);
         ent::Coord atck = location;
-        cout << "Location: " << location.row << " " << location.col << endl;
+        //cout << "Location: " << location.row << " " << location.col << endl;
         int count = 3;
         int attck_amt = rand() % 3 + 1;
-        cout << "\nAttack: " << attck_amt << endl;
+        //cout << "\nAttack: " << attck_amt << endl;
 
         switch (input)
         { 
@@ -104,7 +104,6 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         atck.row--;
                         count--;
                 }
-                //cout << "(Up)";
                 break;
         case gl::Input::ATCK_LEFT:
                 atck.col -=1;
@@ -113,7 +112,6 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         atck.col--;
                         count--;
                 }
-                //cout << "(Left)";
                 break;
         case gl::Input::ATCK_DOWN:
                 atck.row ++;
@@ -122,7 +120,6 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         atck.row++;
                         count--;
                 }
-                //cout << "(Down)";
                 break;
         case gl::Input::ATCK_RIGHT:
                 atck.col ++;
@@ -131,15 +128,12 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         atck.col++;
                         count--;
                 }
-                //cout << "(Right)";
                 break;
         }
         if (current_state.map.enemy_loc(atck))
         {
                 ent::Enemy enemy = current_state.entity_matrix.get_enemy(atck);
                 string enemy_health = enemy.get_health();
-                cout << "Enemy Health (P): " << enemy_health << endl;
-                cout << "Enemy ID: " << enemy.id << endl;
 
                 if (attck_amt == 1 || attck_amt == 2)
                 {
@@ -151,8 +145,7 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         enemy_health = "";
                         enemy.set_health(enemy_health);
                 }
-                             
-                cout << "Enemy Health: " << enemy_health << endl;
+                            
                 return enemy;
                 
         }
@@ -164,7 +157,6 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
         }
         Enemy en(-1, { -1,-1 }, 'A');
         return en;
-        //cout<< "\n Attacked: " << atck.row << " " << atck.col << endl; 
 
 }
 
