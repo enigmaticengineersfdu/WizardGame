@@ -12,6 +12,8 @@
 #include <memory>
 #include <queue>
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 
 #define ID_TYPE size_t //This define makes is easier to change the type used for Item and Character IDs
 
@@ -70,27 +72,8 @@ namespace ent {
                 
         };
 
-        class Player : public Character
-        {
-        private: 
-                std::unordered_map<ItemID, Item> inventory;
-        public:
-                Player() = default;
-                /*Constructor*/
-                Player(Coord _location, const char &&_icon = '^');
-                /*Purpose: Allow the player to move or take other actions.
-                * Preconditions: The game has started and the player character has been constructed.
-                * Postconditions: The player character state for the next frame is returned.
-                * Note: The result of this will need to be downcasted to Player before being inserted into the 
-                * entity matrix of the next_game_state. Make absolutely certain to do this!!!
-                */
-                Player tick(const gl::Input input, const Map& curr_map) const;
-
-                void attack(const gl::Input input, struct GameState current_state);
-                void operator=(Player p);
-
-
-        };
+        class Player; //Forward declaration of Player class, to stop compiler errors within Enemy Class
+        struct GameState; //Forward declaration of GameState struct, to stop compiler errors
 
         class Enemy : public Character
         {
@@ -103,6 +86,8 @@ namespace ent {
                 */
                 void move(const gl::Input input);
         public:
+                Enemy () = default;
+                void operator=(Enemy p);
                 //The furthest distance the enemies will move from their spawn point.
                 static const unsigned int max_dist = 10;
                 //The furthest distance at which the enemies can detect the player.
@@ -119,6 +104,29 @@ namespace ent {
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
                 std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
+                ent::Player attack(struct GameState current_state);
+        };
+
+        class Player : public Character
+        {
+        private:
+                std::unordered_map<ItemID, Item> inventory;
+        public:
+                Player() = default;
+                /*Constructor*/
+                Player(Coord _location, const char&& _icon = '^');
+                /*Purpose: Allow the player to move or take other actions.
+                * Preconditions: The game has started and the player character has been constructed.
+                * Postconditions: The player character state for the next frame is returned.
+                * Note: The result of this will need to be downcasted to Player before being inserted into the
+                * entity matrix of the next_game_state. Make absolutely certain to do this!!!
+                */
+                Player tick(const gl::Input input, const Map& curr_map) const;
+
+                ent::Enemy attacks(const gl::Input input, struct GameState current_state);
+                void operator=(Player p);
+
+
         };
         /**Entity Management Classes**/
         class EntityMatrix
@@ -129,6 +137,7 @@ namespace ent {
                 std::unordered_map<CharacterID, Enemy> character_table;  //Contains all enemies in play.
                 std::queue <CharacterID> character_id_pool;//Contains all available CharacterIDs.
                 Player player;
+                Enemy enemy;
 
                 /*Purpose: To add more ids to the id pools if they become empty.
                 * Preconditions: Either of the id pools is empty.
@@ -184,9 +193,15 @@ namespace ent {
                 void operator=(EntityMatrix &em);
 
                 Player &get_player();
+                Enemy& get_enem();
+                
 
                 void set_enemies(std::vector<Coord> enemy_locs);
                 std::optional<CharacterID> get_enemy_by_loc(const Coord loc) const noexcept;
+                ent::Enemy get_enemy(const ent::Coord loc) const noexcept;
+                void update_table(ent::Enemy);
+                void clear_enemy_table() noexcept;
+
         };
 
         struct GameState

@@ -26,6 +26,8 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
                 current_level += 1;
                 new_gamestate.map.load_map(gl::levels[current_level]);
                 new_gamestate.entity_matrix.get_player().set_location(new_gamestate.map.find_pos('^'));
+                new_gamestate.entity_matrix.clear_enemy_table();
+                new_gamestate.entity_matrix.set_enemies(new_gamestate.map.get_enemy_locs());
         }
 
         new_gamestate.map.move_object('^', new_gamestate.entity_matrix.get_player().get_location());
@@ -35,12 +37,30 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
 
 ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) noexcept
 {
-        auto player = current_state.entity_matrix.get_player();
-        player.attack(input, current_state);
-
+        srand(time(NULL));
         /*Launches the player's attack according to their input*/
         ent::GameState new_gamestate = current_state;
-        new_gamestate.entity_matrix.get_player().attack(input, current_state);
+        new_gamestate.entity_matrix.get_enem() = current_state.entity_matrix.get_player().attacks(input, current_state);
+
+        new_gamestate.entity_matrix.update_table(new_gamestate.entity_matrix.get_enem());
+
+        if (new_gamestate.entity_matrix.get_enem().get_health().empty())
+        {
+                new_gamestate.entity_matrix.reclaim_character_id(new_gamestate.entity_matrix.get_enem().id);
+                new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_enem().get_location());
+        }
+
+        new_gamestate.entity_matrix.get_player() = current_state.entity_matrix.get_enem().attack(current_state);
+
+        if (new_gamestate.entity_matrix.get_player().get_health().empty())
+        {
+                new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_player().get_location());
+                new_gamestate.map.show_map();
+                std::cout << "Player HP:" << new_gamestate.entity_matrix.get_player().get_health() << '\n';
+                cout << "Sorry, better luck next time" << endl;
+                std::exit(0);
+               
+        }
 
         return new_gamestate;
 }
@@ -94,7 +114,7 @@ void gl::play_game(const std::optional<std::string> load_path)
                 case gl::Input::ATCK_UP:
                 case gl::Input::ATCK_DOWN:
                 case gl::Input::ATCK_LEFT:
-                case::gl::Input::ATCK_RIGHT:
+                case gl::Input::ATCK_RIGHT:
                         current_state = handle_atck(input, current_state);
                         break;
                 case gl::Input::INVALID:
