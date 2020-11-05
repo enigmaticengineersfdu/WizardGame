@@ -54,6 +54,9 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
 
         if (new_gamestate.entity_matrix.get_player().get_health().empty())
         {
+                new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_player().get_location());
+                new_gamestate.map.show_map();
+                std::cout << "Player HP:" << new_gamestate.entity_matrix.get_player().get_health() << '\n';
                 cout << "Sorry, better luck next time" << endl;
                 std::exit(0);
                
