@@ -92,7 +92,7 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
         ent::Coord atck = location;
         //cout << "Location: " << location.row << " " << location.col << endl;
         int count = 3;
-        int attck_amt = rand() % 3 + 1;
+        int attck_amt = rand() % 4 + 1;
         //cout << "\nAttack: " << attck_amt << endl;
 
         switch (input)
@@ -135,12 +135,12 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                 ent::Enemy enemy = current_state.entity_matrix.get_enemy(atck);
                 string enemy_health = enemy.get_health();
 
-                if (attck_amt == 1 || attck_amt == 2)
+                if (attck_amt != 4)
                 {
                         enemy_health.pop_back();
                         enemy.set_health(enemy_health);
                 }
-                else if (attck_amt == 3)
+                else if (attck_amt == 4)
                 {
                         enemy_health = "";
                         enemy.set_health(enemy_health);
@@ -331,16 +331,23 @@ ent::Player ent::Enemy::attack(struct GameState current_state)
 {
         Player player = current_state.entity_matrix.get_player();
         string health = player.get_health();
-        //this->location = current_state.entity_matrix.get_player().attacks().get_location();
-        Coord attck = current_state.map.attack_loc(player.get_location(), player.icon);
-        int attck_amt = rand() % 2;
-        if (player.get_location() == attck && attck_amt == 1)
+        this->location = current_state.map.closest_enem(player.get_location());
+        /*cout << "Row: " << location.row << endl;
+        cout << "Col: " << location.col << endl;*/
+        if (location.row != -1 && location.col != -1)
         {
-                health.pop_back();
-                player.set_health(health);
-                
-        }
+                Coord attck = current_state.map.attack_loc(location, player.icon);
+                /*cout << "(A) Row: " << attck.row << endl;
+                cout << "(A) Col: " << attck.col << endl;*/
+                int attck_amt = rand() % 2;
+                /*cout << "Attack: " << attck_amt << endl;*/
+                if (player.get_location() == attck && attck_amt == 1)
+                {
+                        health.pop_back();
+                        player.set_health(health);
 
+                }
+        }
         return player;
 }
 

@@ -2,6 +2,7 @@
 using namespace ent;
 
 
+	//Default constrcutor of the map class
 	ent::Map::Map()
 	{
 		room_design = {};
@@ -41,6 +42,8 @@ using namespace ent;
 		std::cout << std::endl;
 	}
 	
+	/*Returns true if location is in bounds (empty placeholder or player can advance to next
+	level)*/
 	bool ent::Map::in_bounds(Coord Coord) const noexcept
 	{
 		if (room_design[Coord.row][Coord.col] == '.' || room_design[Coord.row][Coord.col] == '*' )
@@ -49,6 +52,8 @@ using namespace ent;
 			return false;
 	}
 
+	/*returns true if the player is able to move onto the next
+	level*/
 	bool ent::Map::new_level(Coord Coord)
 	{
 		if (room_design[Coord.row][Coord.col] == '*')
@@ -59,6 +64,8 @@ using namespace ent;
 		else
 			return false;
 	}
+	/*Assuming given pos is the pos of the enemy that just died, it makes the
+	given location an empty space '.'*/
 	void ent::Map::remove_dead_en(Coord pos)
 	{
 		room_design[pos.row][pos.col] = '.';
@@ -79,12 +86,17 @@ using namespace ent;
 		}
 		return locs;
 	}
+
+	/*If inputted coordinate is where an enemy is located, returns true*/
 	bool ent::Map::enemy_loc(Coord Coord) const
 	{
 		/*Try to somehow have a list of all enemies ids to check if player hits valid enemy*/
 		return room_design[Coord.row][Coord.col] == 'A';
 	}
-	
+
+	/*Given the icon of the object, the map (vector) is searched by row and col to determine
+	* the loc of the object
+	*/
 	Coord ent::Map::find_pos(char object) const
 	{
 		Coord cd(0, 0);
@@ -102,6 +114,10 @@ using namespace ent;
 		return cd;
 	}
 
+	/*Given the icon and proposed location of the object, the object is searched for in
+	* the map. If the proposed location is in bounds, the current loc of object becomes
+	* an empty space, and the object's pos becomes new loc
+	* */
 	bool ent::Map::move_object(char object, Coord pos)
 	{
 		if (in_bounds(pos)) {
@@ -118,23 +134,33 @@ using namespace ent;
 		//No body needed.
 	}
 
-	////According to the location of the player, returns the closet enemy within attacking distance
-	//Coord ent::Map::closest_enem(Coord loc)
-	//{
-
-	//}
-
-	/*Returns the best attacking location for enemy, if possible
-	Given the player's location*/
-	Coord ent::Map::attack_loc(Coord loc, char obj)
+	//According to the location of the player, returns the closet enemy within set grid location 5x5
+	Coord ent::Map::closest_enem(Coord loc)
 	{
-		for (int row = loc.row; row < loc.row + 2; row++)
+		for (int row = loc.row-5; row < loc.row + 6; row++)
 		{
-			for (int col = loc.col; col < loc.col + 2; col++)
+			for (int col = loc.col-5; col < loc.col + 6; col++)
 			{
-				if (room_design[row][col] == obj)
+				if (room_design[row][col] == 'A')
 					return { row, col };
 			}
+		}
+		return { -1,-1 };
+	}
+
+	/*Returns the best attacking location for enemy, if player
+	is within attacking range.*/
+	Coord ent::Map::attack_loc(Coord loc, char obj)
+	{
+		int col = loc.col - 3;
+		for (int row = loc.row-3; row < loc.row + 4; row++)
+		{
+			/*Trying to form t coordinate system for attacks*/
+			if (room_design[row][loc.col] == obj)
+				return { row, loc.col };
+			else if (room_design[loc.row][col] == obj)
+				return { loc.row, col };
+			col++;
 		}
 		return { -1,-1 };
 	}
