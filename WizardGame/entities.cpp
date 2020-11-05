@@ -314,11 +314,42 @@ void ent::Enemy::operator=(Enemy enemy)
         this->id = enemy.id;
         this->location = enemy.location;
 }
-void ent::Enemy::move(const gl::Input input)
+
+/********Work in progress************/
+void ent::Enemy::move(const ent::Player &player, ent::Map &map)
 {
-        /*Need to fix Map::move_object to return a bool and take a character ID
-        * before implementing this.
-        */
+        /*Decide the priority of possible movement locations.*/
+        gl::Input priority[4];
+
+        Coord player_loc = player.get_location();
+        unsigned int v_dist = std::abs(location.col - player_loc.col);
+        unsigned int h_dist = std::abs(location.row - player_loc.row);
+        //need to finish
+
+        /*Try each possible movement in the priority order until one works.*/
+        for (gl::Input prop_loc : priority) {
+                /*If the enemy can move in the proposed direction then do so and update the location.*/
+                if (map.move_object('A', location)) {
+                        /*Determine the new move location*/
+                        switch (prop_loc)
+                        {
+                        case gl::Input::MV_UP:
+                                this->location.col--;
+                                break;
+                        case gl::Input::MV_DOWN:
+                                this->location.col++;
+                                break;
+                        case gl::Input::MV_LEFT:
+                                this->location.row--;
+                                break;
+                        case gl::Input::MV_RIGHT:
+                                this->location.row++;
+                                break;
+                        default:
+                                break;
+                        }
+                }
+        }
 }
 
 ent::Enemy::Enemy(CharacterID _id, const Coord _location, const char&& _icon)
@@ -351,12 +382,15 @@ ent::Player ent::Enemy::attack(struct GameState current_state)
         return player;
 }
 
-std::optional<ent::Enemy> ent::Enemy::tick(const gl::Input input, const Player& player) const
+std::optional<ent::Enemy> ent::Enemy::tick(const gl::Input input, const Player& next_player, Map &next_map) const
 {
+        //Player will only be dected within a set distance
+        const unsigned int detection_distance = 10;
         //Copy the calling object to create the new version.
         auto next = *this;
         /*If the player is within range start moving toward them. If not then do nothing.*/
-        if (next.location.distance(player.get_location()) < detection_distance)
-                next.move(input); //start moving toward the player
+        if (next.location.distance(next_player.get_location()) < detection_distance)
+                next.move(next_player, next_map); //start moving toward the player
+        
         return next;
 }

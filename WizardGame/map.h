@@ -14,7 +14,7 @@ namespace ent
 		int row;
 		int col;
 		//Constructor
-		Coord(int _row, int _col);
+		Coord(int _row = -1, int _col = -1);
 		unsigned int distance(const Coord other) const noexcept;
 		bool operator==(const Coord &other) const noexcept;
 	};

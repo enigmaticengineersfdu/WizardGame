@@ -84,7 +84,7 @@ namespace ent {
                 * Preconditions: Is valid.
                 * Posconditions: Updates the Map and location if the movment was valid and does nothing otherwise
                 */
-                void move(const gl::Input input);
+                void move(const Player& player, Map& map);
         public:
                 Enemy () = default;
                 void operator=(Enemy p);
@@ -103,7 +103,7 @@ namespace ent {
                 * The result of this will need to be downcasted to Enemy before being inserted into the
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                std::optional<Enemy> tick(const gl::Input input, const Player &player) const;
+                std::optional<ent::Enemy> tick(const gl::Input input, const Player& next_player, Map& next_map) const;
                 ent::Player attack(struct GameState current_state);
         };
 
