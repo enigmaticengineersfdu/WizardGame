@@ -7,6 +7,23 @@
 //Level 
 static unsigned int current_level = 0;
 
+
+/*Purpose: To render the game screen as a string.
+* Preconditions: State represents the game state to be shown.
+* Postconditions: The textual representation of the state is returned as a string.
+* Throws: none.
+* Note: Should only be called in play_game.
+*/
+void render_frame(ent::GameState& state) noexcept
+{
+        //Shows the Map, Level and player stats
+        state.map.show_map();
+        std::cout << "Level:" << current_level + 1 << '\n';
+        std::cout << "Player HP:" << state.entity_matrix.get_player().get_health() << '\n';
+
+}
+
+
 /**Input Handlers**/
 /*Purpose: Handle movement input in the game loop.
 * Preconditions: The current game state is valid.
@@ -54,9 +71,10 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
 
         if (new_gamestate.entity_matrix.get_player().get_health().empty())
         {
-                new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_player().get_location());
+                /*new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_player().get_location());
                 new_gamestate.map.show_map();
-                std::cout << "Player HP:" << new_gamestate.entity_matrix.get_player().get_health() << '\n';
+                std::cout << "Player HP:" << new_gamestate.entity_matrix.get_player().get_health() << '\n';*/
+                render_frame(new_gamestate);
                 cout << "Sorry, better luck next time" << endl;
                 std::exit(0);
                
@@ -65,21 +83,6 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
         return new_gamestate;
 }
 
-
-/*Purpose: To render the game screen as a string.
-* Preconditions: State represents the game state to be shown.
-* Postconditions: The textual representation of the state is returned as a string.
-* Throws: none.
-* Note: Should only be called in play_game.
-*/
-void render_frame(ent::GameState& state) noexcept
-{
-        //Shows the Map, Level and player stats
-        state.map.show_map();
-        std::cout << "Level:" << current_level + 1 << '\n';
-        std::cout << "Player HP:" << state.entity_matrix.get_player().get_health() << '\n';
-
-}
 
 /**Function Definitions**/
 void gl::play_game(const std::optional<std::string> load_path)
