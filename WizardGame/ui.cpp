@@ -1,4 +1,7 @@
 #include "ui.h"
+#include <string>
+#include <cctype>
+#include <algorithm>
 
 
 void startScreen()
@@ -7,6 +10,7 @@ void startScreen()
 
 	std::string choice;
 
+
 	while (true) {
 		std::cout << "Welcome to Apostate!\nPick an option:\n" << std::endl;
 		std::cout << "Play \nQuit" << std::endl;
@@ -14,8 +18,16 @@ void startScreen()
 		std::cout << "\n*If you need instructions on how to play the game\ntype \"/\" when the game starts";
 		std::cout << " then type \"help\".\n" << std::endl;
 
+
+
 		std::cin >> choice;
 
+		for (char &i : choice)
+		{
+			i = std::tolower(i);
+		}
+		
+		
 		if (choice == "play") {
 			gl::play_game(std::nullopt);
 		}
