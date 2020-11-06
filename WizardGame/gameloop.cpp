@@ -64,12 +64,12 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
 
         if (new_gamestate.entity_matrix.get_enem().get_health().empty())
         {
-                new_gamestate.entity_matrix.reclaim_character_id(new_gamestate.entity_matrix.get_enem().id);
                 new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_enem().get_location());
+                new_gamestate.entity_matrix.reclaim_character_id(new_gamestate.entity_matrix.get_enem().id);
         }
 
         /*Launches the enemy's attack*/
-        new_gamestate.entity_matrix.get_player() = current_state.entity_matrix.get_enem().attack(current_state);
+        new_gamestate.entity_matrix.get_player() = new_gamestate.entity_matrix.get_enem().attack(new_gamestate);
 
         if (new_gamestate.entity_matrix.get_player().get_health().empty())
         {

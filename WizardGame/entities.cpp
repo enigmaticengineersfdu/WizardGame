@@ -183,7 +183,7 @@ ent::EntityMatrix::EntityMatrix(Map &map) noexcept :
         character_table(), character_id_pool(), player(Player(map.find_pos('^'), '^')), enemy(Enemy(-1, {-1,-1}, 'A'))
 {
         //Put 25 ids in both id pools
-        for (size_t i = 1; i < 26; ++i) {
+        for (size_t i = 1; i < 100; ++i) {
                 character_id_pool.push(i);
         }
 }
