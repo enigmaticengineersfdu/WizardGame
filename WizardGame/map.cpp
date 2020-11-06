@@ -46,7 +46,8 @@ using namespace ent;
 	level)*/
 	bool ent::Map::in_bounds(Coord Coord) const noexcept
 	{
-		if (room_design[Coord.row][Coord.col] == '.' || room_design[Coord.row][Coord.col] == '*' )
+		if (room_design[Coord.row][Coord.col] == '.' || room_design[Coord.row][Coord.col] == '*'
+			|| room_design[Coord.row][Coord.col] == '+')
 			return true;
 		else
 			return false;
@@ -64,11 +65,26 @@ using namespace ent;
 		else
 			return false;
 	}
+
+	bool ent::Map::health_potion(Coord Coord)
+	{
+		if (room_design[Coord.row][Coord.col] == '+')
+		{
+			return true;
+		}
+		else
+			return false;
+	}
 	/*Assuming given pos is the pos of the enemy that just died, it makes the
 	given location an empty space '.'*/
-	void ent::Map::remove_dead_en(Coord pos)
+	void ent::Map::remove_dead_en(Coord pos, int spawn)
 	{
-		room_design[pos.row][pos.col] = '.';
+		if ((room_design[pos.row][pos.col] == 'A') && spawn == 1)
+		{
+			room_design[pos.row][pos.col] = '+';
+		}
+		else
+			room_design[pos.row][pos.col] = '.';
 
 	}
 	std::vector<Coord> ent::Map::get_enemy_locs() const

@@ -47,6 +47,8 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
                 new_gamestate.entity_matrix.clear_enemy_table();
                 new_gamestate.entity_matrix.set_enemies(new_gamestate.map.get_enemy_locs());
         }
+        if (new_gamestate.map.health_potion(new_gamestate.entity_matrix.get_player().get_location()))
+                new_gamestate.entity_matrix.get_player().set_health("---");
 
         new_gamestate.map.move_object('^', new_gamestate.entity_matrix.get_player().get_location());
 
@@ -64,9 +66,10 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
         cout << "Finished Attacking" << endl;
         /*If enemy dies, remove them from the map, and update the character table*/
         if (new_gamestate.entity_matrix.get_enem().get_health().empty())
-        {               
+        {   
+                int spawn_chance = rand() % 2;
                 cout << "Removing Dead Enemy" << endl;
-                new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_enem().get_location());               
+                new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_enem().get_location(), spawn_chance);               
                 new_gamestate.entity_matrix.reclaim_character_id(new_gamestate.entity_matrix.get_enem().id);
         }
 
@@ -80,7 +83,7 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
                 if (new_gamestate.entity_matrix.get_player().get_health().empty())
                 {
                         /*If player is dead, remove them from map, show next gamestate, and call replay function*/
-                        new_gamestate.map.remove_dead_en(current_state.entity_matrix.get_player().get_location());
+                        new_gamestate.map.remove_dead_en(current_state.entity_matrix.get_player().get_location(), 0);
                         render_frame(new_gamestate);
                         current_level = 0;
                         playAgain();
