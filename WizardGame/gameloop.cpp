@@ -75,6 +75,7 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
         {
                 new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_player().get_location());
                 render_frame(new_gamestate);
+                current_level = 0;
                 playAgain();
                 std::exit(0);
                
