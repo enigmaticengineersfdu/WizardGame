@@ -130,17 +130,21 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                 }
                 break;
         }
+        cout << "Checking Map for enemy" << endl;
         if (current_state.map.enemy_loc(atck))
         {
+                cout << "Enemy found, declaring new en" << endl;
                 ent::Enemy enemy = current_state.entity_matrix.get_enemy(atck);
                 string enemy_health = enemy.get_health();
                 if (attck_amt != 4)
                 {
+                        cout << "Poping Out Enenmy Health" << endl;
                         enemy_health.pop_back();
                         enemy.set_health(enemy_health);
                 }
                 else if (attck_amt == 4)
                 {
+                        cout << "Setiing Health to 0" << endl;
                         enemy_health = "";
                         enemy.set_health(enemy_health);
                 }
@@ -358,22 +362,28 @@ ent::Enemy::Enemy(CharacterID _id, const Coord _location, const char&& _icon)
 
 ent::Player ent::Enemy::attack(struct GameState current_state)
 {
+        cout << "Entering Enemey" << endl;
         Player player = current_state.entity_matrix.get_player();
         string health = player.get_health();
         this->location = current_state.map.closest_enem(player.get_location());
-;
+
+        
         if (location.row != -1 && location.col != -1)
         {
+                cout << "Enenmy Loc Valid, entering attack" << endl;
                 Coord attck = current_state.map.attack_loc(location, player.icon);
                 int attck_amt = rand() % 4;
 
+                cout << "Attcak loc Set" << endl;
                 if (player.get_location() == attck && attck_amt == 1)
                 {
+                        cout << "Attacked Player: " << endl;
                         health.pop_back();
                         player.set_health(health);
 
                 }
         }
+        cout << "Leaving E Attack" << endl;
         return player;
 }
 

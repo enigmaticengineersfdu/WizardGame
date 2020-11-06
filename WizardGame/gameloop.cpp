@@ -58,24 +58,29 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
         srand(time(NULL));
         /*Launches the player's attack according to their input*/
         ent::GameState new_gamestate = current_state;
+        cout << "Attacking 1st" << endl;
         new_gamestate.entity_matrix.get_enem() = current_state.entity_matrix.get_player().attacks(input, current_state);
         new_gamestate.entity_matrix.update_table(new_gamestate.entity_matrix.get_enem());
-
+        cout << "Finished Attacking" << endl;
         /*If enemy dies, remove them from the map, and update the character table*/
         if (new_gamestate.entity_matrix.get_enem().get_health().empty())
         {               
+                cout << "Removing Dead Enemy" << endl;
                 new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_enem().get_location());               
                 new_gamestate.entity_matrix.reclaim_character_id(new_gamestate.entity_matrix.get_enem().id);
         }
+
         /*Checks to make sure enemy is valid before launching into it's attack*/
         else if (new_gamestate.map.closest_enem(new_gamestate.map.find_pos('^')).col != -1)
         {
                 /*Attacks the player*/
-                new_gamestate.entity_matrix.get_player() = new_gamestate.entity_matrix.get_enem().attack(new_gamestate);
+                cout << "Leaving Loop for E Attack" << endl;
+                new_gamestate.entity_matrix.get_player() = current_state.entity_matrix.get_enem().attack(new_gamestate);
+                cout << "Back from E Attack, Checking Player Stat" << endl;
                 if (new_gamestate.entity_matrix.get_player().get_health().empty())
                 {
                         /*If player is dead, remove them from map, show next gamestate, and call replay function*/
-                        new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_player().get_location());
+                        new_gamestate.map.remove_dead_en(current_state.entity_matrix.get_player().get_location());
                         render_frame(new_gamestate);
                         current_level = 0;
                         playAgain();
