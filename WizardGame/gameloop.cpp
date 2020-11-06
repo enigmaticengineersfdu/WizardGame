@@ -68,7 +68,7 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
                 new_gamestate.entity_matrix.reclaim_character_id(new_gamestate.entity_matrix.get_enem().id);
         }
         /*Checks to make sure enemy is valid before launching into it's attack*/
-        else if (new_gamestate.entity_matrix.get_enem().get_location().row != -1)
+        else if (new_gamestate.map.closest_enem(new_gamestate.map.find_pos('^')).col != -1)
         {
                 /*Attacks the player*/
                 new_gamestate.entity_matrix.get_player() = new_gamestate.entity_matrix.get_enem().attack(new_gamestate);

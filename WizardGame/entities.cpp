@@ -365,7 +365,6 @@ ent::Player ent::Enemy::attack(struct GameState current_state)
         if (location.row != -1 && location.col != -1)
         {
                 Coord attck = current_state.map.attack_loc(location, player.icon);
-
                 int attck_amt = rand() % 4;
 
                 if (player.get_location() == attck && attck_amt == 1)
