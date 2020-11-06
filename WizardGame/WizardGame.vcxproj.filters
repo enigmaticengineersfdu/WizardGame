@@ -44,7 +44,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="entities.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
