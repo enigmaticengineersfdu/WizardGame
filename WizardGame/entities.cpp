@@ -134,8 +134,6 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
         {
                 ent::Enemy enemy = current_state.entity_matrix.get_enemy(atck);
                 string enemy_health = enemy.get_health();
-                cout << "Starting Player Attack" << endl;
-                cout << "P Health: " << enemy_health << endl;
                 if (attck_amt != 4)
                 {
                         enemy_health.pop_back();
@@ -146,8 +144,6 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         enemy_health = "";
                         enemy.set_health(enemy_health);
                 }
-                cout << "A Health: " << enemy_health << endl;
-                cout << "Leaving Player Attack" << endl;
                 return enemy;
                 
         }
@@ -362,34 +358,23 @@ ent::Enemy::Enemy(CharacterID _id, const Coord _location, const char&& _icon)
 
 ent::Player ent::Enemy::attack(struct GameState current_state)
 {
-        cout << "Aquiring Player" << endl;
         Player player = current_state.entity_matrix.get_player();
-        cout << "getting player Health " << endl;
         string health = player.get_health();
-        cout << "Get Enemy Location" << endl;
         this->location = current_state.map.closest_enem(player.get_location());
-        cout << "Got Location" << endl;
-        /*cout << "Row: " << location.row << endl;
-        cout << "Col: " << location.col << endl;*/
+;
         if (location.row != -1 && location.col != -1)
         {
-                cout << "Getting Attack location" << endl;
                 Coord attck = current_state.map.attack_loc(location, player.icon);
-                cout << "Got Loc" << endl;
-                /*cout << "(A) Row: " << attck.row << endl;
-                cout << "(A) Col: " << attck.col << endl;*/
+
                 int attck_amt = rand() % 4;
-                /*cout << "Attack: " << attck_amt << endl;*/
-                cout << "P Health " << health << endl;
+
                 if (player.get_location() == attck && attck_amt == 1)
                 {
                         health.pop_back();
-                        cout << "A Health " << health << endl;
                         player.set_health(health);
 
                 }
         }
-        cout << "Exiting Enemy Attack" << endl;
         return player;
 }
 
