@@ -3,6 +3,7 @@
 #include "gameloop.h"
 #include "entities.h"
 #include "commandmode.h"
+#include "ui.h"
 
 //Level 
 static unsigned int current_level = 0;
@@ -67,15 +68,14 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
                 new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_enem().get_location());
         }
 
+        /*Launches the enemy's attack*/
         new_gamestate.entity_matrix.get_player() = current_state.entity_matrix.get_enem().attack(current_state);
 
         if (new_gamestate.entity_matrix.get_player().get_health().empty())
         {
-                /*new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_player().get_location());
-                new_gamestate.map.show_map();
-                std::cout << "Player HP:" << new_gamestate.entity_matrix.get_player().get_health() << '\n';*/
+                new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_player().get_location());
                 render_frame(new_gamestate);
-                cout << "Sorry, better luck next time" << endl;
+                playAgain();
                 std::exit(0);
                
         }

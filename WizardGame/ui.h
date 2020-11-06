@@ -6,6 +6,7 @@
 using namespace std;
 
 void startScreen();
+void playAgain();
 
 
 #endif 
