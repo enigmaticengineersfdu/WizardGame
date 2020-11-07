@@ -19,7 +19,6 @@ void render_frame(ent::GameState& state) noexcept
 {
         //Shows the Map, Level and player stats
         state.map.show_map();
-        state.map.map_size();
         std::cout << "Level:" << current_level + 1 << '\n';
         std::cout << "Player HP:" << state.entity_matrix.get_player().get_health() << '\n';
 
