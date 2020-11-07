@@ -4,6 +4,9 @@ Move with the WASD keys, pause with "/". Make your way through the tower while f
 Basic Movement W, A, S, D
 Attack I, J, K, L
 
+Health potions have a random chance of appearing after the death of an enemy. 
+They are shown as a "+" symbol. Walk over it to regain your health.
+
 Commands "/"
 / Help - view help
 / Credits - view credits
