@@ -154,13 +154,14 @@ using namespace ent;
 	Coord ent::Map::closest_enem(Coord loc)
 	{
 		bool flag = false;
-		for (int row = loc.row - 5; row < loc.row + 6; row++)
+
+		for (int row = loc.row - 4; row < loc.row + 5; row++)
 		{
-			for (int col = loc.col - 5; col < loc.col + 6; col++)
+			for (int col = loc.col - 4; col < loc.col + 5; col++)
 			{
 					if (room_design[row][col] == 'A')
 						return { row, col };
-					if (row == (room_design.size() - 1) || col == room_design[row].size())
+					if (row == (room_design.size() - 1) || col == (room_design[row].size()-1))
 					{
 						flag = true;
 						break;
