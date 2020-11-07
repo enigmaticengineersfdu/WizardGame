@@ -130,21 +130,18 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                 }
                 break;
         }
-        cout << "Checking Map for enemy" << endl;
+
         if (current_state.map.enemy_loc(atck))
         {
-                cout << "Enemy found, declaring new en" << endl;
                 ent::Enemy enemy = current_state.entity_matrix.get_enemy(atck);
                 string enemy_health = enemy.get_health();
                 if (attck_amt != 4)
                 {
-                        cout << "Poping Out Enenmy Health" << endl;
                         enemy_health.pop_back();
                         enemy.set_health(enemy_health);
                 }
                 else if (attck_amt == 4)
                 {
-                        cout << "Setiing Health to 0" << endl;
                         enemy_health = "";
                         enemy.set_health(enemy_health);
                 }

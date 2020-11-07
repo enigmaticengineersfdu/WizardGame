@@ -60,15 +60,14 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
         srand(time(NULL));
         /*Launches the player's attack according to their input*/
         ent::GameState new_gamestate = current_state;
-        cout << "Attacking 1st" << endl;
+
         new_gamestate.entity_matrix.get_enem() = current_state.entity_matrix.get_player().attacks(input, current_state);
         new_gamestate.entity_matrix.update_table(new_gamestate.entity_matrix.get_enem());
-        cout << "Finished Attacking" << endl;
+
         /*If enemy dies, remove them from the map, and update the character table*/
         if (new_gamestate.entity_matrix.get_enem().get_health().empty())
         {   
                 int spawn_chance = rand() % 2;
-                cout << "Removing Dead Enemy" << endl;
                 new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_enem().get_location(), spawn_chance);               
                 new_gamestate.entity_matrix.reclaim_character_id(new_gamestate.entity_matrix.get_enem().id);
         }
@@ -77,9 +76,8 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
         else if (new_gamestate.map.closest_enem(new_gamestate.map.find_pos('^')).col != -1)
         {
                 /*Attacks the player*/
-                cout << "Leaving Loop for E Attack" << endl;
                 new_gamestate.entity_matrix.get_player() = current_state.entity_matrix.get_enem().attack(new_gamestate);
-                cout << "Back from E Attack, Checking Player Stat" << endl;
+
                 if (new_gamestate.entity_matrix.get_player().get_health().empty())
                 {
                         /*If player is dead, remove them from map, show next gamestate, and call replay function*/
@@ -91,7 +89,6 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
 
                 }
         }
-        cout << "Exiting Handle Attack" << endl;
         return new_gamestate;
 }
 
