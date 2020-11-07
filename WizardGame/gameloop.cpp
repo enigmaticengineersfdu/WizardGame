@@ -39,7 +39,7 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
         new_gamestate.entity_matrix.get_player() = current_state.entity_matrix.get_player().tick(input, current_state.map);
 
 
-        if (new_gamestate.map.new_level(new_gamestate.entity_matrix.get_player().get_location()) && current_level < 4)
+        if (new_gamestate.map.new_level(new_gamestate.entity_matrix.get_player().get_location()) && current_level < gl::levels->size())
         {
                 current_level += 1;
                 new_gamestate.map.load_map(gl::levels[current_level]);
