@@ -154,7 +154,6 @@ using namespace ent;
 	Coord ent::Map::closest_enem(Coord loc)
 	{
 		bool flag = false;
-		int row = loc.row - 5, col = loc.col - 5;
 		for (int row = loc.row - 5; row < loc.row + 6; row++)
 		{
 			for (int col = loc.col - 5; col < loc.col + 6; col++)
