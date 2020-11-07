@@ -161,7 +161,7 @@ using namespace ent;
 			{
 				if (room_design[row][col] == 'A')
 					return { row, col };
-				if (row == (room_design.size() - 1) || col == (room_design[row].size() - 1)
+				if (row == (room_design.size() - 1) || col == (room_design[row].size() - 1))
 				{
 					flag = true;
 					break;
