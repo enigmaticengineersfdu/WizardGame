@@ -153,13 +153,23 @@ using namespace ent;
 	//According to the location of the player, returns the closet enemy within set grid location 5x5
 	Coord ent::Map::closest_enem(Coord loc)
 	{
-		for (int row = loc.row-5; row < loc.row + 6; row++)
+		bool flag = false;
+		int row = loc.row - 5, col = loc.col - 5;
+		for (int row = loc.row - 5; row < loc.row + 6; row++)
 		{
-			for (int col = loc.col-5; col < loc.col + 6; col++)
+			for (int col = loc.col - 5; col < loc.col + 6; col++)
 			{
-				if (room_design[row][col] == 'A')
-					return { row, col };
+					if (room_design[row][col] == 'A')
+						return { row, col };
+					if (row == (room_design.size() - 1) || col == room_design[row].size())
+					{
+						flag = true;
+						break;
+					}
+						
 			}
+			if (flag)
+				break;
 		}
 		return { -1,-1 };
 	}

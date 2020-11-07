@@ -19,6 +19,7 @@ void render_frame(ent::GameState& state) noexcept
 {
         //Shows the Map, Level and player stats
         state.map.show_map();
+        state.map.map_size();
         std::cout << "Level:" << current_level + 1 << '\n';
         std::cout << "Player HP:" << state.entity_matrix.get_player().get_health() << '\n';
 
@@ -72,7 +73,7 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
                 new_gamestate.map.remove_dead_en(new_gamestate.entity_matrix.get_enem().get_location(), spawn_chance);               
                 new_gamestate.entity_matrix.reclaim_character_id(new_gamestate.entity_matrix.get_enem().id);
         }
-
+        
         /*Checks to make sure enemy is valid before launching into it's attack*/
         else if (new_gamestate.map.closest_enem(new_gamestate.map.find_pos('^')).col != -1)
         {
@@ -91,7 +92,7 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
 
                 }
         }
-
+        cout << "Exiting Handle Attack" << endl;
         return new_gamestate;
 }
 
