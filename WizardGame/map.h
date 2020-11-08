@@ -17,6 +17,7 @@ namespace ent
 		Coord(int _row = -1, int _col = -1);
 		unsigned int distance(const Coord other) const noexcept;
 		bool operator==(const Coord &other) const noexcept;
+		bool operator!=(const Coord& other) const noexcept;
 	};
 	class Map
 	{
@@ -29,7 +30,7 @@ namespace ent
 		void show_map() const;
 		bool in_bounds(Coord cd) const noexcept;
 		Coord find_pos(char object) const;
-		bool move_object(char object, Coord pos);
+		bool move_object(const Coord curr_pos, const char icon, const Coord new_pos) noexcept;
 		bool new_level(Coord Coord);
 		bool health_potion(Coord Coord);
 		bool enemy_loc(Coord Coord) const;

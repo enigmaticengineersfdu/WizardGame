@@ -130,18 +130,22 @@ using namespace ent;
 		return cd;
 	}
 
-	/*Given the icon and proposed location of the object, the object is searched for in
+	/*Given the current position and proposed location of the object, the object is searched for in
 	* the map. If the proposed location is in bounds, the current loc of object becomes
 	* an empty space, and the object's pos becomes new loc
 	* */
-	bool ent::Map::move_object(char object, Coord pos)
+	bool ent::Map::move_object(const Coord curr_pos, const char icon, const Coord new_pos) noexcept
 	{
-		if (in_bounds(pos)) {
-			Coord cd = find_pos(object);
-			room_design[cd.row][cd.col] = '.';
-			room_design[pos.row][pos.col] = object;
+		//only make the move if the bounds check succeeds
+		if (in_bounds(curr_pos) && curr_pos != new_pos) {
+			//erase the character at the old location
+			room_design.at(curr_pos.row).at(curr_pos.col) = '.';
+			//draw the character at the new location
+			room_design.at(new_pos.row).at(new_pos.col) = icon;
+
+			return true;//indicates a successful move
 		}
-		return in_bounds(pos);
+		else return false;//indicates no move. 
 	}
 
 	ent::Coord::Coord(int _row, int _col):
@@ -208,4 +212,9 @@ using namespace ent;
 	bool ent::Coord::operator==(const Coord &other) const noexcept
 	{
 		return row == other.row && col == other.col;
+	}
+
+	bool ent::Coord::operator!=(const Coord& other) const noexcept
+	{
+		return row != other.row or col != other.col;
 	}
