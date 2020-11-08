@@ -1,3 +1,3 @@
 # Apostate
 
-#### A Rougelike RPG made by Team Enigmatic Engineers at FDU Florham.
+#### A Rougelike commandline game made by Team Enigmatic Engineers at FDU Florham.
