@@ -1,5 +1,5 @@
 #include "commandmode.h"
-#include<assert.h>
+#include "ui.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -65,7 +65,7 @@ const std::pair<Command, std::string> make_command(std::string &&raw_input)
 */
 void inline quit_handler() noexcept
 {
-        std::exit(0);
+        playAgain();
 }
 
 /*Purpose: Displays the help file.
@@ -183,12 +183,3 @@ void gl::command_mode(const ent::GameState& gs) noexcept
                 }
         }
 }
-
-
-//Function to run tests for the handlers
-void test() {
-    help_handler(); 
-    //credits_handler();
-    //quit_handler();
-}
-

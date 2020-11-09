@@ -37,9 +37,6 @@
     <ClInclude Include="gameloop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="entities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -47,6 +44,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="commandmode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

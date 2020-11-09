@@ -1,5 +1,6 @@
 #include "entities.h"
 #include <unordered_set>
+#include <map>
 
 /*Member Functions of the Item class*/
 ent::Item::Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon) :
@@ -130,11 +131,11 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                 }
                 break;
         }
+
         if (current_state.map.enemy_loc(atck))
         {
                 ent::Enemy enemy = current_state.entity_matrix.get_enemy(atck);
                 string enemy_health = enemy.get_health();
-
                 if (attck_amt != 4)
                 {
                         enemy_health.pop_back();
@@ -145,7 +146,6 @@ ent::Enemy ent::Player::attacks(const gl::Input input, struct GameState current_
                         enemy_health = "";
                         enemy.set_health(enemy_health);
                 }
-                            
                 return enemy;
                 
         }
@@ -183,7 +183,7 @@ ent::EntityMatrix::EntityMatrix(Map &map) noexcept :
         character_table(), character_id_pool(), player(Player(map.find_pos('^'), '^')), enemy(Enemy(-1, {-1,-1}, 'A'))
 {
         //Put 25 ids in both id pools
-        for (size_t i = 1; i < 26; ++i) {
+        for (size_t i = 1; i < 100; ++i) {
                 character_id_pool.push(i);
         }
 }
@@ -294,6 +294,23 @@ void ent::EntityMatrix::clear_enemy_table() noexcept
         character_table.clear();
 }
 
+void ent::EntityMatrix::tick_all_enemies(Map &map) noexcept
+{
+        //new character table
+        std::unordered_map<CharacterID, Enemy> next_ct;
+        //The result of each tick
+        std::optional<Enemy> result;
+        /*Call the tick of each enemy and store the living ones.*/
+        for (auto enemy_pair : this->character_table) {
+                result = enemy_pair.second.tick(player, map);
+                if (result) {
+                        next_ct.insert(std::pair(result->id, *result));
+                }
+        }
+        //copy the new characater table to the one in the calling object. 
+        this->character_table = next_ct;
+}
+
 
 ent::GameState::GameState():
         map(), entity_matrix(map)
@@ -314,11 +331,46 @@ void ent::Enemy::operator=(Enemy enemy)
         this->id = enemy.id;
         this->location = enemy.location;
 }
-void ent::Enemy::move(const gl::Input input)
+
+/********Work in progress************/
+void ent::Enemy::move(const ent::Player &player, ent::Map &map)
 {
-        /*Need to fix Map::move_object to return a bool and take a character ID
-        * before implementing this.
-        */
+        /*Decide the priority of possible movement locations.*/
+        Coord player_loc = player.get_location();
+        unsigned curr_dist = player_loc.distance(location);
+        //decide movement priority by deciding what the new distance would be after moving in each direction.
+        std::map<unsigned, gl::Input> priority;
+        priority.insert(std::pair(player_loc.distance({ location.row - 1, location.col }), gl::Input::MV_UP));
+        priority.insert(std::pair(player_loc.distance({ location.row + 1, location.col }), gl::Input::MV_DOWN));
+        priority.insert(std::pair(player_loc.distance({ location.row, location.col - 1 }), gl::Input::MV_LEFT));
+        priority.insert(std::pair(player_loc.distance({ location.row, location.col + 1 }), gl::Input::MV_RIGHT));
+
+        /*Try each possible movement in the priority order until one works.*/
+        for (auto prop_pair : priority) {
+                /*If the enemy can move in the proposed direction then do so and update the location.*/
+                switch (prop_pair.second)
+                {
+                case gl::Input::MV_UP:
+                        if (map.move_object(location, 'A', { location.row, location.col - 1 }))
+                                this->location.col--;
+                        break;
+                case gl::Input::MV_DOWN:
+                        if (map.move_object(location, 'A', { location.row, location.col + 1 }))
+                                this->location.col++;
+                        break;
+                case gl::Input::MV_LEFT:
+                        if (map.move_object(location, 'A', { location.row - 1, location.col }))
+                                this->location.row--;
+                        break;
+                case gl::Input::MV_RIGHT:
+                        if (map.move_object(location, 'A', { location.row + 1, location.col }))
+                        this->location.row++;
+                        break;
+                default:
+                        break;
+                }
+          
+        }
 }
 
 ent::Enemy::Enemy(CharacterID _id, const Coord _location, const char&& _icon)
@@ -329,34 +381,40 @@ ent::Enemy::Enemy(CharacterID _id, const Coord _location, const char&& _icon)
 
 ent::Player ent::Enemy::attack(struct GameState current_state)
 {
+        cout << "Entering Enemey" << endl;
         Player player = current_state.entity_matrix.get_player();
         string health = player.get_health();
         this->location = current_state.map.closest_enem(player.get_location());
-        /*cout << "Row: " << location.row << endl;
-        cout << "Col: " << location.col << endl;*/
+
+        
         if (location.row != -1 && location.col != -1)
         {
+                cout << "Enenmy Loc Valid, entering attack" << endl;
                 Coord attck = current_state.map.attack_loc(location, player.icon);
-                /*cout << "(A) Row: " << attck.row << endl;
-                cout << "(A) Col: " << attck.col << endl;*/
                 int attck_amt = rand() % 4;
-                /*cout << "Attack: " << attck_amt << endl;*/
+
+                cout << "Attcak loc Set" << endl;
                 if (player.get_location() == attck && attck_amt == 1)
                 {
+                        cout << "Attacked Player: " << endl;
                         health.pop_back();
                         player.set_health(health);
 
                 }
         }
+        cout << "Leaving E Attack" << endl;
         return player;
 }
 
-std::optional<ent::Enemy> ent::Enemy::tick(const gl::Input input, const Player& player) const
+std::optional<ent::Enemy> ent::Enemy::tick(const Player& next_player, Map &next_map) const
 {
+        //Player will only be dected within a set distance
+        const unsigned int detection_distance = 10;
         //Copy the calling object to create the new version.
         auto next = *this;
         /*If the player is within range start moving toward them. If not then do nothing.*/
-        if (next.location.distance(player.get_location()) < detection_distance)
-                next.move(input); //start moving toward the player
+        if (next.location.distance(next_player.get_location()) < detection_distance) {
+                next.move(next_player, next_map); //start moving toward the player
+        }
         return next;
 }

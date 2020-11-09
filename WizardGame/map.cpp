@@ -46,7 +46,9 @@ using namespace ent;
 	level)*/
 	bool ent::Map::in_bounds(Coord Coord) const noexcept
 	{
-		if (room_design[Coord.row][Coord.col] == '.' || room_design[Coord.row][Coord.col] == '*' )
+		if (room_design[Coord.row][Coord.col] == '.' || (room_design[Coord.row][Coord.col] == '*' 
+			&& get_enemy_locs().size() == 0)
+			|| room_design[Coord.row][Coord.col] == '+')
 			return true;
 		else
 			return false;
@@ -56,7 +58,7 @@ using namespace ent;
 	level*/
 	bool ent::Map::new_level(Coord Coord)
 	{
-		if (room_design[Coord.row][Coord.col] == '*')
+		if (room_design[Coord.row][Coord.col] == '*' && get_enemy_locs().size() ==0)
 		{
 			room_design.clear();
 			return true;
@@ -64,11 +66,26 @@ using namespace ent;
 		else
 			return false;
 	}
+
+	bool ent::Map::health_potion(Coord Coord)
+	{
+		if (room_design[Coord.row][Coord.col] == '+')
+		{
+			return true;
+		}
+		else
+			return false;
+	}
 	/*Assuming given pos is the pos of the enemy that just died, it makes the
 	given location an empty space '.'*/
-	void ent::Map::remove_dead_en(Coord pos)
+	void ent::Map::remove_dead_en(Coord pos, int spawn)
 	{
-		room_design[pos.row][pos.col] = '.';
+		if ((room_design[pos.row][pos.col] == 'A') && spawn == 1)
+		{
+			room_design[pos.row][pos.col] = '+';
+		}
+		else
+			room_design[pos.row][pos.col] = '.';
 
 	}
 	std::vector<Coord> ent::Map::get_enemy_locs() const
@@ -114,18 +131,22 @@ using namespace ent;
 		return cd;
 	}
 
-	/*Given the icon and proposed location of the object, the object is searched for in
+	/*Given the current position and proposed location of the object, the object is searched for in
 	* the map. If the proposed location is in bounds, the current loc of object becomes
 	* an empty space, and the object's pos becomes new loc
 	* */
-	bool ent::Map::move_object(char object, Coord pos)
+	bool ent::Map::move_object(const Coord curr_pos, const char icon, const Coord new_pos) noexcept
 	{
-		if (in_bounds(pos)) {
-			Coord cd = find_pos(object);
-			room_design[cd.row][cd.col] = '.';
-			room_design[pos.row][pos.col] = object;
+		//only make the move if the bounds check succeeds
+		if (in_bounds(curr_pos) && curr_pos != new_pos) {
+			//erase the character at the old location
+			room_design.at(curr_pos.row).at(curr_pos.col) = '.';
+			//draw the character at the new location
+			room_design.at(new_pos.row).at(new_pos.col) = icon;
+
+			return true;//indicates a successful move
 		}
-		return in_bounds(pos);
+		else return false;//indicates no move. 
 	}
 
 	ent::Coord::Coord(int _row, int _col):
@@ -137,13 +158,23 @@ using namespace ent;
 	//According to the location of the player, returns the closet enemy within set grid location 5x5
 	Coord ent::Map::closest_enem(Coord loc)
 	{
-		for (int row = loc.row-5; row < loc.row + 6; row++)
+		bool flag = false;
+
+		for (int row = loc.row - 4; row < loc.row + 5; row++)
 		{
-			for (int col = loc.col-5; col < loc.col + 6; col++)
+			for (int col = loc.col - 4; col < loc.col + 5; col++)
 			{
 				if (room_design[row][col] == 'A')
 					return { row, col };
+				if (row == (room_design.size() - 1) || col == (room_design[row].size() - 1))
+				{
+					flag = true;
+					break;
+				}
+						
 			}
+			if (flag)
+				break;
 		}
 		return { -1,-1 };
 	}
@@ -182,4 +213,9 @@ using namespace ent;
 	bool ent::Coord::operator==(const Coord &other) const noexcept
 	{
 		return row == other.row && col == other.col;
+	}
+
+	bool ent::Coord::operator!=(const Coord& other) const noexcept
+	{
+		return row != other.row or col != other.col;
 	}

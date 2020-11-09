@@ -22,12 +22,12 @@ void startScreen()
 
 		std::cin >> choice;
 
-		for (char &i : choice)
+		for (char& i : choice)
 		{
 			i = std::tolower(i);
 		}
-		
-		
+
+
 		if (choice == "play") {
 			gl::play_game(std::nullopt);
 		}
@@ -39,23 +39,34 @@ void startScreen()
 		}
 
 	}
+}
 
-	//cout << "Would you like to play again? 'Yes' or 'No'" << endl;
-	//cin >> choice;
+void playAgain()
+{
+	string choice;
+	while (true)
+	{
+		std::cout << "\nSorry, better luck next time" << endl;
+		std::cout << "Would you like to play again? (Yes or No)\n" << endl;
 
-	//while (choice == "yes")
-	//{
-	//	std::cout << "Welcome to Apostate!\nPick an option:\n" << std::endl;
-	//	std::cout << "Play \nQuit" << std::endl;
+		std::cin >> choice;
 
-	//	std::cout << "\n*If you need instructions on how to play the game\ntype \"/\" when the game starts";
-	//	std::cout << " then type \"help\".\n" << std::endl;
-	//	gl::play_game(std::nullopt);
+		for (char& i : choice)
+		{
+			i = std::tolower(i);
+		}
 
-	//	cout << "Would you like to play again? 'Yes' or 'No'" << endl;
-	//	cin >> choice;
-
-	//}
-
+		if (choice == "yes") {
+			std::cout << endl;
+			startScreen();
+		}
+		else if (choice == "no") {
+			std::exit(0);
+		}
+		else {
+			continue;
+		}
+	}
+	
 }
 
