@@ -103,7 +103,7 @@ namespace ent {
                 * The result of this will need to be downcasted to Enemy before being inserted into the
                 * entity matrix of the next_game_state. Make absolutely certain to do this!!!
                 */
-                std::optional<ent::Enemy> tick(const gl::Input input, const Player& next_player, Map& next_map) const;
+                std::optional<ent::Enemy> tick(const Player& next_player, Map& next_map) const;
                 ent::Player attack(struct GameState current_state);
         };
 
@@ -201,7 +201,12 @@ namespace ent {
                 ent::Enemy get_enemy(const ent::Coord loc) const noexcept;
                 void update_table(ent::Enemy);
                 void clear_enemy_table() noexcept;
-
+                /*Calls the tick function of all enemies and collects the results in a new table then swaps it for the
+                  one in the calling EM.
+                  Preconditions: The current EM contains enemies to tick.
+                  Postconditions: The enemies in the EM are updated.
+                */
+                void tick_all_enemies(Map &map) noexcept;
         };
 
         struct GameState

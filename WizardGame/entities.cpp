@@ -1,5 +1,6 @@
 #include "entities.h"
 #include <unordered_set>
+#include <map>
 
 /*Member Functions of the Item class*/
 ent::Item::Item(const ItemID _id, const std::variant<Coord, CharacterID> _location, const char _icon) :
@@ -293,6 +294,23 @@ void ent::EntityMatrix::clear_enemy_table() noexcept
         character_table.clear();
 }
 
+void ent::EntityMatrix::tick_all_enemies(Map &map) noexcept
+{
+        //new character table
+        std::unordered_map<CharacterID, Enemy> next_ct;
+        //The result of each tick
+        std::optional<Enemy> result;
+        /*Call the tick of each enemy and store the living ones.*/
+        for (auto enemy_pair : this->character_table) {
+                result = enemy_pair.second.tick(player, map);
+                if (result) {
+                        next_ct.insert(std::pair(result->id, *result));
+                }
+        }
+        //copy the new characater table to the one in the calling object. 
+        this->character_table = next_ct;
+}
+
 
 ent::GameState::GameState():
         map(), entity_matrix(map)
@@ -318,36 +336,40 @@ void ent::Enemy::operator=(Enemy enemy)
 void ent::Enemy::move(const ent::Player &player, ent::Map &map)
 {
         /*Decide the priority of possible movement locations.*/
-        gl::Input priority[4];
-
         Coord player_loc = player.get_location();
-        unsigned int v_dist = std::abs(location.col - player_loc.col);
-        unsigned int h_dist = std::abs(location.row - player_loc.row);
-        //need to finish
+        unsigned curr_dist = player_loc.distance(location);
+        //decide movement priority by deciding what the new distance would be after moving in each direction.
+        std::map<unsigned, gl::Input> priority;
+        priority.insert(std::pair(player_loc.distance({ location.row - 1, location.col }), gl::Input::MV_UP));
+        priority.insert(std::pair(player_loc.distance({ location.row + 1, location.col }), gl::Input::MV_DOWN));
+        priority.insert(std::pair(player_loc.distance({ location.row, location.col - 1 }), gl::Input::MV_LEFT));
+        priority.insert(std::pair(player_loc.distance({ location.row, location.col + 1 }), gl::Input::MV_RIGHT));
 
         /*Try each possible movement in the priority order until one works.*/
-        for (gl::Input prop_loc : priority) {
+        for (auto prop_pair : priority) {
                 /*If the enemy can move in the proposed direction then do so and update the location.*/
-                if (map.move_object('A', location)) {
-                        /*Determine the new move location*/
-                        switch (prop_loc)
-                        {
-                        case gl::Input::MV_UP:
+                switch (prop_pair.second)
+                {
+                case gl::Input::MV_UP:
+                        if (map.move_object(location, 'A', { location.row, location.col - 1 }))
                                 this->location.col--;
-                                break;
-                        case gl::Input::MV_DOWN:
+                        break;
+                case gl::Input::MV_DOWN:
+                        if (map.move_object(location, 'A', { location.row, location.col + 1 }))
                                 this->location.col++;
-                                break;
-                        case gl::Input::MV_LEFT:
+                        break;
+                case gl::Input::MV_LEFT:
+                        if (map.move_object(location, 'A', { location.row - 1, location.col }))
                                 this->location.row--;
-                                break;
-                        case gl::Input::MV_RIGHT:
-                                this->location.row++;
-                                break;
-                        default:
-                                break;
-                        }
+                        break;
+                case gl::Input::MV_RIGHT:
+                        if (map.move_object(location, 'A', { location.row + 1, location.col }))
+                        this->location.row++;
+                        break;
+                default:
+                        break;
                 }
+          
         }
 }
 
@@ -384,15 +406,15 @@ ent::Player ent::Enemy::attack(struct GameState current_state)
         return player;
 }
 
-std::optional<ent::Enemy> ent::Enemy::tick(const gl::Input input, const Player& next_player, Map &next_map) const
+std::optional<ent::Enemy> ent::Enemy::tick(const Player& next_player, Map &next_map) const
 {
         //Player will only be dected within a set distance
         const unsigned int detection_distance = 10;
         //Copy the calling object to create the new version.
         auto next = *this;
         /*If the player is within range start moving toward them. If not then do nothing.*/
-        if (next.location.distance(next_player.get_location()) < detection_distance)
+        if (next.location.distance(next_player.get_location()) < detection_distance) {
                 next.move(next_player, next_map); //start moving toward the player
-        
+        }
         return next;
 }
