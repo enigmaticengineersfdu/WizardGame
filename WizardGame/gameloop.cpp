@@ -42,6 +42,11 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
         if (new_gamestate.map.new_level(new_gamestate.entity_matrix.get_player().get_location()) && current_level < gl::levels->size())
         {
                 current_level += 1;
+                if (current_level == gl::levels->size() - 1)
+                {
+                        cout << "\nYou Won!!\n" << endl;
+                        playAgain();
+                }
                 new_gamestate.map.load_map(gl::levels[current_level]);
                 new_gamestate.entity_matrix.get_player().set_location(new_gamestate.map.find_pos('^'));
                 new_gamestate.entity_matrix.clear_enemy_table();

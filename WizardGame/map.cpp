@@ -46,7 +46,8 @@ using namespace ent;
 	level)*/
 	bool ent::Map::in_bounds(Coord Coord) const noexcept
 	{
-		if (room_design[Coord.row][Coord.col] == '.' || room_design[Coord.row][Coord.col] == '*'
+		if (room_design[Coord.row][Coord.col] == '.' || (room_design[Coord.row][Coord.col] == '*' 
+			&& get_enemy_locs().size() == 0)
 			|| room_design[Coord.row][Coord.col] == '+')
 			return true;
 		else
@@ -57,7 +58,7 @@ using namespace ent;
 	level*/
 	bool ent::Map::new_level(Coord Coord)
 	{
-		if (room_design[Coord.row][Coord.col] == '*')
+		if (room_design[Coord.row][Coord.col] == '*' && get_enemy_locs().size() ==0)
 		{
 			room_design.clear();
 			return true;
