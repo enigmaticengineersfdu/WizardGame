@@ -29,6 +29,7 @@ namespace ent
 		void load_map(string file_N);
 		void show_map() const;
 		bool in_bounds(Coord cd) const noexcept;
+		bool move_player(char object, Coord pos);
 		Coord find_pos(char object) const;
 		bool move_object(const Coord curr_pos, const char icon, const Coord new_pos) noexcept;
 		bool new_level(Coord Coord);

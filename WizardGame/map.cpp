@@ -196,6 +196,20 @@ using namespace ent;
 		return { -1,-1 };
 	}
 
+	/*Given the icon and proposed location of the object, the object is searched for in
+	* the map. If the proposed location is in bounds, the current loc of object becomes
+	* an empty space, and the object's pos becomes new loc
+	* */
+	bool ent::Map::move_player(char object, Coord pos)
+	{
+		if (in_bounds(pos)) {
+			Coord cd = find_pos(object);
+			room_design[cd.row][cd.col] = '.';
+			room_design[pos.row][pos.col] = object;
+		}
+		return in_bounds(pos);
+	}
+
 	unsigned int ent::Coord::distance(const Coord other) const noexcept
 	{
 		/*These variables represent the lengths a and b legs of the right
