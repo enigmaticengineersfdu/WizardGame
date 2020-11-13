@@ -57,8 +57,8 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
 
         new_gamestate.map.move_player('^', new_gamestate.entity_matrix.get_player().get_location());
         //new_gamestate.map.move_object(current_state.entity_matrix.get_player().get_location(), '^', new_gamestate.entity_matrix.get_player().get_location());
-        //Update all enemies
-        new_gamestate.entity_matrix.tick_all_enemies(new_gamestate.map);
+        ////Update all enemies
+        //new_gamestate.entity_matrix.tick_all_enemies(new_gamestate.map);
 
         return new_gamestate; 
 }
