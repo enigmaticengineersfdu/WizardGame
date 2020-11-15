@@ -9,8 +9,9 @@
 /*The event loop namespace*/
 namespace gl {
 
-        static const std::string levels[8] = {"MapDesign.txt", "MapDesign2.txt", "MapDesign3.txt",
-                "MapDesign4.txt", "MapDesign5.txt", "MapDesign6.txt", "MapDesign7.txt", "MapDesign8.txt" };
+        /* Doesn't work, adds more indexes than initialized
+         *static const std::string levels[8] = {"MapDesign.txt", "MapDesign2.txt", "MapDesign3.txt",
+                "MapDesign4.txt", "MapDesign5.txt", "MapDesign6.txt", "MapDesign7.txt", "MapDesign8.txt" };*/
 
         /*Purpose: To provide the main event loop of the game
           Preconditions: save_path is a valid file path to a save file of this game.

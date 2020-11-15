@@ -8,6 +8,8 @@
 //Level 
 static unsigned int current_level = 0;
 
+vector<string> level = { "MapDesign.txt", "MapDesign2.txt", "MapDesign3.txt",
+                        "MapDesign4.txt", "MapDesign5.txt", "MapDesign6.txt", "MapDesign7.txt", "MapDesign8.txt" };
 
 /*Purpose: To render the game screen as a string.
 * Preconditions: State represents the game state to be shown.
@@ -39,15 +41,16 @@ ent::GameState handle_mv(const gl::Input input, ent::GameState current_state) no
         new_gamestate.entity_matrix.get_player() = current_state.entity_matrix.get_player().tick(input, current_state.map);
 
 
-        if (new_gamestate.map.new_level(new_gamestate.entity_matrix.get_player().get_location()) && current_level < gl::levels->size())
+        if (new_gamestate.map.new_level(new_gamestate.entity_matrix.get_player().get_location()) && current_level < level.size())
         {
                 current_level += 1;
-                if (current_level == gl::levels->size() - 1)
+                if (current_level == (level.size() - 1))
                 {
                         cout << "\nYou Won!!\n" << endl;
                         playAgain();
                 }
-                new_gamestate.map.load_map(gl::levels[current_level]);
+                cout << "Current Level: " << current_level << endl;
+                new_gamestate.map.load_map(level[current_level]);
                 new_gamestate.entity_matrix.get_player().set_location(new_gamestate.map.find_pos('^'));
                 new_gamestate.entity_matrix.clear_enemy_table();
                 new_gamestate.entity_matrix.set_enemies(new_gamestate.map.get_enemy_locs());
@@ -109,7 +112,7 @@ void gl::play_game(const std::optional<std::string> load_path)
         //The latest input. Should not be modified other than in the gameloop.
         Input input;
         /*Setup operations before rendering the first game state.*/
-        current_state.map.load_map(gl::levels[current_level]);
+        current_state.map.load_map(level[current_level]);
         current_state.entity_matrix.set_enemies(current_state.map.get_enemy_locs());
         render_frame(current_state);
 

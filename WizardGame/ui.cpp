@@ -46,7 +46,6 @@ void playAgain()
 	string choice;
 	while (true)
 	{
-		std::cout << "\nSorry, better luck next time" << endl;
 		std::cout << "Would you like to play again? (Yes or No)\n" << endl;
 
 		std::cin >> choice;

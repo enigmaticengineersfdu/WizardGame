@@ -5,7 +5,7 @@
 
 namespace gl {
         //The location of the help and credits files relative to the game executable.
-        static const string help_path = "HelpAndCredits.txt";
+        static const char* help_path = "HelpAndCredits.txt";
         static const char* credits_path = "Credits.txt";
 
         /*Purpose: Implement command mode.
