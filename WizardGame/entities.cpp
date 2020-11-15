@@ -391,8 +391,10 @@ ent::Player ent::Enemy::attack(struct GameState current_state)
                 Coord attck = current_state.map.attack_loc(location, player.icon);
                 int attck_amt = rand() % 4;
 
-                if (player.get_location() == attck && attck_amt == 1)
+                //cout << "Attack amount: " << attck_amt << endl;
+                if (player.get_location() == attck && attck_amt == 0)
                 {
+                        
                         health.pop_back();
                         player.set_health(health);
 
