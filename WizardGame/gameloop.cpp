@@ -93,6 +93,7 @@ ent::GameState handle_atck(const gl::Input input, ent::GameState current_state) 
                         /*If player is dead, remove them from map, show next gamestate, and call replay function*/
                         new_gamestate.map.remove_dead_en(current_state.entity_matrix.get_player().get_location(), 0);
                         render_frame(new_gamestate);
+                        cout << "\nBetter Luck Next Time\n" << endl;
                         current_level = 0;
                         playAgain();
                         std::exit(0);
