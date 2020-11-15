@@ -384,15 +384,14 @@ ent::Player ent::Enemy::attack(struct GameState current_state)
         Player player = current_state.entity_matrix.get_player();
         string health = player.get_health();
         this->location = current_state.map.closest_enem(player.get_location());
-
+        int attck_amt = rand() % 4 + 1;
         
         if (location.row != -1 && location.col != -1)
         {
                 Coord attck = current_state.map.attack_loc(location, player.icon);
-                int attck_amt = rand() % 4;
 
                 //cout << "Attack amount: " << attck_amt << endl;
-                if (player.get_location() == attck && attck_amt == 0)
+                if (player.get_location() == attck && attck_amt == 4)
                 {
                         
                         health.pop_back();
